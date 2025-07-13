@@ -58,11 +58,11 @@ export const addProductFormElements = [
     name: "category",
     componentType: "select",
     options: [
-      { id: "men", label: "Men" },
-      { id: "women", label: "Women" },
-      { id: "kids", label: "Kids" },
-      { id: "accessories", label: "Accessories" },
-      { id: "footwear", label: "Footwear" },
+      { value: "men", label: "Men" },
+      { value: "women", label: "Women" },
+      { value: "kids", label: "Kids" },
+      { value: "accessories", label: "Accessories" },
+      { value: "footwear", label: "Footwear" },
     ],
   },
   {
@@ -70,12 +70,12 @@ export const addProductFormElements = [
     name: "brand",
     componentType: "select",
     options: [
-      { id: "nike", label: "Nike" },
-      { id: "adidas", label: "Adidas" },
-      { id: "puma", label: "Puma" },
-      { id: "levi", label: "Levi's" },
-      { id: "zara", label: "Zara" },
-      { id: "h&m", label: "H&M" },
+      { value: "nike", label: "Nike" },
+      { value: "adidas", label: "Adidas" },
+      { value: "puma", label: "Puma" },
+      { value: "levi", label: "Levi's" },
+      { value: "zara", label: "Zara" },
+      { value: "h&m", label: "H&M" },
     ],
   },
   {
@@ -92,6 +92,15 @@ export const addProductFormElements = [
     type: "number",
     placeholder: "Enter sale price (optional)",
   },
+
+  {
+    label: "Discount",
+    name: "discount",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter sale discount % (optional)",
+  },
+
   {
     label: "Total Stock",
     name: "totalStock",
@@ -106,41 +115,50 @@ export const shoppingViewHeaderMenuItems = [
     id: "home",
     label: "Home",
     path: "/shop/home",
+    icon:"https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/home-page-161.png"
   },
   {
     id: "products",
     label: "Products",
     path: "/shop/listing",
+    icon:"https://icons.veryicon.com/png/o/miscellaneous/fu-jia-intranet/product-29.png"
   },
   {
     id: "men",
     label: "Men",
     path: "/shop/listing",
+    icon:"https://cdn-icons-png.flaticon.com/512/4086/4086679.png"
+
   },
   {
     id: "women",
     label: "Women",
     path: "/shop/listing",
+    icon:"https://cdn-icons-png.flaticon.com/512/5231/5231019.png",
   },
   {
     id: "kids",
     label: "Kids",
     path: "/shop/listing",
+    icon:"https://cdn-icons-png.flaticon.com/512/3886/3886660.png",
   },
   {
     id: "footwear",
     label: "Footwear",
     path: "/shop/listing",
+    icon:"https://cdn-icons-png.flaticon.com/512/5499/5499206.png",
   },
   {
     id: "accessories",
     label: "Accessories",
     path: "/shop/listing",
+    icon:"https://cdn-icons-png.flaticon.com/512/7695/7695937.png",
   },
   {
     id: "search",
     label: "Search",
     path: "/shop/search",
+    icon:"https://cdn-icons-png.flaticon.com/512/1987/1987969.png",
   },
 ];
 

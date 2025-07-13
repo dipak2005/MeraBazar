@@ -7,10 +7,11 @@ require("dotenv").config();
 const registeredUser = async (req, res) => {
   const { username, email, password } = req.body;
 
- 
-    if (!username || !email || !password) {
-      return res.status(400).json({ success: false, message: "All fields are required." });
-    }
+  if (!username || !email || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields are required." });
+  }
 
   try {
     const checkUser = await UserModel.findOne({ email });
@@ -47,9 +48,10 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-
-     if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Email and password are required." });
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required." });
     }
     const checkUser = await UserModel.findOne({ email });
 
@@ -68,7 +70,6 @@ const loginUser = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Incorrect password. Please try again.",
-        
       });
     }
 
@@ -80,7 +81,7 @@ const loginUser = async (req, res) => {
         username: checkUser.username,
       },
       process.env.CLIENT_SECRET_KEY,
-      { expiresIn: "2h" }
+      { expiresIn: "168h" } //  7- days cookies will store and after user will need to login again
     );
 
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
@@ -104,7 +105,7 @@ const loginUser = async (req, res) => {
 
 // logout
 const logoutUser = (req, res) => {
-  res.clearCookie("token",{httpOnly:true}).json({
+  res.clearCookie("token", { httpOnly: true }).json({
     success: true,
     message: "Logged out successfully!",
   });
@@ -113,27 +114,26 @@ const logoutUser = (req, res) => {
 //auth middleware
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
-  // console.log("Cookies:", req.cookies);cl
+  
 
   if (!token) {
     return res.status(401).json({
       success: false,
       message: "Unauthorised access!",
     });
-  } 
-    try {
-      const decodeToken = jwt.verify(token, process.env.CLIENT_SECRET_KEY);
-      req.user = decodeToken;
-      next();
-      console.log(decodeToken);
-    } catch (e) {
-       console.error(e);
-      res.status(401).json({
-        success: false,
-        message: "Invalid or expired token.",
-      });
-    }
-  
+  }
+  try {
+    const decodeToken = jwt.verify(token, process.env.CLIENT_SECRET_KEY);
+    req.user = decodeToken;
+    next();
+    console.log(decodeToken);
+  } catch (e) {
+    console.error(e);
+    res.status(401).json({
+      success: false,
+      message: "Invalid or expired token.",
+    });
+  }
 };
 
 module.exports = { registeredUser, loginUser, logoutUser, authMiddleware };

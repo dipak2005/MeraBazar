@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { CloudUpload, XIcon, FileText } from "lucide-react";
 import axios from "axios";
-import SkeletonCard from "../../common/SkeletonCard";
+import SkeletonCard from "../../common/ProductSkeleton";
 
 function ImageUpload({
   imageFile,
@@ -10,6 +10,7 @@ function ImageUpload({
   setUploadedImageUrl,
   setImageLoadingState,
   imageLoadingState,
+  isEditMode,
 }) {
   const inputRef = useRef(null);
 
@@ -63,10 +64,11 @@ function ImageUpload({
 
   return (
     <div className="w-full max-width-md mx-auto">
-      <label className="text-lg fw-bold mb-2 d-block form-label">
+      <label htmlFor="image-upload" className="text-lg fw-bold mb-2 d-block form-label">
         Upload Image
       </label>
       <div
+        style={{ opacity: isEditMode ? "60" : "" }}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         className="border-2 border-dashed p-3 rounded"
@@ -77,6 +79,7 @@ function ImageUpload({
           className="form-control d-none"
           ref={inputRef}
           onChange={handleImageFileChange}
+          disabled={isEditMode}
         />
         {/* preview of image */}
         {uploadedImageUrl && !imageLoadingState && (
@@ -84,8 +87,12 @@ function ImageUpload({
             <img
               src={uploadedImageUrl}
               alt="Uploaded"
-             
-              style={{ maxHeight: "150px",  borderRadius: "8px" ,objectFit: "cover",margin:"3px" }}
+              style={{
+                maxHeight: "150px",
+                borderRadius: "8px",
+                objectFit: "cover",
+                margin: "3px",
+              }}
             />
           </div>
         )}
@@ -94,7 +101,7 @@ function ImageUpload({
             htmlFor="image-upload"
             className="text-center d-block"
             style={{
-              cursor: "pointer",
+              cursor: isEditMode ? "no-drop" : "pointer",
               background: "#f9f9f9",
               padding: "2rem",
             }}

@@ -19,10 +19,14 @@ import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./auth-slice";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './index.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./index.css";
 import axios from "axios";
+import ProductDetailPage from "./components/shopping-view/ProductDetail/ProductDetails";
+import { fetchCartProduct } from "./store/shop/cartSlice";
+import CartPage from "./components/shopping-view/ProductDetail/CartPage";
+
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -32,10 +36,17 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
+
+useEffect(() => {
+  if (user?._id) {
+    dispatch(fetchCartProduct({ userId: user._id }));
+  }
+}, [dispatch, user]);
+
   return (
     <div className="d-flex flex-column overflow-hidden bg-white">
       <Routes>
-        {/* Auth */}
+        {/* Auth */} {/* Parent Route */}
         <Route
           path="/auth"
           element={
@@ -44,12 +55,10 @@ function App() {
             </CheckAuth>
           }
         >
-          {/* Parent Route */}
-          <Route path="login" element={<AuthLogin />} /> {/* child Route */}
-          <Route path="register" element={<AuthRegister />} />
           {/* child Route */}
+          <Route path="login" element={<AuthLogin />} />
+          <Route path="register" element={<AuthRegister />} />
         </Route>
-
         {/* Admin */}
         <Route
           path="/admin"
@@ -62,9 +71,8 @@ function App() {
           <Route path="dashboard" element={<AdminDashBoard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrder />} />
-           <Route path="features" element={<AdminFeatures />} />
+          <Route path="features" element={<AdminFeatures />} />
         </Route>
-
         {/* Shop */}
         <Route
           path="/shop"
@@ -79,9 +87,11 @@ function App() {
           <Route path="checkout" element={<ShoppingViewCheckout />} />
           <Route path="listing" element={<ShoppingViewListings />} />
         </Route>
-
+        <Route path="/shop/product/:id" element={<ProductDetailPage />} />
+         <Route path="/shop/cart" element={<CartPage  />} />
         <Route path="/unauth-page" element={<UnAuthPage />} />
         <Route path="*" element={<NotFound />} />
+        
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

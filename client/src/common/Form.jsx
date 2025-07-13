@@ -1,126 +1,6 @@
-// // import Input from "../components/ui/Input";
-// // import Label from "../components/ui/Label";
-// // import Select from "../components/ui/Select";
-// import Button from "../components/ui/Button";
-
-// function Form({ formControls, formData, setFormData, onSubmit, buttonText }) {
-//   const types = {
-//     INPUT: "input",
-//     SELECT: "select",
-//     TEXTAREA: "textarea",
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const renderInputByComponentType = (getControlItem) => {
-//     const rawValue = formData[getControlItem.name];
-//     const value =
-//       typeof rawValue === "string" || typeof rawValue === "number"
-//         ? rawValue
-//         : "";
-//     switch (getControlItem.componentType) {
-//       case types.INPUT:
-//         return (
-//           <input
-//             className="form-control" 
-            
-//             name={getControlItem.name}
-//             placeholder={getControlItem.placeholder}
-//             id={getControlItem.name}
-//             type={getControlItem.type}
-//             value={value}
-//             onChange={handleChange}
-//             required
-//           />
-//         );
-
-//       case types.SELECT:
-//         return (
-//           <select 
-//             className="form-select"
-//             placeholder={getControlItem.placeholder}
-//             name={getControlItem.name}
-//             id={getControlItem.name}
-//             value={value}
-//             onChange={handleChange}
-//             required
-//           >
-//             {getControlItem.options?.map((optionItem) => (
-//               <option key={optionItem.key || optionItem.value || optionItem.label} value={optionItem.value}>
-//                 {optionItem.label}
-//               </option>
-//             ))}
-//           </select>
-//         );
-
-//       case types.TEXTAREA:
-//         return (
-//           <textarea
-          
-//             className="form-control"
-//             name={getControlItem.name}
-//             id={getControlItem.name}
-//             placeholder={getControlItem.placeholder}
-//             value={value}
-//             onChange={handleChange}
-//             required
-//           />
-//         );
-
-//       default:
-//         return (
-//           <input
-//             className="form-control"
-//             name={getControlItem.name}
-//             placeholder={getControlItem.placeholder}
-//             id={getControlItem.name}
-//             type={getControlItem.type || "text"}
-//             value={value}
-//             onChange={handleChange}
-//           />
-//         );
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={onSubmit} className="needs-validation">
-//       {/* border rounded shadow-sm bg-light */}
-//       <div className="container ">
-//         <div className="row align-items-center">
-//           {formControls.map((controlItem) => (
-//             <div className="col-md-8 mb-3 " key={controlItem.name || controlItem.id || index} >
-//               <label 
-//                 htmlFor={controlItem.name}
-//                 className="form-label fw-medium text-capitalize"
-//               >
-//                 {controlItem.label || controlItem.name}
-//               </label>
-//               {renderInputByComponentType(controlItem)}
-//             </div>
-//           ))}
-//         </div>
-//         <div className="text-center mt-3">
-//           <Button type="submit" className="btn btn-dark">
-//             {buttonText || "Register"}
-//           </Button>
-//         </div>
-//       </div>
-//     </form>
-//   );
-// }
-
-// export default Form;
-
-
 import Button from "../components/ui/Button";
 
-function Form({ formControls, formData, setFormData, onSubmit, buttonText }) {
+function Form({ formControls, formData, setFormData, onSubmit, buttonText , isBtnDisabled }) {
   const types = {
     INPUT: "input",
     SELECT: "select",
@@ -155,7 +35,7 @@ function Form({ formControls, formData, setFormData, onSubmit, buttonText }) {
             value={getControlItem.type === "file" ? undefined : value}
             onChange={handleChange}
             required
-          />
+           />
         );
 
       case types.SELECT:
@@ -223,9 +103,9 @@ function Form({ formControls, formData, setFormData, onSubmit, buttonText }) {
           </div>
         ))}
         <div className="text-center mt-3">
-          <Button type="submit" className="btn btn-dark">
+          <button disabled={isBtnDisabled}  type="submit" className="btn btn-dark">
             {buttonText || "Register"}
-          </Button>
+          </button>
         </div>
       </div>
     </form>

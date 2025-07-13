@@ -1,11 +1,10 @@
 import { X } from "lucide-react";
-import ImageUpload from "./ImageUpload";
-import Button from "../ui/Button";
-function Popup({ onClose, children }) {
+import Button from "../components/ui/Button";
+function Popup({ onClose, children , currentEditedId}) {
   return (
     <div
       className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
-      style={{ zIndex: 1050 }}
+      style={{ zIndex: 1150 }}
       onClick={onClose}
     >
       <div
@@ -20,7 +19,11 @@ function Popup({ onClose, children }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="mb-0">Add New Product</h5>
+         <h5 className="mb-0">
+                {
+                  currentEditedId !== null ? "Edit Product" : "Add New Product"
+                }
+              </h5>
           <Button className="btn btn-sm btn-outline" onClick={onClose}>
            <X />
           </Button>

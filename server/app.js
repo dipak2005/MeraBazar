@@ -6,8 +6,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 // Routes
-const AuthRouter = require("./routes/auth/AuthRouter");
-const AdminProductRouter = require("./routes/admin/productRoute");
+const AuthRouter = require("./routes/auth/AuthRouter"); // Authentication
+const AdminProductRouter = require("./routes/admin/productRoute");  // for Admin : product
+const ShopProductRouter = require("./routes/shop/productRoute");  // for Shop : product
+const CartRouter = require("./routes/shop/cartRoute");  // for Shop : cart
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -45,7 +47,10 @@ app.use(cookieParser());
 
 app.use(express.static("public"));
 app.use("/api/auth", AuthRouter);
-app.use("/api/admin/products",AdminProductRouter);
+app.use("/api/admin/products",AdminProductRouter); 
+app.use("/api/shop/products",ShopProductRouter);
+app.use("/api/products",ShopProductRouter); // for global level Detail-page
+app.use("/api/shop/cart",CartRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

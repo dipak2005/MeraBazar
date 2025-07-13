@@ -91,6 +91,7 @@ const editProduct = async (req, res) => {
       brand,
       price,
       salePrice,
+      discount,
       totalStock,
     } = req.body;
 
@@ -103,21 +104,22 @@ const editProduct = async (req, res) => {
       });
     }
 
-    ProductModel.title = title || findProduct.title;
-    ProductModel.description = description || findProduct.description;
-    ProductModel.category = category || findProduct.category;
-    ProductModel.brand = brand || findProduct.brand;
-    ProductModel.price = price || findProduct.price;
-    ProductModel.salePrice = salePrice || findProduct.salePrice;
-    ProductModel.image = image || findProduct.image;
+    findProduct.title = title || findProduct.title;
+    findProduct.description = description || findProduct.description;
+    findProduct.category = category || findProduct.category;
+    findProduct.brand = brand || findProduct.brand;
+    findProduct.price = price === '' ? 0 : price || findProduct.price;
+    findProduct.salePrice = salePrice === '' ? 0 : salePrice || findProduct.salePrice;
+    findProduct.totalStock = totalStock || findProduct.totalStock;
+    findProduct.discount = discount || findProduct.discount;
+    findProduct.image = image || findProduct.image;
 
     await findProduct.save();
 
     return res.status(200).json({
       success: true,
-      message: findProduct,
+      data: findProduct,
     });
-
   } catch (e) {
     console.log(e);
     res.status(500).json({
@@ -131,7 +133,7 @@ const editProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = ProductModel.findById(id);
+    const product = await ProductModel.findById(id);
 
     if (!product) {
       return res.status(404).json({
@@ -139,10 +141,11 @@ const deleteProduct = async (req, res) => {
         message: "Product not found!",
       });
     }
+    await ProductModel.findByIdAndDelete(id);
 
     return res.status(200).json({
-        success:true,
-        message:"Product deleted Successfully!",
+      success: true,
+      message: "Product deleted Successfully!",
     });
   } catch (e) {
     console.log(e);
