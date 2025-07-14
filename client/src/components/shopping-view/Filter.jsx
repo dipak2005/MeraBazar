@@ -84,7 +84,7 @@ function FilterSidebar() {
     sessionStorage.setItem("filters", JSON.stringify(filters));
 
     // Create query string for URL
-    if (filters && Object.keys(filters).length > 0) {
+    // if (filters && Object.keys(filters).length > 0) {
       const queryString = createSearchParamsHelper(filters);
       setSearchParam(new URLSearchParams(queryString));
 
@@ -95,7 +95,7 @@ function FilterSidebar() {
           sortParams: filters?.sort || null,
         })
       );
-    }
+    // }
   }, [filters, dispatch]);
 
   useEffect(() => {
