@@ -6,7 +6,7 @@ const PriceDetails = ({ cartItems }) => {
   const totalItems = cartItems?.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
   const totalPrice = cartItems?.reduce(
-    (acc, item) => acc + (item.productId?.price || 0) * (item.quantity || 1),
+    (acc, item) => acc + (item?.price || 0) * (item.quantity || 1),
     0
   );
 

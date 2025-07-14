@@ -17,7 +17,7 @@ const addToCart = async (req, res) => {
       });
     }
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).lean();
 
     if (!product) {
       return res.status(404).json({
@@ -113,7 +113,10 @@ const fetchCartItems = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: populateCartItems,
+      data: {
+        ...cart._doc,
+        items: populateCartItems,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -126,9 +129,15 @@ const fetchCartItems = async (req, res) => {
 
 const updateCartItemQty = async (req, res) => {
   try {
+    console.log(req.body);
     const { userId, productId, quantity } = req.body;
-
-    if (!userId || !productId || quantity <= 0) {
+ 
+    if (
+      !userId ||
+      !productId ||
+      typeof quantity !== "number" ||
+      quantity <= 0
+    ) {
       return res.status(400).json({
         success: false,
         message: "Invalid data provided!",
@@ -144,8 +153,10 @@ const updateCartItemQty = async (req, res) => {
     }
 
     const findCurrentProductIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId
-    );
+  (item) =>
+    (item.productId._id?.toString?.() || item.productId.toString?.()) === productId
+);
+
 
     if (findCurrentProductIndex === -1) {
       return res.status(404).json({
@@ -159,7 +170,7 @@ const updateCartItemQty = async (req, res) => {
 
     await cart.populate({
       path: "items.productId",
-      select: "image title price salePrice",
+      select: "image title price salePrice quantity",
     });
 
     const populateCartItems = cart.items.map((item) => ({
@@ -173,7 +184,10 @@ const updateCartItemQty = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: populateCartItems,
+      data: {
+        ...cart._doc,
+        items: populateCartItems,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -207,8 +221,7 @@ const deleteCartItem = async (req, res) => {
     }
 
     cart.items = cart.items.filter(
-      (item) =>
-        (item.productId?._id || item.productId)?.toString() !== productId
+      (item) => item.productId._id.toString() !== productId
     );
 
     await cart.save();
@@ -229,7 +242,10 @@ const deleteCartItem = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: populateCartItems,
+      data: {
+        ...cart._doc,
+        items: populateCartItems,
+      },
     });
   } catch (error) {
     console.log(error);

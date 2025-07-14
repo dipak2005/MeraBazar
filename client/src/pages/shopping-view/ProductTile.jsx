@@ -36,11 +36,11 @@ function ProductTile({ product, handleAddToCart }) {
         <p className="text-muted small mb-2 text-capitalize">{product?.brand}</p>
 
         <div className="d-flex align-items-center">
-          <h5 className="mb-0 text-primary">₹{product?.price}</h5>
+          <h5 className="mb-0 text-primary">₹{product?.salePrice}</h5>
           {product?.salePrice > 0 && (
             <>
               <small className="ms-2 text-muted text-decoration-line-through">
-                ₹{product?.salePrice}
+                ₹{product?.price}
               </small>
               <small className="ms-auto text-success fw-semibold">
                 {product?.discount}% off

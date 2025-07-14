@@ -79,7 +79,7 @@ function HeaderRightContent() {
 function ShoppingHeader() {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const { cartItem } = useSelector((state) => state.shoppingcart); // ✅
+  const { cartItem } = useSelector((state) => state.shoppingcart); 
 
 
   function handleLogout() {

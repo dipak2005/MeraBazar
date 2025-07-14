@@ -9,30 +9,28 @@ const initialState = {
 
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
-  async ({ filterParams = {}, sortParams = {} }) => {
-    const query = new URLSearchParams();
+  async ({ filterParams, sortParams }) => {
+    
 
-    // Add filters
-    Object.entries(filterParams).forEach(([key, value]) => {
-      if (Array.isArray(value) && value.length > 0) {
-        query.append(key, value.join(","));
-      }
+    const query = new URLSearchParams({
+      ...filterParams,
+      sortBy: sortParams,
     });
 
-    // Add sorting
-    if (sortParams.sortBy) query.append("sortBy", sortParams.sortBy);
-    if (sortParams.sortOrder) query.append("sortOrder", sortParams.sortOrder);
+    const result = await axios.get(
+      `http://localhost:3000/api/shop/products/get?${query}`
+    );
 
-    const url = `http://localhost:3000/api/shop/products/get?${query.toString()}`;
-    const result = await axios.get(url);
-    return result.data;
+    console.log(result.data);
+
+    return result?.data;
   }
 );
 
 
-// ✅ Fetch product details by ID
+//  Fetch product details by ID
 export const fetchProductDetails = createAsyncThunk(
-  "/products/fetchProductDetails",
+  "/products/fetchproductdetails",
   async (id) => {
     const result = await axios.get(
       `http://localhost:3000/api/products/get/${id}`
@@ -44,7 +42,7 @@ export const fetchProductDetails = createAsyncThunk(
 );
 
 const shoppingProductSlice = createSlice({
-  name: "shoppingProducts",
+  name: "shoppingproducts",
   initialState,
   reducers: {
     setProductDetails: (state) => {
@@ -58,7 +56,7 @@ const shoppingProductSlice = createSlice({
       })
       .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.productList = action.payload?.data || [];
+        state.productList = action.payload?.data;
       })
       .addCase(fetchAllFilteredProducts.rejected, (state) => {
         state.isLoading = false;

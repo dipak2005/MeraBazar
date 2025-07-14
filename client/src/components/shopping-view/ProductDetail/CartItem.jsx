@@ -21,8 +21,9 @@ const CartItem = ({ item }) => {
   }
 
   function handleUpdateQuantity(item, typeOfAction) {
+    const currentQty = Number(item.quantity) || 1; // fallback if null/undefined
     const updatedQuantity =
-      typeOfAction === "plus" ? item.quantity + 1 : item.quantity - 1;
+      typeOfAction === "plus" ? currentQty + 1 : currentQty - 1;
 
     dispatch(
       updateCartProduct({

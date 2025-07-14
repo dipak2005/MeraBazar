@@ -6,7 +6,7 @@ const Highlights = ({ highlights }) => (
     <h6>Highlights</h6>
     <ul className="list-unstyled">
       {/* {highlights.map((item, i) => (
-        <li key={i}>✔️ {item}</li>
+        <li key={i}> {item}</li>
       ))} */}
     </ul>
   </div>

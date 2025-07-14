@@ -5,7 +5,7 @@ import ShoppingHeader from "../Header";
 import { fetchCartProduct } from "../../../store/shop/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const CartPage = ({ onQuantityChange, onRemove }) => {
+const CartPage = () => {
   const { user } = useSelector((state) => state.auth);
   const { cartItem, isLoading } = useSelector((state) => state.shoppingcart);
   const dispatch = useDispatch();
@@ -17,10 +17,10 @@ const CartPage = ({ onQuantityChange, onRemove }) => {
     }
   }, [dispatch, user?.id]);
 
-  const totalPrice = cartItem.reduce(
-    (acc, item) => acc + (item?.productId?.price || 0) * (item?.quantity || 1),
-    0
-  );
+  const totalPrice   = Array.isArray(cartItem?.items)
+  ? cartItem.items.reduce((acc, item) => acc + item.salePrice * item.quantity, 0)
+  : 0;
+
 
   console.log(cartItem, "hello");
 
@@ -36,15 +36,14 @@ const CartPage = ({ onQuantityChange, onRemove }) => {
               <hr />
               {isLoading ? (
                 <p>Loading cart...</p>
-              ) : cartItem.length === 0 ? (
+              ) : cartItem?.length === 0 ? (
                 <p>Your cart is empty</p>
               ) : (
-                cartItem.map((item) => (
+                cartItem?.map((item) => (
                   <CartItem
-                   key={`${item.productId}`}
+                   key={`${item?.productId}`}
                     item={item}
-                    onQuantityChange={onQuantityChange}
-                    onRemove={onRemove}
+                   
                   />
                 ))
               )}

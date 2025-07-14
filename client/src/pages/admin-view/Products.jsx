@@ -172,7 +172,7 @@
                 setFormData={setFormData}
                 buttonText={currentEditedId ? "Update Product" : "Add Product"}
                 onSubmit={onSubmit}
-                isBtnDisabled={!isFormValid()}
+                // isBtnDisabled={!isFormValid()}
 
               />
             </div>

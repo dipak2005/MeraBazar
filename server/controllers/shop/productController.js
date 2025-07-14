@@ -7,16 +7,16 @@ const getFilteredProducts = async (req, res) => {
       category = "",
       brand = "",
       sortBy = "price-lowtohigh",
-      sortOrder = "",
     } = req.query;
 
     const filters = {};
 
-    if (category) {
-      filters.category = { $in: category.split(",").map((c) => c.trim()) };
+     if (category.length) {
+      filters.category = { $in: category.split(",") };
     }
-    if (brand) {
-      filters.brand = { $in: brand.split(",").map((b) => b.trim()) };
+
+    if (brand.length) {
+      filters.brand = { $in: brand.split(",") };
     }
 
     let sort = {};
@@ -38,8 +38,7 @@ const getFilteredProducts = async (req, res) => {
         sort.price = 1;
     }
 
-    if (sortOrder === "asc") Object.keys(sort).forEach((k) => (sort[k] = 1));
-    if (sortOrder === "desc") Object.keys(sort).forEach((k) => (sort[k] = -1));
+ 
 
     const products = await Product.find(filters).sort(sort);
 

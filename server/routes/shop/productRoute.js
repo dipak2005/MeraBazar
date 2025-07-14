@@ -6,7 +6,7 @@ const {
 
 const router = express.Router();
 
-// GET /api/shop/products/get?brand=puma&category=shoes
+
 router.get("/get", getFilteredProducts);
 router.get("/get/:id", getProductDetails);
 

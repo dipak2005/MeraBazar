@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllFilteredProducts,
@@ -7,63 +7,19 @@ import {
 } from "../../store/shop/productSlice";
 import ProductTile from "./ProductTile";
 import ProductSkeleton from "../../common/ProductSkeleton";
-import { addToCart,fetchCartProduct } from "../../store/shop/cartSlice";
+import { addToCart, fetchCartProduct } from "../../store/shop/cartSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-
 
 function ShoppingViewListings() {
   const dispatch = useDispatch();
   const [openDetailsPage, setOpenDetailsPage] = useState(false);
 
-
   const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProduct
   );
   const { user } = useSelector((state) => state.auth);
-  
 
-  const [filters, setFilters] = useState({});
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const query = {};
-
-    // Read from URL if needed
-    if (searchParams.get("category")) {
-      query.category = searchParams.get("category").split(",");
-    }
-    if (searchParams.get("brand")) {
-      query.brand = searchParams.get("brand").split(",");
-    }
-
-    if (searchParams.get("sortBy")) {
-      query.sort = [searchParams.get("sortBy")];
-    }
-
-    setFilters(query);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (filters) {
-      dispatch(
-        fetchAllFilteredProducts({
-          filterParams: filters,
-          sortParams: { sortBy: filters?.sort?.[0] || "" },
-        })
-      );
-
-      const queryParams = new URLSearchParams();
-      Object.entries(filters).forEach(([key, value]) => {
-        if (Array.isArray(value) && value.length > 0) {
-          queryParams.set(key, value.join(","));
-        }
-      });
-      setSearchParams(queryParams);
-      console.log(queryParams, "qurry");
-    }
-  }, [filters]);
 
   useEffect(() => {
     if (productDetails != null) {
@@ -85,7 +41,7 @@ function ShoppingViewListings() {
       .then((data) => {
         if (data?.payload?.success) {
           dispatch(fetchCartProduct({ userId: user?.id }));
-          toast.success("Product added Successfully!")
+          toast.success("Product added Successfully!");
         }
       })
       .catch((error) => {
@@ -93,7 +49,7 @@ function ShoppingViewListings() {
         // toast.error("Failed to add to cart");
       });
   }
-  
+
   return (
     <div className="container-fluid">
       {productList.length === 0 ? (
@@ -104,16 +60,17 @@ function ShoppingViewListings() {
         <div className="row g-1">
           {productList.map((product) =>
             isLoading ? (
-              <ProductSkeleton key={product.id} />
+              <ProductSkeleton key={product.id || product._id} />
             ) : (
               <div
-                key={product._id}
+                key={product.id || product._id}
                 className="col-12 col-sm-6 col-md-4 col-xl-3"
               >
                 <ProductTile
+                  key={product.id || product._id}
                   handleAddToCart={handleAddToCart}
                   product={product}
-                  setFilters={setFilters}
+                  
                 />
               </div>
             )
