@@ -74,6 +74,7 @@ useEffect(() => {
           <Route path="features" element={<AdminFeatures />} />
         </Route>
         {/* Shop */}
+        <Route path="/" element={<ShoppingViewHome />} />
         <Route
           path="/shop"
           element={
@@ -82,11 +83,12 @@ useEffect(() => {
             </CheckAuth>
           }
         >
-          <Route path="home" element={<ShoppingViewHome />} />
+          
           <Route path="account" element={<ShoppingViewAccount />} />
           <Route path="checkout" element={<ShoppingViewCheckout />} />
           <Route path="listing" element={<ShoppingViewListings />} />
         </Route>
+        
         <Route path="/shop/product/:id" element={<ProductDetailPage />} />
          <Route path="/shop/cart" element={<CartPage  />} />
         <Route path="/unauth-page" element={<UnAuthPage />} />

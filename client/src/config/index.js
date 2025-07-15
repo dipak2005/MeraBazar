@@ -114,7 +114,7 @@ export const shoppingViewHeaderMenuItems = [
   {
     id: "home",
     label: "Home",
-    path: "/shop/home",
+    path: "/",
     icon:"https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/home-page-161.png"
   },
   {

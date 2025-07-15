@@ -7,12 +7,12 @@ function ShoppingLayout() {
   return (
     <div className="d-flex flex-column bg-light overflow-hidden">
       <ShoppingHeader />
-      <ShoppingCategory />
+      {/* <ShoppingCategory /> */}
 
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-3">
-            {location.pathname !== "/shop/home" ? <FilterSidebar /> : null}
+           <FilterSidebar />
           </div>
           <div className="col-lg-9">
             <main className="py-3">

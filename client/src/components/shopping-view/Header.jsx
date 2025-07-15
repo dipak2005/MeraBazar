@@ -92,7 +92,7 @@ function ShoppingHeader() {
         <div className="container-fluid">
           {/* Logo */}
           <Link
-            to="/shop/home"
+            to="/"
             className="navbar-brand d-flex align-items-center text-decoration-none"
           >
             <span className="fw-bold text-primary fs-4">MeraBazar</span>
