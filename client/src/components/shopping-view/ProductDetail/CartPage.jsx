@@ -4,6 +4,7 @@ import PriceDetails from "./PriceDetail";
 import ShoppingHeader from "../Header";
 import { fetchCartProduct } from "../../../store/shop/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ProductSkeleton from "../../../common/ProductSkeleton";
 
 const CartPage = () => {
   const { user } = useSelector((state) => state.auth);
@@ -17,10 +18,12 @@ const CartPage = () => {
     }
   }, [dispatch, user?.id]);
 
-  const totalPrice   = Array.isArray(cartItem?.items)
-  ? cartItem.items.reduce((acc, item) => acc + item.salePrice * item.quantity, 0)
-  : 0;
-
+  const totalPrice = Array.isArray(cartItem?.items)
+    ? cartItem.items.reduce(
+        (acc, item) => acc + item.salePrice * item.quantity,
+        0
+      )
+    : 0;
 
   console.log(cartItem, "hello");
 
@@ -32,27 +35,26 @@ const CartPage = () => {
           {/* Left: Cart Items */}
           <div className="col-md-8">
             <div className="bg-white p-3 rounded shadow-sm">
-              <h4>My Cart ({cartItem.length})</h4>
+              <h4>My Cart ({cartItem?.items?.length})</h4>
               <hr />
-              {isLoading ? (
-                <p>Loading cart...</p>
-              ) : cartItem?.length === 0 ? (
+              
+              {!Array.isArray(cartItem?.items) || cartItem?.items?.length === 0 ? (
                 <p>Your cart is empty</p>
               ) : (
-                cartItem?.map((item) => (
-                  <CartItem
-                   key={`${item?.productId}`}
-                    item={item}
-                   
-                  />
-                ))
+                cartItem?.items?.map((item) =>
+                  isLoading ? (
+                    <ProductSkeleton key={`${item?.productId}`} />
+                  ) : (
+                    <CartItem key={`${item?.productId}`} item={item} />
+                  )
+                )
               )}
             </div>
           </div>
 
           {/* Right: Price Summary */}
           <div className="col-md-4">
-            <PriceDetails cartItems={cartItem} totalPrice={totalPrice} />
+            <PriceDetails cartItems={cartItem?.items || []} totalPrice={totalPrice} />
           </div>
         </div>
       </div>

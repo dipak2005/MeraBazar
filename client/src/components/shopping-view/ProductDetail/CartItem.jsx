@@ -31,7 +31,8 @@ const CartItem = ({ item }) => {
         productId: item?.productId,
         quantity: updatedQuantity,
       })
-    ).then((data) => {
+    )
+    .then((data) => {
       if (data?.payload?.success) {
         toast.success("Cart updated successfully!");
       } else {
@@ -46,7 +47,7 @@ const CartItem = ({ item }) => {
         <img
           src={item.image}
           alt={item.title}
-          style={{ width: "80px", height: "80px", objectFit: "contain" }}
+          style={{ width: " 150px", height: "150px", objectFit: "contain" }}
           className="me-3"
         />
         <div>

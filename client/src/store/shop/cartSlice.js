@@ -30,7 +30,10 @@ export const fetchCartProduct = createAsyncThunk(
       `http://localhost:3000/api/shop/cart/get/${userId}`
     );
     return response.data;
-  }
+    console.log(response.data , "cart data")
+  },
+
+  
 );
 
 // Update cart product
@@ -87,7 +90,7 @@ const shoppingCartSlice = createSlice({
       .addCase(fetchCartProduct.fulfilled, (state, action) => {
          console.log("Fetched cart payload:", action.payload);
         state.isLoading = false;
-        state.cartItem = action.payload.data.items;
+        state.cartItem = action.payload.data;
       })
       .addCase(fetchCartProduct.rejected, (state) => {
         state.isLoading = false;

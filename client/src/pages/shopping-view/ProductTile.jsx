@@ -1,7 +1,38 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../../store/shop/cartSlice";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
-function ProductTile({ product, handleAddToCart }) {
+function ProductTile({ product }) {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+
+  function handleAddToCart(getCurrentProductId) {
+    console.log(getCurrentProductId, "product id for cart");
+
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+        if (data?.payload?.success) {
+          toast.success("Product added Successfully!");
+          dispatch(fetchCartProduct({ userId: user?.id }));
+          
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding to cart:", error);
+        // toast.error("Failed to add to cart");
+      });
+  }
   return (
     <div
       className="card h-100 border-0 rounded-0 product-card"

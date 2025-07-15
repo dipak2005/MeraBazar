@@ -62,12 +62,13 @@ function FilterSidebar() {
 
     // Optional: Update query string if using search params
     const queryString = createSearchParamsHelper(currentFilters);
+    searchParam.set(sectionId, optionId);
     setSearchParam(new URLSearchParams(queryString));
 
     // Optional: Trigger filtered product fetch
     dispatch(
       fetchAllFilteredProducts({
-        filterParams: filters,
+        filterParams: currentFilters,
         sortParams: filters.sort || null,
       })
     );
@@ -80,22 +81,26 @@ function FilterSidebar() {
   };
 
   useEffect(() => {
-    // Save to sessionStorage
-    sessionStorage.setItem("filters", JSON.stringify(filters));
+    const saved = sessionStorage.getItem("filters");
+    const parsedFilters = saved ? JSON.parse(saved) : {};
 
-    // Create query string for URL
-    // if (filters && Object.keys(filters).length > 0) {
+    setFilters(parsedFilters); // triggers next useEffect
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(filters).length > 0) {
       const queryString = createSearchParamsHelper(filters);
       setSearchParam(new URLSearchParams(queryString));
 
-      // Fire Redux API call just once
       dispatch(
         fetchAllFilteredProducts({
-          filterParams: filters || {},
-          sortParams: filters?.sort || null,
+          filterParams: filters,
+          sortParams: filters.sort || null,
         })
       );
-    // }
+
+      sessionStorage.setItem("filters", JSON.stringify(filters));
+    }
   }, [filters, dispatch]);
 
   useEffect(() => {
@@ -108,11 +113,21 @@ function FilterSidebar() {
   // Load filters from sessionStorage on mount
   useEffect(() => {
     const saved = sessionStorage.getItem("filters");
-    if (saved) {
-      setFilters(JSON.parse(saved));
-    }else {
-      setFilters({});
-    }
+    const parsedFilters = saved ? JSON.parse(saved) : {};
+
+    setFilters(parsedFilters);
+
+    //  immediately apply on mount
+    dispatch(
+      fetchAllFilteredProducts({
+        filterParams: parsedFilters,
+        sortParams: parsedFilters.sort || null,
+      })
+    );
+
+    //  update URL on load too
+    const queryString = createSearchParamsHelper(parsedFilters);
+    setSearchParam(new URLSearchParams(queryString));
   }, []);
 
   // / Render filter body (used in both desktop and mobile)
