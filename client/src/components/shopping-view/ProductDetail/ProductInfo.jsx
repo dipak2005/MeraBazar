@@ -4,7 +4,9 @@ import ProductReview from "./ProductReview";
 // import { Button } from 'react-bootstrap';
 
 const ProductInfo = ({ product }) => (
-  <div className="mt-3">
+
+
+  <div className="mt-3 ">
     <h4>{product?.title}</h4>
     <p className="text-muted">
       by <strong>{product?.brand}</strong>

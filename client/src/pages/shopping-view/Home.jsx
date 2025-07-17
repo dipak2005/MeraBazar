@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import ShoppingHeader from "../../components/shopping-view/Header";
 import ShoppingCategory from "../../components/shopping-view/ShoppingCategory";
 
+
 function ShoppingViewHome() {
   const categories = [
     { name: "Mobiles", image: "/images/mobiles.png" },
@@ -44,10 +45,17 @@ function ShoppingViewHome() {
     },
   ];
 
+  const slides = [
+    "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/692ebbda554ea9c0.jpeg?q=60",
+    "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/1482d20068a6469d.jpg?q=60",
+    "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/30e8800d3fcca35b.jpeg?q=60",
+    "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/dfc6954413d2b3d7.jpeg?q=60",
+  ];
+
   return (
     <div className="container-fluid p-0 bg-light">
       <ShoppingHeader />
-      <ShoppingCategory/>
+      <ShoppingCategory />
       {/* Banner Carousel */}
       <div
         id="mainBanner"
@@ -55,21 +63,47 @@ function ShoppingViewHome() {
         data-bs-ride="carousel"
       >
         <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img
-              src="https://rukminim2.flixcart.com/fk-p-flap/3240/540/image/b2019166910e3876.jpeg?q=60"
-              className="d-block w-100"
-              alt="Banner 1"
-            />
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://rukminim2.flixcart.com/fk-p-flap/3240/540/image/3b8351d48612fe3d.jpg?q=60"
-              className="d-block w-100"
-              alt="Banner 2"
-            />
-          </div>
+          {slides.map((slide, index) => (
+            <div
+              className={`carousel-item ${index === 0 ? "active" : ""}`}
+              key={index}
+              style={{ height: "245px" }}
+            >
+              <img
+                style={{ objectFit: "cover" }}
+                src={slide}
+                className="d-block w-100"
+                alt={`Banner ${index + 1}`}
+              />
+            </div>
+          ))}
         </div>
+
+        {/* Optional: Controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#mainBanner"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#mainBanner"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
 
       {/* Product Carousels */}

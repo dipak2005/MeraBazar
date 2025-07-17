@@ -7,7 +7,7 @@ function ShoppingLayout() {
   return (
     <div className="d-flex flex-column bg-light overflow-hidden">
       <ShoppingHeader />
-      {/* <ShoppingCategory /> */}
+      <ShoppingCategory />
 
       <div className="container-fluid">
         <div className="row">

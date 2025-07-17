@@ -8,7 +8,7 @@ function ShoppingCategory() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  return isAuthenticated ? (
+  return  (
     <div className="px-3 mb-2">
     <div className="container-fluid bg-white py-3 shadow-sm border-bottom mt-2 ">
       <div className="d-flex flex-wrap justify-content-around gap-3 px-2 px-md-4">
@@ -37,7 +37,7 @@ function ShoppingCategory() {
       </div>
     </div>
     </div>
-  ) : null;
+  ) ;
 }
 
 export default ShoppingCategory;

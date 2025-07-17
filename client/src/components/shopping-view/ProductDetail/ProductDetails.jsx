@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [image ,setImage] = useState("");
+  const [image, setImage] = useState("");
   const dispatch = useDispatch();
   const { productDetails: product, isLoading } = useSelector(
     (state) => state.shopProduct
@@ -27,25 +27,22 @@ const ProductDetailPage = () => {
     }
   }, [dispatch, id]);
 
- ;
-
   return (
-    <div className="container-fluid bg-light">
-      <ShoppingHeader/>
-    <div className="container mt-1 bg-white ">
-      
-      <div className="row">
-        <div className="col-md-7 mt-3">
-        <ImageGallery product={product}/>
+    <div className="container-fluid bg-light vh-100">
+      <ShoppingHeader />
+      <div className="container mt-1 bg-white ">
+        <div className="row">
+          <div className="col-md-6 mt-5">
+            <ImageGallery product={product} />
+          </div>
+          <div className="col-md-5 d-flex align-items-center">
+            <ProductInfo product={product} />
+            {/* <OffersSection product={product} /> */}
+            {/* <Highlights product={product} /> */}
+          </div>
         </div>
-        <div className="col-md-5 d-flex align-items-center">
-          <ProductInfo product={product} />
-          {/* <OffersSection product={product} /> */}
-          {/* <Highlights product={product} /> */}
-        </div>
+        {/* <Specifications product={product} /> */}
       </div>
-      {/* <Specifications product={product} /> */}
-    </div>
     </div>
   );
 };

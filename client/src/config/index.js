@@ -1,3 +1,5 @@
+
+//  for customers
 export const registerFormControls = [
   {
     name: "username",
@@ -22,6 +24,7 @@ export const registerFormControls = [
   },
 ];
 
+
 export const loginFormControls = [
   {
     name: "email",
@@ -38,6 +41,84 @@ export const loginFormControls = [
     type: "password",
   },
 ];
+
+// for sellers 
+export const sellerRegisterFormControls = [
+  {
+    name: "username",
+    label: "Full Name",
+    placeholder: "Enter your full name",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "email",
+    label: "Email",
+    placeholder: "Enter your email",
+    componentType: "input",
+    type: "email",
+  },
+  {
+    name: "storeName",
+    label: "Store Name",
+    placeholder: "Enter your store name",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "businessType",
+    label: "Business Type",
+    placeholder: "e.g. Sole Proprietor, Partnership",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "address",
+    label: "Business Address",
+    placeholder: "Enter your business address",
+    componentType: "textarea",
+  },
+  {
+    name: "gstNumber",
+    label: "GST Number",
+    placeholder: "Enter your GSTIN",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "phone",
+    label: "Phone Number",
+    placeholder: "Enter your phone number",
+    componentType: "input",
+    type: "tel",
+  },
+  {
+    name: "password",
+    label: "Password",
+    placeholder: "Create a password",
+    componentType: "input",
+    type: "password",
+  },
+  {
+    name: "confirmPassword",
+    label: "Confirm Password",
+    placeholder: "Re-enter your password",
+    componentType: "input",
+    type: "password",
+  },
+  {
+    name: "documents",
+    label: "Upload Verification Documents",
+    placeholder: "Upload documents (PDF, JPG, etc.)",
+    componentType: "file",
+    type: "file",
+    accept: ".pdf,.jpg,.jpeg,.png"
+  },
+];
+
+
+
+
 
 export const addProductFormElements = [
   {

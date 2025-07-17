@@ -7,17 +7,17 @@ import {
   Settings,
   LogOut,
   LogOutIcon,
+  Store,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../auth-slice";
-
-
+import { useState } from "react";
 
 function HeaderRightContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   function handleLogout() {
     dispatch(logOutUser());
@@ -25,7 +25,7 @@ function HeaderRightContent() {
 
   return (
     <div className="d-flex flex-row flex-lg-column align-items-lg-center justify-content-between justify-content-lg-start gap-3 w-100">
-      <div className="dropdown" >
+      <div className="dropdown">
         <button
           className="btn btn-primary rounded-circle dropdown-toggle no-caret d-flex align-items-center justify-content-center"
           type="button"
@@ -63,10 +63,7 @@ function HeaderRightContent() {
             </a>
           </li>
           <li>
-            <button
-              onClick={handleLogout}
-              className="dropdown-item"
-            >
+            <button onClick={handleLogout} className="dropdown-item">
               <LogOut /> &nbsp; Logout
             </button>
           </li>
@@ -79,8 +76,8 @@ function HeaderRightContent() {
 function ShoppingHeader() {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const { cartItem } = useSelector((state) => state.shoppingcart); 
-
+  const { cartItem } = useSelector((state) => state.shoppingcart);
+  const navigate = useNavigate();
 
   function handleLogout() {
     dispatch(logOutUser());
@@ -96,12 +93,12 @@ function ShoppingHeader() {
             className="navbar-brand d-flex align-items-center text-decoration-none"
           >
             <span className="fw-bold text-primary fs-4">MeraBazar</span>
-            <small
+            {/* <small
               className="text-muted ms-1 d-none d-md-inline"
               style={{ fontSize: "0.75rem" }}
             >
               Explore <span className="text-warning">great</span>
-            </small>
+            </small> */}
           </Link>
 
           {/* Toggle for mobile */}
@@ -119,11 +116,11 @@ function ShoppingHeader() {
 
           {/* Navbar Content */}
           <div
-            className="collapse navbar-collapse mt-2 mt-lg-0"
+            className="collapse navbar-collapse mt-2 mt-lg-0 col-lg-6"
             id="headerNavbar"
           >
             {/* Search Bar */}
-            <div className="mx-auto w-100 px-lg-5">
+            <div className="mx-auto vw-100 px-lg-3">
               <div className="input-group">
                 <input
                   type="text"
@@ -137,25 +134,37 @@ function ShoppingHeader() {
             </div>
 
             <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-auto">
-              <div className="d-none d-md-flex align-items-center text-muted">
-                More <ChevronDown size={16} className="ms-1" />
-              </div>
+              <Link
+                to={"/auth/register"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <div className="d-none d-md-flex align-items-center " style={{width: "140px"}}>
+                  <Store /> Become a Seller
+                </div>
+              </Link>
 
-
-             
               <Link
                 to={`/shop/cart`}
-                className="text-decoration-none text-dark d-flex align-items-center"
-               >
+                className="text-decoration-none text-dark d-flex align-items-center position-relative"
+              >
                 <ShoppingCart className="me-1" size={20} />
-                
-                <span>Cart</span>
-              
-               
+                {cartItem.length > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {cartItem.length}
+                  </span>
+                )}
+                <span className="ms-2">Cart</span>
               </Link>
-              
 
-              {isAuthenticated ? <HeaderRightContent /> : null}
+              {isAuthenticated ? (
+                <HeaderRightContent />
+              ) : (
+                <Link to={"/auth/login"}>
+                  <div className="text-primary ">
+                    <b style={{ textDecoration: "none" }}>Signin</b>
+                  </div>
+                </Link>
+              )}
             </div>
           </div>
         </div>

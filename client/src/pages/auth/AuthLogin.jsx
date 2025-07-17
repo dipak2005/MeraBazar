@@ -15,6 +15,7 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,8 +26,14 @@ function AuthLogin() {
 
     dispatch(loggedinUser(formData)).then((data) => {
       if (data?.payload?.success) {
+        const role = data.payload.user.role;
+
         toast.success(data.payload.message);
-        navigate("/shop/home");
+        role === "admin"
+          ? navigate("/admin/dashboard")
+          : role === "seller"
+          ? navigate("/seller/dashboard")
+          : navigate("/");
       } else {
         toast.error(data.payload.message);
       }

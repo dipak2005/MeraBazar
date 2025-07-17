@@ -21,7 +21,7 @@ const CartItem = ({ item }) => {
   }
 
   function handleUpdateQuantity(item, typeOfAction) {
-    const currentQty = Number(item.quantity) || 1; // fallback if null/undefined
+    const currentQty = Number(item.quantity) || 1; 
     const updatedQuantity =
       typeOfAction === "plus" ? currentQty + 1 : currentQty - 1;
 
@@ -42,6 +42,7 @@ const CartItem = ({ item }) => {
   }
 
   return (
+    <>
     <div className="d-flex justify-content-between align-items-center border-bottom py-3">
       <div className="d-flex">
         <img
@@ -78,7 +79,10 @@ const CartItem = ({ item }) => {
           </div>
         </div>
       </div>
+    
     </div>
+      
+    </>
   );
 };
 

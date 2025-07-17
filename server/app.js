@@ -8,6 +8,7 @@ const cors = require("cors");
 // Routes
 const AuthRouter = require("./routes/auth/AuthRouter"); // Authentication
 const AdminProductRouter = require("./routes/admin/productRoute");  // for Admin : product
+const SellerProductRouter = require("./routes/seller/ProductRoute"); // for seller : product
 const ShopProductRouter = require("./routes/shop/productRoute");  // for Shop : product
 const CartRouter = require("./routes/shop/cartRoute");  // for Shop : cart
 
@@ -47,7 +48,8 @@ app.use(cookieParser());
 
 app.use(express.static("public"));
 app.use("/api/auth", AuthRouter);
-app.use("/api/admin/products",AdminProductRouter); 
+app.use("/api/admin/products",AdminProductRouter);
+app.use("/api/seller/products",SellerProductRouter); 
 app.use("/api/shop/products",ShopProductRouter);
 app.use("/api/products",ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart",CartRouter);

@@ -1,6 +1,13 @@
 import Button from "../components/ui/Button";
 
-function Form({ formControls, formData, setFormData, onSubmit, buttonText , isBtnDisabled }) {
+function Form({
+  formControls,
+  formData,
+  setFormData,
+  onSubmit,
+  buttonText,
+  isBtnDisabled,
+}) {
   const types = {
     INPUT: "input",
     SELECT: "select",
@@ -32,10 +39,10 @@ function Form({ formControls, formData, setFormData, onSubmit, buttonText , isBt
             placeholder={getControlItem.placeholder}
             id={getControlItem.name}
             type={getControlItem.type}
-            value={getControlItem.type === "file" ? undefined : value}
+            accept={getControlItem.accept}
             onChange={handleChange}
             required
-           />
+          />
         );
 
       case types.SELECT:
@@ -48,7 +55,9 @@ function Form({ formControls, formData, setFormData, onSubmit, buttonText , isBt
             onChange={handleChange}
             required
           >
-            <option value="">-- Select {getControlItem.label || getControlItem.name} --</option>
+            <option value="">
+              -- Select {getControlItem.label || getControlItem.name} --
+            </option>
             {getControlItem.options?.map((optionItem) => (
               <option
                 key={optionItem.key || optionItem.value || optionItem.label}
@@ -102,8 +111,12 @@ function Form({ formControls, formData, setFormData, onSubmit, buttonText , isBt
             {renderInputByComponentType(controlItem)}
           </div>
         ))}
-        <div className="text-center mt-3">
-          <button disabled={isBtnDisabled}  type="submit" className="btn btn-dark">
+        <div className="text-center mt-3 mb-3">
+          <button 
+            disabled={isBtnDisabled}
+            type="submit"
+            className="btn btn-dark w-100"
+          >
             {buttonText || "Register"}
           </button>
         </div>

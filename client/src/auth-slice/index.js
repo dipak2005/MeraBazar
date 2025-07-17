@@ -6,6 +6,7 @@ const initialState = {
   isAuthenticated: false,
   isLoading: true,
   user: null,
+  authChecked: false,
 };
 
 // for register
@@ -74,6 +75,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
+        
       })
       .addCase(registeredUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -99,11 +101,13 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user || null;
+          state.authChecked = true;
         state.isAuthenticated = !!action.payload.success;
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
+          state.authChecked = true;
         state.isAuthenticated = false;
       })
       .addCase(logOutUser.fulfilled, (state, action) => {

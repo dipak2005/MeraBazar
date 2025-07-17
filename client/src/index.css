@@ -70,6 +70,27 @@ button:focus-visible {
   }
 } */
 
+:root {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensures html and body take full viewport height */
+    overflow-x: hidden; /* Prevents horizontal scrollbar if not needed */
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* overflow-y: scroll; */
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fff;
+}
+
+
 .hover-zoom {
   transition: transform 0.3s ease-in-out;
 }
@@ -116,3 +137,16 @@ button:focus-visible {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
+
+footer a:hover {
+  text-decoration: underline;
+  color: #f5c518;
+}
+
+.outer {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+
+}
+
