@@ -41,8 +41,10 @@ function Form({
             type={getControlItem.type}
             accept={getControlItem.accept}
             onChange={handleChange}
+            value={value}
             required
           />
+          
         );
 
       case types.SELECT:

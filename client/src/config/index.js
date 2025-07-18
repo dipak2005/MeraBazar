@@ -43,78 +43,42 @@ export const loginFormControls = [
 ];
 
 // for sellers 
-export const sellerRegisterFormControls = [
+export const sellerRegistrationControl = [
   {
-    name: "username",
-    label: "Full Name",
-    placeholder: "Enter your full name",
-    componentType: "input",
-    type: "text",
+    step: 1,
+    label: "Personal Details",
+    fields: [
+      { name: "username", label: "user Name", type: "text", required: true },
+      { name: "email", label: "Email", type: "email", required: true },
+      { name: "phone", label: "Phone Number", type: "text", required: true },
+    ],
   },
   {
-    name: "email",
-    label: "Email",
-    placeholder: "Enter your email",
-    componentType: "input",
-    type: "email",
+    step: 2,
+    label: "Business Details",
+    fields: [
+      { name: "storeName", label: "Store Name", type: "text", required: true },
+      { name: "gstNumber", label: "GST Number", type: "text", required: false },
+      {
+        name: "businessType",
+        label: "Business Type",
+        type: "select",
+        options: ["Individual", "Company"],
+        required: true,
+      },
+    ],
   },
   {
-    name: "storeName",
-    label: "Store Name",
-    placeholder: "Enter your store name",
-    componentType: "input",
-    type: "text",
-  },
-  {
-    name: "businessType",
-    label: "Business Type",
-    placeholder: "e.g. Sole Proprietor, Partnership",
-    componentType: "input",
-    type: "text",
-  },
-  {
-    name: "address",
-    label: "Business Address",
-    placeholder: "Enter your business address",
-    componentType: "textarea",
-  },
-  {
-    name: "gstNumber",
-    label: "GST Number",
-    placeholder: "Enter your GSTIN",
-    componentType: "input",
-    type: "text",
-  },
-  {
-    name: "phone",
-    label: "Phone Number",
-    placeholder: "Enter your phone number",
-    componentType: "input",
-    type: "tel",
-  },
-  {
-    name: "password",
-    label: "Password",
-    placeholder: "Create a password",
-    componentType: "input",
-    type: "password",
-  },
-  {
-    name: "confirmPassword",
-    label: "Confirm Password",
-    placeholder: "Re-enter your password",
-    componentType: "input",
-    type: "password",
-  },
-  {
-    name: "documents",
-    label: "Upload Verification Documents",
-    placeholder: "Upload documents (PDF, JPG, etc.)",
-    componentType: "file",
-    type: "file",
-    accept: ".pdf,.jpg,.jpeg,.png"
+    step: 3,
+    label: "Bank & Document",
+    fields: [
+      { name: "bankAccount", label: "Bank Account No.", type: "text", required: true },
+      { name: "ifscCode", label: "IFSC Code", type: "text", required: true },
+      { name: "document", label: "Upload Document", type: "file", required: true },
+    ],
   },
 ];
+
 
 
 

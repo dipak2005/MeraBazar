@@ -1,20 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import { logOutUser } from "../../auth-slice";
 import Button from "../ui/Button";
-import {useDispatch} from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+
+
 
 function AdminHeader() {
   const dispatch = useDispatch();
-  function handleLogout() {
-    dispatch(logOutUser());
-    toast.success("Logged out successful!");
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    try {
+      await dispatch(logOutUser()).unwrap();
+      toast.success("Logged out successfully!");
+      navigate("/auth/login");
+    } catch (err) {
+      toast.error("Logout failed");
+    }
   }
+
   return (
     <div className="w-100 bg-white py-2 px-4 border-bottom">
       <div className="row align-items-center justify-content-between">
-        
-        {/* Left Column: Mobile Toggle Button (Only on small screens) */}
+        {/*  Mobile Toggle Button  */}
         <div className="col-auto d-lg-none">
           <Button
             className="btn bg-primary text-white"
@@ -25,13 +33,12 @@ function AdminHeader() {
           </Button>
         </div>
 
-        {/* Right Column: Logout Button */}
+        {/*  Logout Button */}
         <div className="col-auto ms-auto">
           <Button className="btn btn-outline-danger" onClick={handleLogout}>
             <i className="fa-solid fa-arrow-right-from-bracket me-2"></i> LogOut
           </Button>
         </div>
-
       </div>
     </div>
   );

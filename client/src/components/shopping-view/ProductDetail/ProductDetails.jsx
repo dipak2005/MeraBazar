@@ -12,10 +12,13 @@ import ProductSkeleton from "../../../common/ProductSkeleton";
 import { fetchProductDetails } from "../../../store/shop/productSlice";
 import ShoppingHeader from "../Header";
 import { useState } from "react";
+import Footer from "../../../common/Footer";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [image, setImage] = useState("");
+  
   const dispatch = useDispatch();
   const { productDetails: product, isLoading } = useSelector(
     (state) => state.shopProduct
@@ -27,13 +30,15 @@ const ProductDetailPage = () => {
     }
   }, [dispatch, id]);
 
+  
+
   return (
-    <div className="container-fluid bg-light vh-100">
+    <div className="container-fluid bg-light px-0">
       <ShoppingHeader />
       <div className="container mt-1 bg-white ">
         <div className="row">
           <div className="col-md-6 mt-5">
-            <ImageGallery product={product} />
+            <ImageGallery product={product}  toast={toast}/>
           </div>
           <div className="col-md-5 d-flex align-items-center">
             <ProductInfo product={product} />
@@ -43,6 +48,7 @@ const ProductDetailPage = () => {
         </div>
         {/* <Specifications product={product} /> */}
       </div>
+      <Footer/>
     </div>
   );
 };

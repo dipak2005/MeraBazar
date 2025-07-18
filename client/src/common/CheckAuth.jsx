@@ -14,40 +14,52 @@ function CheckAuth({ isAuthenticated, user, children }) {
   //     } else if (user?.role === "seller") {
   //       return <Navigate to="/seller/dashboard" />;
   //     } else if (user?.role === "user") {
-  //       return children; 
+  //       return children;
   //     }
   //     else {
-        
+
   //     }
   //   }
   // }
 
+  if (
+    !isAuthenticated &&
+    (location.pathname.startsWith("/admin") ||
+      location.pathname.startsWith("/seller"))
+  ) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  // if (!isAuthenticated && location.pathname.startsWith("/auth/register")) {
+  //   return <Navigate to={"/auth/register/roll=seller"}/>;
+  // }
   if (location.pathname === "/") {
-    
     if (user?.role === "admin") {
-       return <Navigate to="/admin/dashboard" />;
+      return <Navigate to="/admin/dashboard" />;
     }
 
     if (user?.role === "seller") {
-       return <Navigate to="/seller/dashboard" />;
+      return <Navigate to="/seller/dashboard" />;
     }
 
     return children;
   }
 
+  const publlicPaths = ["/", "/listing", "/cart"];
+  const isPublic =
+    publlicPaths.some((path) => location.pathname.startsWith(path)) ||
+    location.pathname.startsWith("/shop");
 
-
-
+  if (!isAuthenticated && isPublic) {
+    return children;
+  }
 
   // Redirect unauthenticated access to login
-  if (
-    !isAuthenticated &&
-    !location.pathname.startsWith("/auth")
-  ) {
+  if (!isAuthenticated && !location.pathname.startsWith("/auth")) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  // Redirect authenticated users away from login/register
+  // Redirect authenticated users away from login/register #Rasta Clear hai
   if (
     isAuthenticated &&
     (location.pathname.startsWith("/auth/login") ||
@@ -94,4 +106,3 @@ function CheckAuth({ isAuthenticated, user, children }) {
 }
 
 export default CheckAuth;
- 

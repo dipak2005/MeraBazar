@@ -2,18 +2,51 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductTile from "./ProductTile";
 import ProductSkeleton from "../../common/ProductSkeleton";
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { addToCart } from "../../store/shop/cartSlice";
 
 
 function ShoppingViewListings() {
   const dispatch = useDispatch();
   const [openDetailsPage, setOpenDetailsPage] = useState(false);
-
+  const { user } = useSelector((state) => state.auth);
   const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProduct
   );
 
 
+   function handleAddToCart(productId) {
+    console.log("Trying to add to cart with:", {
+    userId: user?._id || user?.id,  
+    productId: productId, 
+    quantity: 1
+  });
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: productId,
+        quantity: 1,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+        if (data?.payload?.success) {
+          toast.success("Product added Successfully!");
+          dispatch(fetchCartProduct({ userId: user?.id }));
+
+          // if (goToStep == 1) {
+          //   navigate("/shop/cart");
+          // } else if (goToStep == 2) {
+          //   navigate("/shop/checkout");
+          // }
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding to cart:", error);
+        // toast.error("Failed to add to cart");
+      });
+  }
 
   useEffect(() => {
     if (productDetails != null) {
@@ -41,7 +74,8 @@ function ShoppingViewListings() {
               >
                 <ProductTile
                   key={product.id || product._id}
-                  // handleAddToCart={handleAddToCart}
+                  handleAddToCart={() => handleAddToCart(product.id || product._id)}
+                  toast={toast}
                   product={product}
                   
                 />

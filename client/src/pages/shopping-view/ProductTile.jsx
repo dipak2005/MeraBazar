@@ -1,38 +1,30 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { addToCart } from "../../store/shop/cartSlice";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 
-function ProductTile({ product }) {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+function ProductTile({ product, handleAddToCart, toast }) {
+  // function handleAddToCart(getCurrentProductId) {
+  //   console.log(getCurrentProductId, "product id for cart");
 
+  //   dispatch(
+  //     addToCart({
+  //       userId: user?.id,
+  //       productId: getCurrentProductId,
+  //       quantity: 1,
+  //     })
+  //   )
+  //     .unwrap()
+  //     .then((data) => {
+  //       if (data?.payload?.success) {
+  //         toast.success("Product added Successfully!");
+  //         dispatch(fetchCartProduct({ userId: user?.id }));
 
-  function handleAddToCart(getCurrentProductId) {
-    console.log(getCurrentProductId, "product id for cart");
-
-    dispatch(
-      addToCart({
-        userId: user?.id,
-        productId: getCurrentProductId,
-        quantity: 1,
-      })
-    )
-      .unwrap()
-      .then((data) => {
-        if (data?.payload?.success) {
-          toast.success("Product added Successfully!");
-          dispatch(fetchCartProduct({ userId: user?.id }));
-          
-        }
-      })
-      .catch((error) => {
-        console.error("Error adding to cart:", error);
-        // toast.error("Failed to add to cart");
-      });
-  }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding to cart:", error);
+  //       // toast.error("Failed to add to cart");
+  //     });
+  // }
   return (
     <div
       className="card h-100 border-0 rounded-0 product-card"
@@ -45,7 +37,7 @@ function ProductTile({ product }) {
         target="_blank"
       >
         {/* Badge */}
-        {product.salePrice > 0 && (
+        {product.salePrice > 500 && (
           <span className="badge bg-danger position-absolute top-0 start-0 m-2">
             Best Seller
           </span>
@@ -64,7 +56,9 @@ function ProductTile({ product }) {
         <h6 className="card-title fw-bold text-truncate mb-1">
           {product?.title}
         </h6>
-        <p className="text-muted small mb-2 text-capitalize">{product?.brand}</p>
+        <p className="text-muted small mb-2 text-capitalize">
+          {product?.brand}
+        </p>
 
         <div className="d-flex align-items-center">
           <h5 className="mb-0 text-primary">₹{product?.salePrice}</h5>
@@ -79,13 +73,12 @@ function ProductTile({ product }) {
             </>
           )}
         </div>
-        <button
-          onClick={()=>handleAddToCart(product?._id)}
+        {/* <button
+          onClick={() => handleAddToCart(product?._id || product?._id)}
           className="btn btn-sm btn-outline-primary w-100 mt-2"
         >
           Add to Cart
-        </button>
-        
+        </button> */}
       </div>
     </div>
   );

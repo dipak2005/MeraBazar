@@ -31,6 +31,7 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
+      discount,
       totalStock,
     } = req.body;
 
@@ -42,8 +43,11 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
+      discount,
       totalStock,
     });
+
+    console.log("Submitting Form Data", formData);
 
     await newProduct.save();
 
@@ -111,7 +115,7 @@ const editProduct = async (req, res) => {
     findProduct.price = price === '' ? 0 : price || findProduct.price;
     findProduct.salePrice = salePrice === '' ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
-    findProduct.discount = discount || findProduct.discount;
+    findProduct.discount = discount === '' ? 0 : discount || findProduct.discount;
     findProduct.image = image || findProduct.image;
 
     await findProduct.save();

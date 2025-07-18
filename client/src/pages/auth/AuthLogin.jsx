@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../../common/Form";
 import { loginFormControls } from "../../config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkAuth, loggedinUser } from "../../auth-slice";
-import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
   email: "",
@@ -15,10 +14,8 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { isLoading } = useSelector((state) => state.auth);
 
   const onSubmit = async (event) => {
@@ -41,24 +38,31 @@ function AuthLogin() {
   };
 
   return (
-    <div className="container  align-items-center justify-content-center vh-100">
-      <div className="text-center">
-        <h1 className=" fs-1 fw-bold mt-5 mb-5">welcome to MeraBazar</h1>
+    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light px-3">
+      <div className="w-100" style={{ maxWidth: "450px" }}>
+        <div className="bg-white shadow rounded-4 p-4 p-md-5 w-100">
+          <div className="text-center mb-4">
+            <h1 className="fs-2 fw-bold">Welcome to MeraBazar</h1>
+            <p className="text-muted">Sign in to your account</p>
+          </div>
+
+          <Form
+            formControls={loginFormControls}
+            formData={formData}
+            setFormData={setFormData}
+            buttonText="Sign In"
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+          />
+
+          <p className="mt-3 text-center">
+            Don't have an account?
+            <Link className="fw-semibold" to="/auth/register">
+              Register now
+            </Link>
+          </p>
+        </div>
       </div>
-      <Form
-        formControls={loginFormControls}
-        formData={formData}
-        setFormData={setFormData}
-        buttonText="Sign in"
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-      />
-      <p className="mt-2 text-center">
-        Do you have'nt account? &nbsp;
-        <Link className="fs-5 ml-5  " to={"/auth/register"}>
-          Register now
-        </Link>
-      </p>
     </div>
   );
 }

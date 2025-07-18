@@ -6,11 +6,18 @@ const PriceDetails = ({ cartItems }) => {
   const totalItems = cartItems?.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
   const totalPrice = cartItems?.reduce(
-    (acc, item) => acc + (item?.price || 0) * (item.quantity || 1),
+    (acc, item) => acc + (item?.salePrice || 0) * (item.quantity || 1),
     0
   );
 
-  const discount = Math.round(totalPrice * 0.1); // 10% off
+  const discount = cartItems.reduce((acc, item) => {
+  const discountRate = item?.discount || 0;
+  const itemDiscount = ((item.salePrice || 0) * discountRate / 100) * (item.quantity || 1);
+  return acc + itemDiscount;
+}, 0);
+
+
+  // const discount = Math.round(totalPrice * cartItems.item?.discount); 
   const deliveryCharge = totalPrice > 500 ? 0 : 40;
   const grandTotal = totalPrice - discount + deliveryCharge;
 

@@ -82,7 +82,7 @@ function AdminSideBar({ isOpen}) {
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     navigate(item.path); 
-                    document.querySelector(".offcanvas.show .btn-close")?.click(); // close offcanvas
+                    document.querySelector(".offcanvas.show .btn-close")?.click(); 
                   }}
                 >
                   {item.icon}
@@ -93,7 +93,7 @@ function AdminSideBar({ isOpen}) {
           </ul>
       </aside>
 
-      {/* Mobile Sidebar (Offcanvas) */}
+      {/* Mobile Sidebar  */}
       <div
         className="offcanvas offcanvas-start"
         tabIndex="-1"
@@ -120,7 +120,7 @@ function AdminSideBar({ isOpen}) {
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     navigate(item.path); 
-                    document.querySelector(".offcanvas.show .btn-close")?.click(); // close offcanvas
+                    document.querySelector(".offcanvas.show .btn-close")?.click();  // for closing sidebar
                   }}
                 >
                   {item.icon}

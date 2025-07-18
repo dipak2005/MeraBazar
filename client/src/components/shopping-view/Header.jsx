@@ -14,13 +14,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../auth-slice";
 import { useState } from "react";
 
-function HeaderRightContent() {
+function HeaderRightContent({toast}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   function handleLogout() {
     dispatch(logOutUser());
+    toast.success("logged out successful!");
   }
 
   return (
@@ -73,15 +74,13 @@ function HeaderRightContent() {
   );
 }
 
-function ShoppingHeader() {
+function ShoppingHeader({toast}) {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const navigate = useNavigate();
 
-  function handleLogout() {
-    dispatch(logOutUser());
-  }
+
 
   return (
     <header className="sticky-top bg-white shadow-sm border-bottom">
@@ -157,7 +156,7 @@ function ShoppingHeader() {
               </Link>
 
               {isAuthenticated ? (
-                <HeaderRightContent />
+                <HeaderRightContent toast={toast} />
               ) : (
                 <Link to={"/auth/login"}>
                   <div className="text-primary ">

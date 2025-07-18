@@ -2,11 +2,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // setup
+// const initialState = {
+//   isAuthenticated: false,
+//   isLoading: true,
+//   user: null,
+//   authChecked: false,
+// };
+
+const storedUser = localStorage.getItem("user");
+
 const initialState = {
-  isAuthenticated: false,
+  user: storedUser ? JSON.parse(storedUser) : null,
+  isAuthenticated: !!storedUser,
   isLoading: true,
-  user: null,
-  authChecked: false,
 };
 
 // for register
@@ -63,6 +71,22 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+    removeUser: (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem("user");
+    },
+    setUserFromStorage: (state) => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        state.user = JSON.parse(user);
+        state.isAuthenticated = true;
+      } else {
+        state.user = null;
+        state.isAuthenticated = false;
+      }
     },
   },
 
@@ -75,7 +99,9 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
-        
+        if (action.payload.user) {
+          localStorage.setItem("user", JSON.stringify(action.payload.user));
+        }
       })
       .addCase(registeredUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -89,6 +115,9 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user || null;
         state.isAuthenticated = !!action.payload.success;
+        if (action.payload.user) {
+          localStorage.setItem("user", JSON.stringify(action.payload.user));
+        }
       })
       .addCase(loggedinUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -101,22 +130,23 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user || null;
-          state.authChecked = true;
+        state.authChecked = true;
         state.isAuthenticated = !!action.payload.success;
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
-          state.authChecked = true;
+        state.authChecked = true;
         state.isAuthenticated = false;
       })
       .addCase(logOutUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+         localStorage.removeItem("user");
       });
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser , setUserFromStorage } = authSlice.actions;
 export default authSlice.reducer;

@@ -17,7 +17,7 @@ function AdminProductTile({
           style={{ height: "200px", width: "100%", objectFit: "contain" }}
         />
       </div>
-      <div className="card-body px-2 py-3">
+      <div className="card-body px-2 py-3 card h-100 border-0 rounded-2 product-card" style={{ transition: "all 0.3s ease-in-out" }}>
         <h6 className="card-title mb-1 text-truncate">{product?.title}</h6>
         <p className="text-muted small mb-2">{product?.brand}</p>
         <div className="d-flex align-items-center">
@@ -29,9 +29,14 @@ function AdminProductTile({
               <small className="text-muted text-decoration-line-through">
                 ₹ {product?.price}
               </small>
-              <small className="ms-auto text-success fw-semibold">
+              {/* <small className="ms-auto text-success fw-semibold">
                 {product?.discount}% off
-              </small>
+              </small> */}
+              {product.discount ? (
+                <small className="ms-auto text-success fw-semibold">{product.discount}% off</small>
+              ) : (
+                <small className="ms-auto text-danger fw-semibold">No discount</small>
+              )}
             </>
           )}
         </div>
@@ -39,9 +44,10 @@ function AdminProductTile({
           <button
             className="btn btn-sm btn-outline-success"
             onClick={() => {
-              setCurrentEditedId(product?._id),
-                setFormData(product),
-                setShowPopup(true);
+              setCurrentEditedId(product?._id);
+              setFormData(product);
+              setShowPopup(true);
+              console.log(product, "edit");
             }}
           >
             Edit

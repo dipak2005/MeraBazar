@@ -147,8 +147,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom copyright or payment info */}
-        <hr className="border-light" />
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center small">
+        <hr className="border-light " />
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center small mb-3">
           <div className="mb-2 mb-md-0">
             © {new Date().getFullYear()} Mera Bazar | All rights reserved
           </div>

@@ -30,6 +30,7 @@ const CartItem = ({ item }) => {
         userId: user?.id,
         productId: item?.productId,
         quantity: updatedQuantity,
+        discount:item?.discount
       })
     )
     .then((data) => {
@@ -53,8 +54,8 @@ const CartItem = ({ item }) => {
         />
         <div>
           <h6 className="mb-1">{item.title}</h6>
-          <p className="text-muted mb-1">₹{item.price}</p>
-
+          <p className="text-muted mb-1">Sale price : ₹{item.salePrice}</p>
+            <span className="text-success">{item.discount}% off</span>
           <div className="d-flex align-items-center gap-2 mt-2">
             <button
               className="btn btn-sm btn-outline-primary"

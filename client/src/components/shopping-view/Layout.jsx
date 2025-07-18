@@ -2,6 +2,7 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import ShoppingHeader from "./Header";
 import ShoppingCategory from "./ShoppingCategory";
 import FilterSidebar from "./Filter";
+import Footer from "../../common/Footer";
 
 function ShoppingLayout() {
   return (
@@ -21,6 +22,7 @@ function ShoppingLayout() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

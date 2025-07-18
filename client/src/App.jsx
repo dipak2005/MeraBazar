@@ -18,7 +18,7 @@ import UnAuthPage from "./pages/UnAuthPage";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { checkAuth } from "./auth-slice";
+import { checkAuth, setUserFromStorage  } from "./auth-slice";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
@@ -30,6 +30,8 @@ import SellerDashboard from "./pages/seller-view/Dashboard";
 import SellerProduct from "./pages/seller-view/Product";
 import SellerOrder from "./pages/seller-view/Orders";
 import SellerLayout from "./components/seller-view/SellerLayout";
+import SellerRegistration from "./pages/auth/SellerRegister";
+
 
 function App() {
   const { user, isAuthenticated, authChecked } = useSelector(
@@ -46,6 +48,10 @@ function App() {
       dispatch(fetchCartProduct({ userId: user._id }));
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    dispatch(setUserFromStorage());
+  } , [])
 
   return (
     <>
@@ -64,8 +70,10 @@ function App() {
               {/* child Route */}
               <Route path="login" element={<AuthLogin />} />
               <Route path="register" element={<AuthRegister />}>
+              
                 {/* <Route path="auth=seller" element={<AuthSeller/>}/> */}
               </Route>
+              <Route path="/auth/register/roll=seller" element={<SellerRegistration/>}/>
             </Route>
             {/* Admin */}
             <Route
@@ -96,7 +104,6 @@ function App() {
               <Route path="orders" element={<SellerOrder />} />
             </Route>
             {/* Shop */}
-
             {/* HomePage for Customers */}
             <Route
               path="/"
@@ -114,12 +121,12 @@ function App() {
                 </CheckAuth>
               }
             >
-              <Route path="account" element={<ShoppingViewAccount />} />
-              <Route path="checkout" element={<ShoppingViewCheckout />} />
               <Route path="listing" element={<ShoppingViewListings />} />
             </Route>
             <Route path="/shop/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
+            <Route path="/shop/account" element={<ShoppingViewAccount />} />
+            <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
