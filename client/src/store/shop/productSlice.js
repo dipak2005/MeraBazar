@@ -7,16 +7,29 @@ const initialState = {
   productDetails: null,
 };
 
+
+export const fetchProducts = createAsyncThunk(
+  "/products/fetchProducts",
+  async () => {
+  
+
+    const result = await axios.get(
+      `http://localhost:3000/api/shop/products/get`
+    );
+
+    console.log(result.data);
+
+    return result?.data;
+  }
+);
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async ({ filterParams, sortParams }) => {
-    
-
     const query = new URLSearchParams({
       ...filterParams,
       sortBy: sortParams,
     });
-
+     console.log(query + "query");
     const result = await axios.get(
       `http://localhost:3000/api/shop/products/get?${query}`
     );

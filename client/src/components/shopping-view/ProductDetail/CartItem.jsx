@@ -21,7 +21,7 @@ const CartItem = ({ item }) => {
   }
 
   function handleUpdateQuantity(item, typeOfAction) {
-    const currentQty = Number(item.quantity) || 1; 
+    const currentQty = Number(item.quantity) || 1;
     const updatedQuantity =
       typeOfAction === "plus" ? currentQty + 1 : currentQty - 1;
 
@@ -30,10 +30,9 @@ const CartItem = ({ item }) => {
         userId: user?.id,
         productId: item?.productId,
         quantity: updatedQuantity,
-        discount:item?.discount
+        discount: item?.discount,
       })
-    )
-    .then((data) => {
+    ).then((data) => {
       if (data?.payload?.success) {
         toast.success("Cart updated successfully!");
       } else {
@@ -44,45 +43,51 @@ const CartItem = ({ item }) => {
 
   return (
     <>
-    <div className="d-flex justify-content-between align-items-center border-bottom py-3">
-      <div className="d-flex">
-        <img
-          src={item.image}
-          alt={item.title}
-          style={{ width: " 150px", height: "150px", objectFit: "contain" }}
-          className="me-3"
-        />
-        <div>
-          <h6 className="mb-1">{item.title}</h6>
-          <p className="text-muted mb-1">Sale price : ₹{item.salePrice}</p>
+      <div className="d-flex justify-content-between align-items-center border-bottom py-3">
+        <div className="d-flex">
+          <a
+            href={`/shop/product/${item.productId}`}
+            className="text-decoration-none text-dark"
+            rel="noopener noreferrer"
+           
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              style={{ width: " 150px", height: "150px", objectFit: "contain" }}
+              className="me-3"
+            />
+          </a>
+
+          <div>
+            <h6 className="mb-1">{item.title}</h6>
+            <p className="text-muted mb-1">Sale price : ₹{item.salePrice}</p>
             <span className="text-success">{item.discount}% off</span>
-          <div className="d-flex align-items-center gap-2 mt-2">
-            <button
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => handleUpdateQuantity(item, "minus")}
-              disabled={item.quantity <= 1}
-            >
-              −
-            </button>
-            <span>{item.quantity || 1}</span>
-            <button
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => handleUpdateQuantity(item, "plus")}
-            >
-              +
-            </button>
-            <button
-              className="btn btn-sm btn-outline-danger ms-3"
-              onClick={() => handleCartDelete(item)}
-            >
-              Remove
-            </button>
+            <div className="d-flex align-items-center gap-2 mt-2">
+              <button
+                className="btn btn-sm btn-outline-primary"
+                onClick={() => handleUpdateQuantity(item, "minus")}
+                disabled={item.quantity <= 1}
+              >
+                −
+              </button>
+              <span>{item.quantity || 1}</span>
+              <button
+                className="btn btn-sm btn-outline-primary"
+                onClick={() => handleUpdateQuantity(item, "plus")}
+              >
+                +
+              </button>
+              <button
+                className="btn btn-sm btn-outline-danger ms-3"
+                onClick={() => handleCartDelete(item)}
+              >
+                Remove
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    
-    </div>
-      
     </>
   );
 };

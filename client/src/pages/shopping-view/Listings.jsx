@@ -35,11 +35,7 @@ function ShoppingViewListings() {
           toast.success("Product added Successfully!");
           dispatch(fetchCartProduct({ userId: user?.id }));
 
-          // if (goToStep == 1) {
-          //   navigate("/shop/cart");
-          // } else if (goToStep == 2) {
-          //   navigate("/shop/checkout");
-          // }
+         
         }
       })
       .catch((error) => {
@@ -57,7 +53,7 @@ function ShoppingViewListings() {
   
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid d-flex flex-column min-vh-100">
       {productList.length === 0 ? (
         <div className="text-center py-5">
           <h4>No products found</h4>

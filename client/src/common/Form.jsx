@@ -6,12 +6,13 @@ function Form({
   setFormData,
   onSubmit,
   buttonText,
-  isBtnDisabled,
+  isBtnDisabled, 
 }) {
   const types = {
     INPUT: "input",
     SELECT: "select",
     TEXTAREA: "textarea",
+    RADIO:"radio"
   };
 
   const handleChange = (e) => {
@@ -84,6 +85,32 @@ function Form({
           />
         );
 
+        case types.RADIO:
+  return (
+    <div>
+      {getControlItem.options?.map((optionItem) => (
+        <div className="form-check" key={optionItem.value}>
+          <input
+            className="form-check-input d-flex"
+            type="radio"
+            name={getControlItem.name}
+            id={`${getControlItem.name}_${optionItem.value}`}
+            value={optionItem.value}
+            checked={formData[getControlItem.name] === optionItem.value}
+            onChange={handleChange}
+          />
+          <label
+            className="form-check-label"
+            htmlFor={`${getControlItem.name}_${optionItem.value}`}
+          >
+            {optionItem.label}
+          </label>
+        </div>
+      ))}
+    </div>
+  );
+
+
       default:
         return (
           <input
@@ -115,9 +142,9 @@ function Form({
         ))}
         <div className="text-center mt-3 mb-3">
           <button 
-            disabled={isBtnDisabled}
+            //  disabled={isBtnDisabled} 
             type="submit"
-            className="btn btn-dark w-100"
+            className="btn btn-outline-primary w-100"
           >
             {buttonText || "Register"}
           </button>

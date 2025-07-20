@@ -17,7 +17,7 @@ const initialState = {
   isLoading: true,
 };
 
-// for register
+// for register : add user
 export const registeredUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
@@ -30,7 +30,7 @@ export const registeredUser = createAsyncThunk(
   }
 );
 
-// for login
+// for login : verify authorised user
 export const loggedinUser = createAsyncThunk(
   "/auth/login",
   async (formData) => {
@@ -43,6 +43,7 @@ export const loggedinUser = createAsyncThunk(
   }
 );
 
+//  logout user
 export const logOutUser = createAsyncThunk("/auth/logout", async () => {
   const response = await axios.post(
     "http://localhost:3000/api/auth/logout",
@@ -51,6 +52,25 @@ export const logOutUser = createAsyncThunk("/auth/logout", async () => {
   );
   return response.data;
 });
+
+// fetch user
+export const fetchUser = createAsyncThunk("/auth/fetchUser", async () => {
+  const response = await axios.get(`http://localhost:3000/api/auth/get`);
+  return response.data;
+});
+
+//  edit user
+export const editUser = createAsyncThunk(
+  "/auth/editUser",
+  async ({ id, formData }) => {
+    const response = await axios.put(
+      `http://localhost:3000/api/auth/update/${id}`,
+      formData
+      // { withCredentials: true }
+    );
+    return response?.data;
+  }
+);
 
 export const checkAuth = createAsyncThunk("/auth/check-auth", async () => {
   const response = await axios.get(
@@ -143,10 +163,40 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
-         localStorage.removeItem("user");
+        localStorage.removeItem("user");
+      })
+      .addCase(editUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.isLoading = true;
+        state.user = action.payload.data;
+        state.isAuthenticated = !!action.payload.success;
+        localStorage.setItem("user", JSON.stringify(action.payload.data));
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+        localStorage.removeItem("user");
+      })
+      .addCase(fetchUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.data;
+
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+        localStorage.removeItem("user");
       });
   },
 });
 
-export const { setUser , setUserFromStorage } = authSlice.actions;
+export const { setUser, setUserFromStorage } = authSlice.actions;
 export default authSlice.reducer;

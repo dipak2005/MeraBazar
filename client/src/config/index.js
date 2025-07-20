@@ -1,4 +1,3 @@
-
 //  for customers
 export const registerFormControls = [
   {
@@ -24,7 +23,6 @@ export const registerFormControls = [
   },
 ];
 
-
 export const loginFormControls = [
   {
     name: "email",
@@ -42,7 +40,7 @@ export const loginFormControls = [
   },
 ];
 
-// for sellers 
+// for sellers
 export const sellerRegistrationControl = [
   {
     step: 1,
@@ -72,17 +70,22 @@ export const sellerRegistrationControl = [
     step: 3,
     label: "Bank & Document",
     fields: [
-      { name: "bankAccount", label: "Bank Account No.", type: "text", required: true },
+      {
+        name: "bankAccount",
+        label: "Bank Account No.",
+        type: "text",
+        required: true,
+      },
       { name: "ifscCode", label: "IFSC Code", type: "text", required: true },
-      { name: "document", label: "Upload Document", type: "file", required: true },
+      {
+        name: "document",
+        label: "Upload Document",
+        type: "file",
+        required: true,
+      },
     ],
   },
 ];
-
-
-
-
-
 
 export const addProductFormElements = [
   {
@@ -154,56 +157,82 @@ export const addProductFormElements = [
     placeholder: "Enter total stock",
   },
 ];
+const categories = [
+  { name: "Mobiles", image: "/images/mobiles.png" },
+  { name: "Fashion", image: "/images/fashion.png" },
+  { name: "Electronics", image: "/images/electronics.png" },
+  { name: "Home", image: "/images/home.png" },
+  { name: "Appliances", image: "/images/appliances.png" },
+  { name: "Grocery", image: "/images/grocery.png" },
+  { name: "Toys", image: "/images/toys.png" },
+];
 
 export const shoppingViewHeaderMenuItems = [
-  {
-    id: "home",
-    label: "Home",
-    path: "/",
-    icon:"https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/home-page-161.png"
-  },
-  {
-    id: "products",
-    label: "Products",
-    path: "/shop/listing",
-    icon:"https://icons.veryicon.com/png/o/miscellaneous/fu-jia-intranet/product-29.png"
-  },
+  // {
+  //   id: "home",
+  //   label: "Home",
+  //   path: "/",
+  //   icon:"https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/home-page-161.png"
+  // },
+  // {
+  //   id: "products",
+  //   label: "Products",
+  //   path: "/shop/listing",
+  //   icon:"https://icons.veryicon.com/png/o/miscellaneous/fu-jia-intranet/product-29.png"
+  // },
   {
     id: "men",
     label: "Men",
     path: "/shop/listing",
-    icon:"https://cdn-icons-png.flaticon.com/512/4086/4086679.png"
-
+    icon: "https://static.vecteezy.com/system/resources/previews/041/642/170/non_2x/ai-generated-portrait-of-handsome-smiling-young-man-with-folded-arms-isolated-free-png.png",
   },
   {
     id: "women",
     label: "Women",
     path: "/shop/listing",
-    icon:"https://cdn-icons-png.flaticon.com/512/5231/5231019.png",
+    icon: "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTExL3Jhd3BpeGVsb2ZmaWNlMTJfcG9ydHJhaXRfb2ZfYV9iZWF1dGlmdWxfc21pbGluZ193b21hbl93aXRoX2xvbl82NzMzY2ExNy0zMzYxLTRhY2EtOTc3Ni00MzdkN2E2ZDc2MzItbTNwamdqbWUucG5n.png",
   },
   {
     id: "kids",
     label: "Kids",
     path: "/shop/listing",
-    icon:"https://cdn-icons-png.flaticon.com/512/3886/3886660.png",
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6V9anbIwpuBOdNH18b6gfH64qvF387k-rwA&s",
   },
   {
     id: "footwear",
     label: "Footwear",
     path: "/shop/listing",
-    icon:"https://cdn-icons-png.flaticon.com/512/5499/5499206.png",
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1_zTHwdU4YzE9kCHKLeGzoSHy4ji6k1J4Kw&s",
   },
   {
     id: "accessories",
     label: "Accessories",
     path: "/shop/listing",
-    icon:"https://cdn-icons-png.flaticon.com/512/7695/7695937.png",
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT50n4JdjooAsIugQeVNzeC12PcdTObYUPGzs3lB6Q-nUKMlgC61fjhJfrkdYeEuiL1RcU&usqp=CAU",
   },
   {
-    id: "search",
-    label: "Search",
-    path: "/shop/search",
-    icon:"https://cdn-icons-png.flaticon.com/512/1987/1987969.png",
+    id: "mobile",
+    label: "Mobile",
+    path: "/shop/listing",
+    icon: "https://rukminim1.flixcart.com/flap/64/64/image/22fddf3c7da4c4f4.png?q=100",
+  },
+  {
+    id: "appliances",
+    label: "Appliances",
+    path: "/shop/listing",
+    icon: "https://rukminim1.flixcart.com/fk-p-flap/64/64/image/0139228b2f7eb413.jpg?q=100",
+  },
+  {
+    id: "electonics",
+    label: "Electronics",
+    path: "/shop/listing",
+    icon: "https://images.jdmagicbox.com/quickquotes/images_main/asus-laptops-23-06-2022-008-271952148-l3wx9uq7.png",
+  },
+  {
+    id: "fashion",
+    label: "Fashion",
+    path: "/shop/listing",
+    icon: "https://static.vecteezy.com/system/resources/previews/050/817/602/non_2x/smiling-young-man-and-woman-pointing-at-camera-standing-side-view-isolate-on-transparent-background-png.png",
   },
 ];
 
@@ -213,15 +242,52 @@ export const categoryOptionsMap = {
   kids: "Kids",
   accessories: "Accessories",
   footwear: "Footwear",
+  mobile: "Mobile",
+  appliances: "Appliances",
+  electonics: "Electronics",
+  fashion: "Fashion",
 };
 
 export const brandOptionsMap = {
+  apple: "Apple",
+  samsung: "Samsung",
+  oneplus: "OnePlus",
+  xiaomi: "Xiaomi",
+  realme: "Realme",
+  vivo: "Vivo",
+  oppo: "Oppo",
+  motorola: "Motorola",
+  nokia: "Nokia",
+  asus: "Asus",
+  dell: "Dell",
+  hp: "HP",
+  lenovo: "Lenovo",
+  acer: "Acer",
+  msi: "MSI",
+  sony: "Sony",
+  lg: "LG",
+  canon: "Canon",
   nike: "Nike",
   adidas: "Adidas",
   puma: "Puma",
-  levi: "Levi",
-  zara: "Zara",
+  reebok: "Reebok",
+  woodland: "Woodland",
+  levis: "Levi's",
+  "allen-solly": "Allen Solly",
+  "us-polo": "U.S. Polo Assn.",
   "h&m": "H&M",
+  zara: "Zara",
+  boat: "Boat",
+  noise: "Noise",
+  fastrack: "Fastrack",
+  titan: "Titan",
+  casio: "Casio",
+  philips: "Philips",
+  panasonic: "Panasonic",
+  whirlpool: "Whirlpool",
+  godrej: "Godrej",
+  voltas: "Voltas",
+  daikin: "Daikin",
 };
 
 export const filterOptions = {
@@ -231,6 +297,10 @@ export const filterOptions = {
     { id: "kids", label: "Kids" },
     { id: "accessories", label: "Accessories" },
     { id: "footwear", label: "Footwear" },
+    { id: "mobile", label: "Mobile" },
+    { id: "appliances", label: "Appliances" },
+    { id: "electonics", label: "Electronics" },
+    { id: "fashion", label: "Fashion" },
   ],
   brand: [
     { id: "nike", label: "Nike" },
@@ -249,14 +319,70 @@ export const sortOptions = [
   { id: "title-ztoa", label: "Title: Z to A" },
 ];
 
+export const profileFields = [
+  {
+    name: "fullName",
+    label: "Full Name",
+    type: "text",
+    placeholder: "Enter your full name",
+    required: true,
+  },
+  {
+    name: "email",
+    label: "Email Address",
+    type: "email",
+    placeholder: "Enter your email",
+    required: true,
+    disabled: true, 
+  },
+  {
+    name: "phone",
+    label: "Mobile Number",
+    type: "tel",
+    placeholder: "Enter your phone number",
+    required: true,
+  },
+  {
+    name: "gender",
+    label: "Gender",
+    type: "select",
+    options: [
+      { value: "male", label: "Male" },
+      { value: "female", label: "Female" },
+      { value: "other", label: "Other" },
+    ],
+  },
+  {
+    name: "dob",
+    label: "Date of Birth",
+    type: "date",
+    required: false,
+  },
+ 
+ 
+  
+];
+
+
 export const addressFormControls = [
+
+   
+   {
+    name: "phone",
+    label: "Mobile Number",
+    type: "tel",
+    componentType: "input",
+    placeholder: "Enter your phone number",
+    required: true,
+  },
   {
     label: "Address",
     name: "address",
-    componentType: "input",
+    componentType: "textarea",
     type: "text",
     placeholder: "Enter your address",
   },
+  
   {
     label: "City",
     name: "city",
@@ -271,18 +397,23 @@ export const addressFormControls = [
     type: "text",
     placeholder: "Enter your pincode",
   },
-  {
-    label: "Phone",
-    name: "phone",
-    componentType: "input",
-    type: "text",
-    placeholder: "Enter your phone number",
-  },
+  
   {
     label: "Notes",
     name: "notes",
     componentType: "textarea",
     placeholder: "Enter any additional notes",
   },
+  {
+    name: "place",
+    label: "Your place",
+    componentType: "radio",
+    
+    options: [
+      { value: "home", label: "Home" },
+      { value: "work", label: "Work" },
+      
+    ],
+  },
+  
 ];
-

@@ -23,9 +23,9 @@ function FilterSidebar() {
   const [filters, setFilters] = useState({});
   const [searchParam, setSearchParam] = useSearchParams();
   const dispatch = useDispatch();
-  //  Handle category/brand checkbox change
+ 
 
-  //  Handle sort (radio input for better UX)
+ 
   const handleSort = (value) => {
     const updatedFilters = {
       ...filters,
@@ -130,7 +130,7 @@ function FilterSidebar() {
     setSearchParam(new URLSearchParams(queryString));
   }, []);
 
-  // / Render filter body (used in both desktop and mobile)
+ 
   const renderFilterBody = () => (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -143,7 +143,7 @@ function FilterSidebar() {
         </button>
       </div>
 
-      {/* Loop through all filter types */}
+      
       {Object.entries(filterOptions).map(([type, filterOptionsList]) => (
         // <Fragment key={type}>
         <div className="mb-4" key={type}>
@@ -200,7 +200,7 @@ function FilterSidebar() {
   return (
     <>
       {/* Mobile Button */}
-      <div className="d-block d-lg-none px-3 mb-3 text-end">
+      <div className="d-block d-lg-none px-3  text-end mt-3">
         <button
           className="btn btn-outline-primary"
           data-bs-toggle="offcanvas"
@@ -232,12 +232,12 @@ function FilterSidebar() {
 
       {/* Desktop Sidebar */}
       <div
-        className="d-none d-lg-block border-end p-3 sticky-top bg-white"
+        className="d-none d-lg-block border-end p-3 sticky-top bg-white mt-3"
         style={{
           top: "4rem",
           minWidth: "250px",
-          maxHeight: "90vh",
-          overflowY: "auto",
+          maxHeight: "290vh",
+          // overflowY: "auto",
         }}
       >
         {renderFilterBody()}

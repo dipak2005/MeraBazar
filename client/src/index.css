@@ -73,16 +73,15 @@ button:focus-visible {
 :root {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensures html and body take full viewport height */
-    overflow-x: hidden; /* Prevents horizontal scrollbar if not needed */
-}
+    height: 100%; 
+    overflow-x: hidden;}
 
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
-  /* overflow-y: scroll; */
+  
 }
 
 body {
@@ -155,7 +154,7 @@ footer a:hover {
 }
 
 .hover-shadow-bootstrap:hover {
-  box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.2); /* Slightly deeper */
+  box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.2); 
 }
 
 .register-hover-shadow {
@@ -163,5 +162,26 @@ footer a:hover {
 }
 
 .register-hover-shadow:hover {
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15); /* Slightly deeper on hover */
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15); 
+}
+
+
+/* .product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+*/
+.card-img-top {
+  object-fit: contain;
+  max-height: 180px;
+  width: 100%;
+} 
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #cfcfcf;
 }

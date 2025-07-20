@@ -10,7 +10,7 @@ import AdminProducts from "./pages/admin-view/Products";
 import ShoppingLayout from "./components/shopping-view/Layout";
 import NotFound from "./pages/not-found/Index";
 import ShoppingViewHome from "./pages/shopping-view/Home";
-import ShoppingViewAccount from "./pages/shopping-view/Account";
+import ShoppingViewAccount from "./pages/shopping-view/Account/Account";
 import ShoppingViewCheckout from "./pages/shopping-view/Checkout";
 import ShoppingViewListings from "./pages/shopping-view/Listings";
 import CheckAuth from "./common/CheckAuth";
@@ -18,7 +18,7 @@ import UnAuthPage from "./pages/UnAuthPage";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { checkAuth, setUserFromStorage  } from "./auth-slice";
+import { checkAuth, setUserFromStorage } from "./auth-slice";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
@@ -31,6 +31,14 @@ import SellerProduct from "./pages/seller-view/Product";
 import SellerOrder from "./pages/seller-view/Orders";
 import SellerLayout from "./components/seller-view/SellerLayout";
 import SellerRegistration from "./pages/auth/SellerRegister";
+import MensProduct from "./pages/shopping-view/MensProduct";
+import Profile from "./pages/shopping-view/Account/Profile";
+import Orders from "./pages/shopping-view/Account/Orders";
+import Wishlist from "./pages/shopping-view/Account/Whishlist";
+import Settings from "./pages/shopping-view/Account/Settings";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import ManageAddress from "./pages/shopping-view/Account/Address";
 
 
 function App() {
@@ -51,7 +59,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setUserFromStorage());
-  } , [])
+  }, []);
 
   return (
     <>
@@ -70,10 +78,12 @@ function App() {
               {/* child Route */}
               <Route path="login" element={<AuthLogin />} />
               <Route path="register" element={<AuthRegister />}>
-              
                 {/* <Route path="auth=seller" element={<AuthSeller/>}/> */}
               </Route>
-              <Route path="/auth/register/roll=seller" element={<SellerRegistration/>}/>
+              <Route
+                path="/auth/register/roll=seller"
+                element={<SellerRegistration />}
+              />
             </Route>
             {/* Admin */}
             <Route
@@ -123,9 +133,19 @@ function App() {
             >
               <Route path="listing" element={<ShoppingViewListings />} />
             </Route>
+            <Route path="/shop/account" element={<ShoppingViewAccount />}>
+              <Route index element={<Navigate to={"profile"}/>} />
+              <Route path="profile" element={<Profile toast={toast} />} />
+              <Route path="address" element={<ManageAddress  />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="logout" element={<Settings />} />
+            </Route>
+
+            
             <Route path="/shop/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
-            <Route path="/shop/account" element={<ShoppingViewAccount />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />

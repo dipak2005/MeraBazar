@@ -47,7 +47,7 @@ const addProduct = async (req, res) => {
       totalStock,
     });
 
-    console.log("Submitting Form Data", formData);
+   
 
     await newProduct.save();
 

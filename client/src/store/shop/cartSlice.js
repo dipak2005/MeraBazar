@@ -21,7 +21,7 @@ export const addToCart = createAsyncThunk(
     );
     return response.data;
   }
-);
+); 
 
 // Fetch cart products
 export const fetchCartProduct = createAsyncThunk(

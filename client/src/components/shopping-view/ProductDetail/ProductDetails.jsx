@@ -15,6 +15,7 @@ import { useState } from "react";
 import Footer from "../../../common/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import SimpleNavbar from "../../../common/Navbar";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -33,9 +34,9 @@ const ProductDetailPage = () => {
   
 
   return (
-    <div className="container-fluid bg-light px-0">
-      <ShoppingHeader />
-      <div className="container mt-1 bg-white ">
+    <div className="container-fluid bg-light px-0 ">
+      <SimpleNavbar/>
+      <div className="container mt-1 bg-white d-flex flex-column min-vh-100">
         <div className="row">
           <div className="col-md-6 mt-5">
             <ImageGallery product={product}  toast={toast}/>

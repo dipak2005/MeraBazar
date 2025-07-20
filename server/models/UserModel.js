@@ -4,7 +4,7 @@ const UserSchema = mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+
   },
 
   email: {
@@ -22,6 +22,11 @@ const UserSchema = mongoose.Schema({
       enum: ["user", "admin", "seller"],
     default: "user",
   },
+
+  phone:String,
+  gender:String,
+  dob:String,
+ 
 });
 
 const UserModel = mongoose.model("user", UserSchema);

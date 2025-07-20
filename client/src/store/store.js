@@ -4,16 +4,17 @@ import adminProductSlice from "./admin/productSlice";
 import sellerProductslice from "./seller/ProductSlice";
 import shopProductSlice from "./shop/productSlice";
 import shoppingCartSlice from "./shop/cartSlice";
+import userAddressSclice from "./shop/addressSlice";
 
 const store = configureStore({
   reducer: {
     // global reducer
     auth: authReducer,
     adminProduct: adminProductSlice,
-    sellerProduct:sellerProductslice,
+    sellerProduct: sellerProductslice,
     shopProduct: shopProductSlice,
-    shoppingcart:shoppingCartSlice,
-
+    shoppingcart: shoppingCartSlice,
+    userAddress: userAddressSclice,
   },
 });
 

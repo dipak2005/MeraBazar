@@ -26,7 +26,7 @@ function HeaderRightContent({toast}) {
 
   return (
     <div className="d-flex flex-row flex-lg-column align-items-lg-center justify-content-between justify-content-lg-start gap-3 w-100">
-      <div className="dropdown">
+      <div className="dropdown" >
         <button
           className="btn btn-primary rounded-circle dropdown-toggle no-caret d-flex align-items-center justify-content-center"
           type="button"
@@ -52,16 +52,16 @@ function HeaderRightContent({toast}) {
             Logged in as <b> {user?.username}</b>
           </li>
           <li>
-            <Link to={"/shop/account"} className="dropdown-item ">
+            <Link to={"/shop/account/profile"} className="dropdown-item ">
               <CircleUserRound />
               &nbsp; Profile
             </Link>
           </li>
           <li>
-            <a href="#" className="dropdown-item">
+            <Link to="/shop/account/settings" className="dropdown-item">
               <Settings />
               &nbsp; Settings
-            </a>
+            </Link>
           </li>
           <li>
             <button onClick={handleLogout} className="dropdown-item">
@@ -159,8 +159,8 @@ function ShoppingHeader({toast}) {
                 <HeaderRightContent toast={toast} />
               ) : (
                 <Link to={"/auth/login"}>
-                  <div className="text-primary ">
-                    <b style={{ textDecoration: "none" }}>Signin</b>
+                  <div className=" btn btn-outline-primary">
+                    <b style={{ textDecoration: "none" }}>Login</b>
                   </div>
                 </Link>
               )}

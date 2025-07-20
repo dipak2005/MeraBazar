@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductSkeleton from "../../../common/ProductSkeleton";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../../common/Footer";
+import SimpleNavbar from "../../../common/Navbar";
 
 const CartPage = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -27,52 +28,47 @@ const CartPage = () => {
     0
   );
 
-  function handleclick() {
-    navigate("/");
-  }
-
-  function handleLogin() {
-    navigate("/auth/login");
-  }
+  const handleclick = () => navigate("/");
+  const handleLogin = () => navigate("/auth/login");
+  const handleNavigate = () => navigate("/shop/checkout");
 
   return (
     <>
-      <div className=" container-fluid px-0 bg-light min-vh-100">
-        <ShoppingHeader />
-        <div className=" container my-4 vh-100">
-          <div className=" w-100 mt-4 px-3">
+      <div className="container-fluid px-0 bg-light min-vh-100 d-flex flex-column">
+        <SimpleNavbar/>
+        <div className="container my-4 flex-grow-1">
+          <div className="w-100 mt-4 px-2 px-sm-3">
             <div className="row">
               {/* Left: Cart Items */}
-              <div className={items.length === 0 ? "col-md-12" : "col-md-8"}>
+              <div
+                className={items.length === 0 ? "col-12" : "col-12 col-md-8"}
+              >
                 <div className="bg-white rounded shadow-sm">
                   <div className="bg-white p-3">
                     {isAuthenticated ? (
                       <div className="length">
-                        <h4>Mera Cart ({items.length})</h4>
+                        <h4 className="fs-5 fs-md-4">
+                          Mera Cart ({items.length})
+                        </h4>
                         <hr />
                       </div>
                     ) : null}
 
                     {items.length === 0 ? (
                       <div className="outer text-center">
-                        <div className=" img-container">
+                        <div className="img-container">
                           <img
                             src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
                             alt="empty cart"
-                            style={{
-                              height: "190px",
-                              width: "252px",
-                            }}
+                            className="img-fluid"
+                            style={{ height: "190px", width: "252px" }}
                           />
                           <p className="mt-2 text-center">
                             {!isAuthenticated
                               ? "Missing Cart items?"
                               : "Your cart is empty!"}
                           </p>
-                          <p
-                            className="text-center"
-                            style={{ fontSize: "13px" }}
-                          >
+                          <p className="text-center small">
                             {!isAuthenticated
                               ? "Login to see the items you added previously"
                               : "Add items to it now."}
@@ -89,30 +85,26 @@ const CartPage = () => {
                       )
                     ) : (
                       <div className="outer text-center">
-                        <div className=" img-container">
+                        <div className="img-container">
                           <img
                             src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
                             alt="empty cart"
-                            style={{
-                              height: "190px",
-                              width: "252px",
-                            }}
+                            className="img-fluid"
+                            style={{ height: "190px", width: "252px" }}
                           />
                           <p className="mt-2 text-center">
                             Missing Cart items?
                           </p>
-                          <p
-                            className="text-center"
-                            style={{ fontSize: "13px" }}
-                          >
+                          <p className="text-center small">
                             Login to see the items you added previously.
                           </p>
                         </div>
                       </div>
                     )}
                   </div>
+
                   <div
-                    className={`d-flex ${
+                    className={`d-flex flex-wrap ${
                       items.length === 0
                         ? "justify-content-center"
                         : "justify-content-end"
@@ -128,9 +120,9 @@ const CartPage = () => {
                       items.length === 0 ? (
                         <button
                           onClick={handleclick}
-                          className="btn m-3"
+                          className="btn m-3 w-100 w-sm-auto"
                           style={{
-                            width: "15rem",
+                            maxWidth: "15rem",
                             height: "2.8rem",
                             borderRadius: "0.2rem",
                             backgroundColor: "#2874F0",
@@ -142,11 +134,10 @@ const CartPage = () => {
                           Shop now
                         </button>
                       ) : (
-                        <button
-                          // onClick={handleLogin}
-                          className="btn m-3"
+                        <button onClick={handleNavigate}
+                          className="btn m-3 w-100 w-sm-auto"
                           style={{
-                            width: "15rem",
+                            maxWidth: "15rem",
                             height: "3.2rem",
                             borderRadius: "0.2rem",
                             backgroundColor: "#fd7e14",
@@ -161,9 +152,9 @@ const CartPage = () => {
                     ) : (
                       <button
                         onClick={handleLogin}
-                        className="btn m-3"
+                        className="btn m-3 w-100 w-sm-auto"
                         style={{
-                          width: "15rem",
+                          maxWidth: "15rem",
                           height: "3.2rem",
                           borderRadius: "0.2rem",
                           backgroundColor: "#fd7e14",
@@ -181,7 +172,7 @@ const CartPage = () => {
 
               {/* Right: Price Summary */}
               {isAuthenticated ? (
-                <div className="col-md-4">
+                <div className="col-12 col-md-4 mt-4 mt-md-0">
                   <PriceDetails cartItems={items} totalPrice={totalPrice} />
                 </div>
               ) : null}
@@ -195,54 +186,3 @@ const CartPage = () => {
 };
 
 export default CartPage;
-
-/* <div className={items.length === 0 ? "col-md-12" : "col-md-8"}>
-                <div className=" bg-white rounded shadow-sm">
-                  <div className=" bg-white p-3">
-                    {isAuthenticated ? (
-                      <div className="length">
-                        <h4>Mera Cart ({items.length})</h4>
-                        <hr />
-                      </div>
-                    ) : null}
-
-                    {items.length === 0 ? (
-                      <div className="outer text-center">
-                        <div className=" img-container">
-                          <img
-                            src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
-                            alt="empty cart"
-                            style={{
-                              height: "190px",
-                              width: "252px",
-                            }}
-                          />
-                          <p className="mt-2 text-center">
-                            {!isAuthenticated
-                              ? "Missing Cart items?"
-                              : "Your cart is empty!"}
-                          </p>
-                          <p
-                            className="text-center"
-                            style={{ fontSize: "13px" }}
-                          >
-                            {!isAuthenticated
-                              ? "Login to see the items you added previously"
-                              : "Add items to it now."}
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      items.map((item) =>
-                        isLoading ? (
-                          <ProductSkeleton key={item?.productId} />
-                        ) : (
-                          <CartItem key={item?.productId} item={item} />
-                        )
-                      )
-                    )}
-                  </div>
-                 
-                </div>
-              </div>
-*/

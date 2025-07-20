@@ -11,6 +11,7 @@ const AdminProductRouter = require("./routes/admin/productRoute");  // for Admin
 const SellerProductRouter = require("./routes/seller/ProductRoute"); // for seller : product
 const ShopProductRouter = require("./routes/shop/productRoute");  // for Shop : product
 const CartRouter = require("./routes/shop/cartRoute");  // for Shop : cart
+const UserAddressRouter = require("./routes/shop/addressRoute"); // for Shop : store user's address
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -53,6 +54,7 @@ app.use("/api/seller/products",SellerProductRouter);
 app.use("/api/shop/products",ShopProductRouter);
 app.use("/api/products",ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart",CartRouter);
+app.use("/api/shop/address",UserAddressRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

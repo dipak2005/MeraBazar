@@ -12,11 +12,11 @@ const initialState = {
   username: "",
   email: "",
   password: "",
-  confirmPassword: "", // Needed for password match check
+  // confirmPassword: "",
 };
 
 function AuthRegister() {
-  const [searchParams] = useSearchParams();
+  
   const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
@@ -26,14 +26,14 @@ function AuthRegister() {
   function onSubmit(e) {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   toast.error("Passwords do not match");
+    //   return;
+    // }
 
     dispatch(registeredUser(formData)).then((res) => {
       if (res?.payload?.success) {
-         const role = res.payload.user.role;
+         const role = res?.payload?.user.role;
         toast.success(res.payload.message || "Registration Successful!");
         role === "admin"
           ? navigate("/admin/dashboard")
