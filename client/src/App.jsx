@@ -40,6 +40,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import ManageAddress from "./pages/shopping-view/Account/Address";
 import PaypalRetunPage from "./pages/shopping-view/Paypal-Return";
+import PaymentSuccess from "./pages/shopping-view/Payment-Success";
 
 
 function App() {
@@ -133,8 +134,12 @@ function App() {
               }
             >
               <Route path="listing" element={<ShoppingViewListings />} />
+             
             </Route>
+             <Route path="/shop/paypal-return" element={<PaypalRetunPage/>}/>
+              <Route path="/shop/payment-success" element={<PaymentSuccess/>}/>
             <Route path="/shop/account" element={<ShoppingViewAccount />}>
+           
               <Route index element={<Navigate to={"profile"}/>} />
               <Route path="profile" element={<Profile toast={toast} />} />
               <Route path="address" element={<ManageAddress  />} />
@@ -148,7 +153,7 @@ function App() {
             <Route path="/shop/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
-            <Route path="/shop/paypal-return" element={<PaypalRetunPage/>}/>
+            
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

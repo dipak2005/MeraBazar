@@ -22,14 +22,14 @@ const createOrder = async (req, res) => {
 
     // totalprice
     const totalPrice = cartItems.reduce((acc, item) => {
-      const basePrice = parseFloat(item.salePrice || item.price || 0);
+      const basePrice = parseFloat( item.price || 0);
       return acc + basePrice * item.quantity;
     }, 0);
 
     // discount amount
     const discount = cartItems.reduce((acc, item) => {
       const discountRate = item?.discount || 0;
-      const base = parseFloat(item.salePrice || 0);
+      const base = parseFloat(item.price || 0);
       const itemDiscount = ((base * discountRate) / 100) * item.quantity;
       return acc + itemDiscount;
     }, 0);
@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
 
     const itemList = cartItems.map((item) => {
       const discountRate = item?.discount || 0;
-      const basePrice = parseFloat(item.salePrice || item.price || 0);
+      const basePrice = parseFloat(item.price || 0);
       const discountedPrice = basePrice * (1 - discountRate / 100);
       return {
         name: item.title,
@@ -61,8 +61,8 @@ const createOrder = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:3000/shop/paypal-return",
-        cancel_url: "http://localhost:3000/shop/paypal-cancel",
+        return_url: "http://localhost:5173/shop/paypal-return",
+        cancel_url: "http://localhost:5173/shop/paypal-cancel",
       },
       transactions: [
         {
@@ -188,11 +188,12 @@ const capturePayment = async (req, res) => {
 
 const getAllOrdersByUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
-    const orders = await OrderModel.find({ userId });
+    
+    const orders = await OrderModel.find({userId });
 
-    if (!orders.length) {
+      if (!orders || orders.length === 0) { 
       return res.status(404).json({
         success: false,
         message: "No Orders found!",

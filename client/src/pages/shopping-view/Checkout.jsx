@@ -28,7 +28,8 @@ function ShoppingViewCheckout() {
   const [formData, setFormData] = useState(initialState);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-
+  const {approvalURL} = useSelector((state) => state.userOrder);
+  const [isPaymentStart, setIsPaymentStart] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
@@ -190,7 +191,18 @@ function ShoppingViewCheckout() {
 
     dispatch(createNewOrder(orderData)).then((data) => {
       console.log(data, "dipak");
+
+      if (data?.payload.success) {
+        setIsPaymentStart(true);
+
+      }else {
+        setIsPaymentStart(false);
+      }
     });
+  }
+
+  if (approvalURL) {
+    window.location.href=approvalURL;
   }
 
   return (
@@ -254,7 +266,7 @@ function ShoppingViewCheckout() {
                               item.place == "home" ? "success" : "primary"
                             } text-white text-uppercase`}
                           >
-                            {item.place || "Home"}
+                            {item.place}
                           </span>{" "}
                           <span className="ms-2">{item.phone}</span>
                           <div className="mt-1">

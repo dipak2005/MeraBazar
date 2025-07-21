@@ -35,7 +35,7 @@ const OrderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cart",
   },
-});
+},{ timestamps: true });
 
 const OrderModel = new mongoose.model("order", OrderSchema);
 

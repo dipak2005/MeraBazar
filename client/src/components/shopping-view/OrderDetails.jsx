@@ -6,7 +6,7 @@ const initialFormData = {
   status: "",
 };
 
-function OrderDetails({ showModal, setShowModal }) {
+function OrderDetailsModal({ showModal, setShowModal }) {
   const [formData, setFormData] = useState(initialFormData);
 
   function handleUpdateStatus(event) {
@@ -93,4 +93,4 @@ function OrderDetails({ showModal, setShowModal }) {
   );
 }
 
-export default OrderDetails;
+export default OrderDetailsModal;
