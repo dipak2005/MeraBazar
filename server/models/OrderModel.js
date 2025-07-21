@@ -9,6 +9,7 @@ const OrderSchema = new mongoose.Schema({
       image: String,
       price: String,
       quantity: Number,
+      discount: Number,
     },
   ],
   addressInfo: {
@@ -23,13 +24,19 @@ const OrderSchema = new mongoose.Schema({
   paymentMethod: String,
   paymentStatus: String,
   totalAmount: Number,
+  subtotal: Number,
+  discountAmount: Number,
+  shippingCharge: Number,
   orderDate: Date,
   orderUpdateDate: Date,
   paymentId: String,
   payerId: String,
+  cartId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cart",
+  },
 });
 
-
-const OrderModel = new mongoose.model("order",OrderSchema);
+const OrderModel = new mongoose.model("order", OrderSchema);
 
 module.exports = OrderModel;

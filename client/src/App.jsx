@@ -39,6 +39,7 @@ import Settings from "./pages/shopping-view/Account/Settings";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import ManageAddress from "./pages/shopping-view/Account/Address";
+import PaypalRetunPage from "./pages/shopping-view/Paypal-Return";
 
 
 function App() {
@@ -147,6 +148,7 @@ function App() {
             <Route path="/shop/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
+            <Route path="/shop/paypal-return" element={<PaypalRetunPage/>}/>
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

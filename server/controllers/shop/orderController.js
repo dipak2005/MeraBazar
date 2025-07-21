@@ -37,20 +37,23 @@ const createOrder = async (req, res) => {
     const deliveryCharge = totalPrice > 500 ? 0 : 40;
     const grandTotal = totalPrice - discount + deliveryCharge;
 
-     const itemList = cartItems.map((item) => {
+    const itemList = cartItems.map((item) => {
+      const discountRate = item?.discount || 0;
       const basePrice = parseFloat(item.salePrice || item.price || 0);
+      const discountedPrice = basePrice * (1 - discountRate / 100);
       return {
         name: item.title,
         sku: item.productId,
-        price: basePrice.toFixed(2),
+        price: discountedPrice.toFixed(2),
+        // price: basePrice,
         currency: "USD",
         quantity: item.quantity,
       };
     });
 
-    // const calculatedTotal = itemList.reduce((acc, item) => {
-    //   return acc + parseFloat(item.price) * item.quantity;
-    // }, 0);
+    const subtotal = itemList.reduce((acc, item) => {
+      return acc + parseFloat(item.price) * item.quantity;
+    }, 0);
 
     const create_payment_json = {
       intent: "sale",
@@ -69,11 +72,20 @@ const createOrder = async (req, res) => {
           amount: {
             currency: "USD",
             total: grandTotal.toFixed(2),
+            details: {
+              subtotal: subtotal.toFixed(2),
+              shipping: deliveryCharge.toFixed(2),
+              tax: "0.00",
+            },
           },
+
           description: "MeraBazar Order",
         },
       ],
     };
+
+    console.log("Final PayPal Payment Payload:");
+    console.log(JSON.stringify(create_payment_json, null, 2));
 
     paypal.payment.create(create_payment_json, async (error, paymentInfo) => {
       if (error) {
@@ -92,6 +104,9 @@ const createOrder = async (req, res) => {
           paymentMethod,
           paymentStatus,
           totalAmount: grandTotal.toFixed(2),
+          subtotal: totalPrice.toFixed(2),
+          discountAmount: discount.toFixed(2),
+          shippingCharge: deliveryCharge.toFixed(2),
           orderDate,
           orderUpdateDate,
           paymentId,

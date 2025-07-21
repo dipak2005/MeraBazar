@@ -163,7 +163,7 @@ function ShoppingViewCheckout() {
           image: singleCartItem?.image,
           price: discountedPrice.toFixed(2),
           quantity: singleCartItem?.quantity,
-          // discount:singleCartItem?.discount
+          // discount: singleCartItem?.discount,
         };
       }),
       addressInfo: {
@@ -178,6 +178,8 @@ function ShoppingViewCheckout() {
       paymentMethod: "paypal",
       paymentStatus: "pending",
       totalAmount: grandTotal.toFixed(2),
+      subtotal: totalPrice.toFixed(2),
+      shippingCharge: deliveryCharge.toFixed(2),
       orderDate: new Date(),
       orderUpdateDate: new Date(),
       paymentId: "",
