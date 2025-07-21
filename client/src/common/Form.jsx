@@ -51,7 +51,7 @@ function Form({
       case types.SELECT:
         return (
           <select
-            className="form-select"
+            className="form-select card rounded-2"
             name={getControlItem.name}
             id={getControlItem.name}
             value={value}
@@ -59,7 +59,7 @@ function Form({
             required
           >
             <option value="">
-              -- Select {getControlItem.label || getControlItem.name} --
+              --- Select {getControlItem.label || getControlItem.name} ---
             </option>
             {getControlItem.options?.map((optionItem) => (
               <option

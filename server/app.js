@@ -12,6 +12,7 @@ const SellerProductRouter = require("./routes/seller/ProductRoute"); // for sell
 const ShopProductRouter = require("./routes/shop/productRoute");  // for Shop : product
 const CartRouter = require("./routes/shop/cartRoute");  // for Shop : cart
 const UserAddressRouter = require("./routes/shop/addressRoute"); // for Shop : store user's address
+const UserOrderRouter = require("./routes/shop/orderRoute"); // for shop : manage User's orders 
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -55,6 +56,7 @@ app.use("/api/shop/products",ShopProductRouter);
 app.use("/api/products",ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart",CartRouter);
 app.use("/api/shop/address",UserAddressRouter);
+app.use("/api/shop/order",UserOrderRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

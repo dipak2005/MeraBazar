@@ -5,7 +5,7 @@ import { editUser, fetchUser, loggedinUser } from "../../../auth-slice/index";
 
 const Profile = ({ toast }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user ,isLoading} = useSelector((state) => state.auth);
   const [form, setForm] = useState({
     fullName: "",
     email: "",

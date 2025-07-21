@@ -18,7 +18,7 @@ function ProductTile({
           style={{ height: "200px", width: "100%", objectFit: "contain" }}
         />
       </div>
-      <div className="card-body px-2 py-3">
+      <div className="card-body px-2 py-3 card h-100 border-0 rounded-2 product-card" style={{ transition: "all 0.3s ease-in-out" }}>
         <h6 className="card-title mb-1 text-truncate">{product?.title}</h6>
         <p className="text-muted small mb-2">{product?.brand}</p>
         <div className="d-flex align-items-center">

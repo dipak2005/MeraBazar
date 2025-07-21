@@ -33,7 +33,7 @@ const registeredUser = async (req, res) => {
     await newUser.save();
     res.status(201).json({
       success: true,
-      message: "User saved Successfully",
+      message: "Registration successful!",
     });
   } catch (e) {
     console.log(e);
@@ -68,7 +68,7 @@ const loginUser = async (req, res) => {
       checkUser.password
     );
     if (!checkUserPasswordMatch) {
-      return res.status(401).json({
+      return res.json({
         success: false,
         message: "Incorrect password. Please try again.",
       });
@@ -82,12 +82,13 @@ const loginUser = async (req, res) => {
         username: checkUser.username,
       },
       process.env.CLIENT_SECRET_KEY,
-      { expiresIn: "7d" } //  7- days cookies will store and after user will need to login again
+      { expiresIn: "24h" } //  7- days cookies will store and after user will need to login again
     );
 
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
       success: true,
       message: "Logged in Successfully",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       user: {
         email: checkUser.email,

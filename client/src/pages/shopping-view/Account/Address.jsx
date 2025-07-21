@@ -38,7 +38,7 @@ import {
 //   },
 // ];
 
-const initialState = {
+export const initialState = {
   phone: "",
   address: "",
   city: "",
@@ -55,7 +55,7 @@ const ManageAddress = () => {
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.userAddress);
   const navigate = useNavigate();
-  const { isLoading } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.userAddress);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -191,7 +191,7 @@ const ManageAddress = () => {
         )}
       </div>
 
-      <Modal
+      {/* <Modal
         show={showModal}
         onHide={() => {
           setShowModal(false), setFormData(initialState);
@@ -207,7 +207,7 @@ const ManageAddress = () => {
         <Modal.Body>
           {/* onChange={(e) => setForm({ ...form, name: e.target.value })} */}
 
-          <Form
+      {/* <Form
             formControls={addressFormControls}
             formData={formData}
             setFormData={setFormData}
@@ -223,7 +223,16 @@ const ManageAddress = () => {
             // }}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
+      <Model
+        onSubmit={onSubmit}
+        isFormValid={isFormValid}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        formData={formData}
+        setFormData={setFormData}
+        currentEditedId={currentEditedId}
+      />
     </div>
   );
 };
@@ -308,7 +317,7 @@ const AddressesCard = ({ address, onEdit, onDelete, onSetDefault }) => {
   );
 };
 
-const AddressCardSkeleton = () => {
+export const AddressCardSkeleton = () => {
   return (
     <div className="card p-3 mb-3 shadow-sm">
       <div className="d-flex justify-content-between">
@@ -335,14 +344,60 @@ const AddressCardSkeleton = () => {
         <span className="placeholder col-5 rounded"></span>
       </div>
 
-      <div className="d-flex gap-2">
+      {/* <div className="d-flex gap-2">
         <div className="placeholder-glow">
           <span className="placeholder btn btn-outline-secondary disabled col-4"></span>
         </div>
         <div className="placeholder-glow">
           <span className="placeholder btn btn-outline-danger disabled col-4"></span>
         </div>
-      </div>
+      </div> */}
     </div>
+  );
+};
+
+export const Model = ({
+  onSubmit,
+  isFormValid,
+  showModal,
+  setShowModal,
+  formData,
+  setFormData,
+  currentEditedId,
+ 
+}) => {
+  const { isLoading } = useSelector((state) => state.userAddress);
+  return (
+    <Modal
+      show={showModal}
+      onHide={() => {
+        setShowModal(false), setFormData(initialState);
+      }}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {currentEditedId !== null ? "Update your address" : "Add new address"}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {/* onChange={(e) => setForm({ ...form, name: e.target.value })} */}
+
+        <Form
+          formControls={addressFormControls}
+          formData={formData}
+          setFormData={setFormData}
+          buttonText={
+            currentEditedId !== null ? "Update address" : "Add new address"
+          }
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          isBtnDisabled={!isFormValid()}
+          // onSuccess={() => {
+          //   setShowModal(false);
+          //   setFormData(initialState);
+          // }}
+        />
+      </Modal.Body>
+    </Modal>
   );
 };
