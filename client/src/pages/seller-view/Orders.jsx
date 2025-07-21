@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Card, Modal, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Card, Modal, Placeholder, Table } from "react-bootstrap";
 import OrderDetails from "../../components/seller-view/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,13 +11,13 @@ function SellerOrder() {
   const { user } = useSelector((state) => state.auth);
   const { orderList , isLoading } = useSelector((state) => state.userOrder);
 
-  useEffect(() => {
-    if (user?.id) {
-      dispatch(getAllOrdersByUserId(user?.id));
-    }
-  }, [dispatch, user?.id]);
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     dispatch(getAllOrdersByUserId(user?.id));
+  //   }
+  // }, [dispatch, user?.id]);
   return (
-     isLoading?<Card className="w-100">
+     !isLoading?<Card className="w-100">
       <h5 className="text-muted p-3">Order Histroy</h5>
       <div>
         <Table responsive className="table table-bordered align-middle">
