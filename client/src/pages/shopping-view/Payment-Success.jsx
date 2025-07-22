@@ -1,17 +1,36 @@
 import { CheckCircle } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { CheckCircle } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-
+import {
+  getAllOrdersByUserId,
+  getOrderDetails,
+} from "../../store/shop/orderSlice";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
-   const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
-    const { orderList, isLoading } = useSelector((state) => state.userOrder);
-  
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { orderDetails, isLoading } = useSelector((state) => state.userOrder);
+
+  useEffect(() => {
+    const fetchLatestOrder = async () => {
+      if (user?.id) {
+        const resultAction = dispatch(getAllOrdersByUserId(user?.id));
+        const orders = resultAction?.payload?.data;
+
+        if (orders && orders.length > 0) {
+          const latestOrder = orders[orders.length - 1];
+          dispatch(getOrderDetails(latestOrder?._id));
+        }
+      }
+    };
+    fetchLatestOrder();
+  }, [dispatch, user]);
+  console.log("User:", user);
+  console.log("OrderDetails:", orderDetails);
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center min-vh-100">
@@ -26,20 +45,25 @@ const PaymentSuccess = () => {
 
         <div className="text-start mt-3">
           <h5>Order Summary</h5>
-          <p><strong>Order ID:</strong> MBZ123456</p>
-          <p><strong>Total Paid:</strong> ₹1,650.00</p>
-          <p><strong>Payment Mode:</strong> PayPal</p>
+          <p>
+            <strong>Order ID:</strong> {orderDetails?._id}
+          </p>
+          <p>
+            <strong>Total Paid:</strong> ₹{" "}
+            {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
+          </p>
+          <p>
+            <strong>Payment Mode:</strong> {orderDetails?.paymentMethod}
+          </p>
         </div>
 
         <button
-         
           className="mt-3 btn btn-success"
           onClick={() => navigate("/shop/account/orders")}
         >
           View My Orders
         </button>
         <button
-        
           className="mt-2 btn btn-outline-primary"
           onClick={() => navigate("/")}
         >

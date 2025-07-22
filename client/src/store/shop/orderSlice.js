@@ -49,7 +49,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
 );
 
 export const getOrderDetails = createAsyncThunk(
-  "/order/capturePayment",
+  "/order/getOrderDetails",
   async (id) => {
     const response = await axios.get(
       `http://localhost:3000/api/shop/order/details/${id}`
