@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOrdersByUserId,
   getOrderDetails,
+  resetOrderDetails,
 } from "../../../store/shop/orderSlice";
 import OrderDetailsModal from "../../../components/shopping-view/OrderDetails";
 
@@ -14,34 +15,33 @@ function Orders() {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { orderList, isLoading ,OrderDetails } = useSelector((state) => state.userOrder);
+  const { orderList, isLoading, orderDetails } = useSelector(
+    (state) => state.userOrder
+  );
 
 
   
-  const handleViewDetail = (order) => {
-    dispatch(getOrderDetails(order?._id))
-
-    setSelectedOrder(order);
-     if (OrderDetails !== null) {
-      setShowModal(true);
-     }
-  };
-
-  // useEffect(()=> {
-    
-  //   if (OrderDetails !== null) {
-  //      setShowModal(true);
-  //   }
-  // },[OrderDetails])
-
-
   useEffect(() => {
     if (user?.id) {
       dispatch(getAllOrdersByUserId(user?.id));
     }
   }, [dispatch, user?.id]);
 
-   console.log(OrderDetails, "orderDetails");
+
+  const handleViewDetail = (getId) => {
+    dispatch(getOrderDetails(getId));
+
+    
+  };
+
+  useEffect(() => {
+    if (orderDetails !== null) {
+      setShowModal(true);
+      setSelectedOrder(orderDetails?._id);
+    }
+  }, [orderDetails]);
+
+  console.log(orderDetails, "orderDetails");
 
 
   return !isLoading ? (
@@ -83,20 +83,22 @@ function Orders() {
                   <td>
                     <span
                       className={`badge px-1 py-2 bg-${
-                        order?.orderStatus !== "pending"
-                          ? "success"
-                          : "primary"
+                        order?.orderStatus !== "pending" ? "success" : "primary"
                       } text-white text-uppercase`}
                     >
                       {order?.orderStatus}
                     </span>
                   </td>
                   <td className="px-5">
-                   <b>₹{order.totalAmount.toLocaleString("en-IN")}</b> 
+                    <b>₹{order.totalAmount.toLocaleString("en-IN")}</b>
                   </td>
                   <td className="px-5">
                     <button
-                      onClick={() => handleViewDetail(order)}
+                      onChange={() => {
+                        setShowModal(false);
+                        dispatch(resetOrderDetails());
+                      }}
+                      onClick={() => handleViewDetail(order?._id)}
                       className="btn btn-outline-primary"
                     >
                       View Detail
@@ -121,7 +123,10 @@ function Orders() {
         </Modal.Header>
         <Modal.Body>
           {selectedOrder && (
-            <OrderDetailsModal order={selectedOrder} setShowModal={setShowModal} />
+            <OrderDetailsModal orderDetails={orderDetails}
+              order={selectedOrder}
+              setShowModal={setShowModal}
+            />
           )}
         </Modal.Body>
       </Modal>

@@ -3,6 +3,7 @@ import ProductTile from "../../common/ProductTile";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProduct,
 } from "../../store/seller/ProductSlice";
