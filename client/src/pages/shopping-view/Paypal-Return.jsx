@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, Container, Spinner } from "react-bootstrap";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SimpleNavbar from "../../common/Navbar";
 import { useDispatch } from "react-redux";
 import { capturePayment } from "../../store/shop/orderSlice";
@@ -17,18 +17,16 @@ function PaypalRetunPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (paymentId && payerId) {
-        const orderId  = JSON.parse(
-          sessionStorage.getItem("currentOrderId")
-        );
+        const orderId = JSON.parse(sessionStorage.getItem("currentOrderId"));
 
-        dispatch(
-          capturePayment({ paymentId, payerId, orderId  })
-        ).then((data) => {
-          if (data.payload.success) {
-            sessionStorage.removeItem("currentOrderId");
-            window.location.href = "/shop/payment-success";
+        dispatch(capturePayment({ paymentId, payerId, orderId })).then(
+          (data) => {
+            if (data.payload.success) {
+              sessionStorage.removeItem("currentOrderId");
+              window.location.href = `/shop/payment-success/${orderId}`;
+            }
           }
-        });
+        );
       }
     }, 5000);
 

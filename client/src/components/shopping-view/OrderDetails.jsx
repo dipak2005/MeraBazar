@@ -26,7 +26,7 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
             {new Date(orderDetails.createdAt).toLocaleDateString()}
           </div>
         </div>
-          <div className="row mb-2">
+        <div className="row mb-2">
           <div className="col-6">Shipping Charge</div>
           <div className="col-6 fw-semibold text-end">
             ₹ {orderDetails?.shippingCharge.toLocaleString("en-IN")}/-
@@ -38,7 +38,7 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
             ₹ {orderDetails.totalAmount.toLocaleString("en-IN")}/-
           </div>
         </div>
-        
+
         <div className="row">
           <div className="col-6">Order Status</div>
           <div className="col-6 text-end">
@@ -79,14 +79,14 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
                 </div>
               </div>
               <div className="fw-semibold align-self-center">
-               price: ₹ {item?.price.toLocaleString("en-IN")}/ Qty
+                price: ₹ {item?.price.toLocaleString("en-IN")}/{" "}
+                {item.quantity > 1 ?"Qty" : "-"}
               </div>
               {/* <div>
                 <div className="fw-semibold align-self-center">
                    Total: ₹ {orderDetails.subtotal.toLocaleString("en-IN")}/-
                 </div>
               </div> */}
-              
             </li>
           ))}
         </ul>
@@ -110,7 +110,7 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
         <div className="mb-2">
           <strong>Phone:</strong> {orderDetails?.addressInfo?.phone}
         </div>
-       
+
         {/* <div>
           <strong>Notes:</strong>{" "}
           {orderDetails?.addressInfo?.notes || "No notes"}
@@ -122,7 +122,9 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
         <h6 className="fw-bold mb-3">Payment Information</h6>
         <div className="row mb-2">
           <div className="col-6">PayerID</div>
-          <div className="col-6 fw-semibold text-end">{orderDetails?.payerId || "NA"}</div>
+          <div className="col-6 fw-semibold text-end">
+            {orderDetails?.payerId || "NA"}
+          </div>
         </div>
         <div className="row mb-2">
           <div className="col-6">PaymentID</div>
@@ -136,10 +138,10 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
             ₹ {orderDetails.totalAmount.toLocaleString("en-IN")}
           </div>
         </div> */}
-          <div className="row mb-2">
+        <div className="row mb-2">
           <div className="col-6">Payment Method</div>
           <div className="col-6 fw-semibold text-end">
-           {orderDetails?.paymentMethod}
+            {orderDetails?.paymentMethod}
           </div>
         </div>
         <div className="row">

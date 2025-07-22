@@ -137,7 +137,7 @@ function App() {
              
             </Route>
              <Route path="/shop/paypal-return" element={<PaypalRetunPage/>}/>
-              <Route path="/shop/payment-success" element={<PaymentSuccess/>}/>
+              <Route path="/shop/payment-success/:orderId" element={<PaymentSuccess/>}/>
             <Route path="/shop/account" element={<ShoppingViewAccount />}>
            
               <Route index element={<Navigate to={"profile"}/>} />

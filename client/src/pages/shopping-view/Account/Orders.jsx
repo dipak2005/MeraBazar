@@ -20,6 +20,9 @@ function Orders() {
   );
 
 
+  const handleViewDetail = (getId) => {
+    dispatch(getOrderDetails(getId));  
+  };
   
   useEffect(() => {
     if (user?.id) {
@@ -28,11 +31,6 @@ function Orders() {
   }, [dispatch, user?.id]);
 
 
-  const handleViewDetail = (getId) => {
-    dispatch(getOrderDetails(getId));
-
-    
-  };
 
   useEffect(() => {
     if (orderDetails !== null) {

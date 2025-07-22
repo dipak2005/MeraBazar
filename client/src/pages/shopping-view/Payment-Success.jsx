@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { CheckCircle } from "react-bootstrap-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getAllOrdersByUserId,
   getOrderDetails,
@@ -14,23 +14,14 @@ const PaymentSuccess = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { orderDetails, isLoading } = useSelector((state) => state.userOrder);
+  const {orderId} = useParams();
 
   useEffect(() => {
-    const fetchLatestOrder = async () => {
-      if (user?.id) {
-        const resultAction = dispatch(getAllOrdersByUserId(user?.id));
-        const orders = resultAction?.payload?.data;
-
-        if (orders && orders.length > 0) {
-          const latestOrder = orders[orders.length - 1];
-          dispatch(getOrderDetails(latestOrder?._id));
-        }
+      if (orderId) {
+        dispatch(getOrderDetails(orderId));
       }
-    };
-    fetchLatestOrder();
   }, [dispatch, user]);
-  console.log("User:", user);
-  console.log("OrderDetails:", orderDetails);
+
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center min-vh-100">
@@ -46,14 +37,14 @@ const PaymentSuccess = () => {
         <div className="text-start mt-3">
           <h5>Order Summary</h5>
           <p>
-            <strong>Order ID:</strong> {orderDetails?._id}
+            <strong>Order ID: </strong> {orderDetails?._id}
           </p>
           <p>
-            <strong>Total Paid:</strong> ₹{" "}
+            <strong>Total Paid: </strong>  ₹{" "}
             {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
           </p>
           <p>
-            <strong>Payment Mode:</strong> {orderDetails?.paymentMethod}
+            <strong>Payment Mode:</strong>  {orderDetails?.paymentMethod}
           </p>
         </div>
 
