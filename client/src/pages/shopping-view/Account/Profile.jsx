@@ -2,53 +2,63 @@ import React, { useEffect, useState } from "react";
 import { profileFields } from "../../../config/index";
 import { useDispatch, useSelector } from "react-redux";
 import { editUser, fetchUser, loggedinUser } from "../../../auth-slice/index";
+import { getUserByIdForSeller } from "../../../store/seller/UserSlice";
 
 const Profile = ({ toast }) => {
   const dispatch = useDispatch();
-  const { user ,isLoading} = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
+  const { userdetail } = useSelector((state) => state.getUser);
   const [form, setForm] = useState({
-    fullName: "",
+    username: "",
     email: "",
     phone: "",
     gender: "",
     dob: "",
-    address: "",
   });
 
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
+      dispatch(getUserByIdForSeller(user?.id));
+    }
+  }, [user?.id, dispatch]);
+
+  console.log(userdetail, "Fetched user by ID");
+
+  useEffect(() => {
+    if (userdetail) {
       setForm({
-        fullName: user.username.toUpperCase() || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        gender: user.gender || "",
-        dob: user.dob || "",
-        address: user.address || "",
+        fullName: userdetail?.username?.toUpperCase() || "",
+        email: userdetail.email || "",
+        phone: userdetail.phone || "",
+        gender: userdetail.gender || "",
+        dob: userdetail.dob || "",
+        // address: user.address || "",
       });
     }
-  }, [user]);
+  }, [userdetail]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await dispatch(editUser({ id: user?.id, formData: form })).unwrap();
-    toast.success("Profile updated successfully!");
+    try {
+      const res = await dispatch(
+        editUser({ id: user?.id, formData: form })
+      ).unwrap();
+      console.log(form);
+      toast.success("Profile updated successfully!");
 
-    await dispatch(fetchUser()); 
-  } catch (err) {
-    console.error(err);
-    toast.error("Profile update failed!");
-  }
+      await dispatch(getUserByIdForSeller(user?.id));
+    } catch (err) {
+      console.error(err);
+      toast.error("Profile update failed!");
+    }
+  };
 
-  
-};
-
-
+  console.log("user", user);
 
   return (
     <div className="p-3">
@@ -86,7 +96,7 @@ const handleSubmit = async (e) => {
                   type={field.type}
                   className="form-control"
                   name={field.name}
-                  value={form[field.name]}
+                  value={form[field.name] || ""}
                   onChange={handleChange}
                   placeholder={field.placeholder}
                   disabled={field.disabled}

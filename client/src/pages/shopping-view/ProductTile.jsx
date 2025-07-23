@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function ProductTile({ product, handleAddToCart, toast }) {
- 
   return (
     <div
       className="card h-100 border-0 rounded-0 product-card"
@@ -14,13 +13,35 @@ function ProductTile({ product, handleAddToCart, toast }) {
         rel="noopener noreferrer"
         target="_blank"
       >
+
+        
+         {product?.totalStock === 0 ? (
+            <span className="badge bg-danger position-absolute top-0 start-0 m-2">
+              Out Of Stock
+            </span>
+          ) : product?.totalStock < 10 ? (
+            <span className="badge bg-warning position-absolute top-0 start-0 m-2">
+              {`Only ${product?.totalStock} items left`}
+            </span>
+          ) : product?.salePrice > 500 ? (
+            <span className="badge bg-success position-absolute top-0 start-0 m-2">
+              Best Seller
+            </span>
+          ) : null}
+        
         {/* Badge */}
-        {product.salePrice > 500 && (
-          <span className="badge bg-danger position-absolute top-0 start-0 m-2">
+       {/* { product.totalStock !== 0?
+        product.salePrice > 500 && (
+          <span className="badge bg-success position-absolute top-0 start-0 m-2">
             Best Seller
           </span>
-        )}
-
+        )
+        :null}
+        {product.totalStock === 0 && (
+          <span className="badge bg-danger position-absolute top-0 start-0 m-2">
+            Out of Stock
+          </span>
+        )} */}
         {/* Product Image */}
         <img
           src={product?.image}
@@ -51,7 +72,6 @@ function ProductTile({ product, handleAddToCart, toast }) {
             </>
           )}
         </div>
-        
       </div>
     </div>
   );

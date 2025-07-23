@@ -19,18 +19,15 @@ function Orders() {
     (state) => state.userOrder
   );
 
-
   const handleViewDetail = (getId) => {
-    dispatch(getOrderDetails(getId));  
+    dispatch(getOrderDetails(getId));
   };
-  
+
   useEffect(() => {
     if (user?.id) {
       dispatch(getAllOrdersByUserId(user?.id));
     }
   }, [dispatch, user?.id]);
-
-
 
   useEffect(() => {
     if (orderDetails !== null) {
@@ -40,7 +37,6 @@ function Orders() {
   }, [orderDetails]);
 
   console.log(orderDetails, "orderDetails");
-
 
   return !isLoading ? (
     <Card className="p-3">
@@ -81,7 +77,13 @@ function Orders() {
                   <td>
                     <span
                       className={`badge px-1 py-2 bg-${
-                        order?.orderStatus !== "pending" ? "success" : "primary"
+                        order?.orderStatus === "pending"
+                          ? "primary"
+                          : order?.orderStatus === "rejected"
+                          ? "danger"
+                          : order?.orderStatus === "delivered"
+                          ? "success"
+                          : "info"
                       } text-white text-uppercase`}
                     >
                       {order?.orderStatus}
@@ -121,7 +123,8 @@ function Orders() {
         </Modal.Header>
         <Modal.Body>
           {selectedOrder && (
-            <OrderDetailsModal orderDetails={orderDetails}
+            <OrderDetailsModal
+              orderDetails={orderDetails}
               order={selectedOrder}
               setShowModal={setShowModal}
             />

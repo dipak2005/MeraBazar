@@ -5,7 +5,7 @@ const initialFormData = {
   status: "",
 };
 
-function OrderDetailsModal({ orderDetails, setShowModal }) {
+function OrderDetailsModal({ selectedOrder,orderDetails }) {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
 
@@ -44,7 +44,13 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
           <div className="col-6 text-end">
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails.orderStatus === "pending" ? "primary" : "success"
+                orderDetails?.orderStatus === "pending"
+                          ? "primary"
+                          : orderDetails?.orderStatus === "rejected"
+                          ? "danger"
+                          : orderDetails?.orderStatus === "delivered"
+                          ? "success"
+                          : "info"
               } text-white`}
             >
               {orderDetails.orderStatus}
@@ -149,7 +155,13 @@ function OrderDetailsModal({ orderDetails, setShowModal }) {
           <div className="col-6 text-end">
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails.orderStatus === "pending" ? "primary" : "success"
+                orderDetails?.paymentStatus === "pending"
+                          ? "primary"
+                          : orderDetails?.paymentStatus === "rejected"
+                          ? "danger"
+                          : orderDetails?.paymentStatus === "paid"
+                          ? "success"
+                          : "info"
               } text-white`}
             >
               {orderDetails.paymentStatus}

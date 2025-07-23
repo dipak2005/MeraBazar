@@ -46,7 +46,7 @@ const addToCart = async (req, res) => {
     await cart.save();
     await cart.populate({
       path: "items.productId",
-      select: "image title price salePrice discount",
+      select: "image title price salePrice discount totalStock",
     });
 
     const populatedItems = cart.items.map((item) => ({
@@ -57,6 +57,7 @@ const addToCart = async (req, res) => {
       salePrice: item.productId.salePrice,
       quantity: item.quantity,
       discount: item.discount,
+      totalStock:item.totalStock,
     }));
 
     res.status(200).json({
@@ -85,7 +86,7 @@ const fetchCartItems = async (req, res) => {
 
     const cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
-      select: "image title price salePrice discount",
+      select: "image title price salePrice discount totalStock",
     });
 
     if (!cart) {
@@ -112,6 +113,7 @@ const fetchCartItems = async (req, res) => {
       salePrice: item.productId.salePrice,
       quantity: item.quantity,
       discount: item.discount,
+      totalStock:item.totalStock,
     }));
 
     res.status(200).json({
@@ -176,7 +178,7 @@ const updateCartItemQty = async (req, res) => {
 
     await cart.populate({
       path: "items.productId",
-      select: "image title price salePrice quantity discount",
+      select: "image title price salePrice quantity discount totalStock",
     });
 
     const populateCartItems = cart.items.map((item) => ({
@@ -187,6 +189,7 @@ const updateCartItemQty = async (req, res) => {
       salePrice: item.productId ? item.productId.salePrice : null,
       quantity: item.quantity,
       discount: item.discount,
+      totalStock:item.productId? item.productId.totalStock:null,
     }));
 
     res.status(200).json({
@@ -217,7 +220,7 @@ const deleteCartItem = async (req, res) => {
 
     const cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
-      select: "image title price salePrice discount",
+      select: "image title price salePrice discount totalStock",
     });
 
     if (!cart) {
@@ -235,7 +238,7 @@ const deleteCartItem = async (req, res) => {
 
     await cart.populate({
       path: "items.productId",
-      select: "image title price salePrice discount",
+      select: "image title price salePrice discount totalStock",
     });
 
     const populateCartItems = cart.items.map((item) => ({
@@ -246,6 +249,7 @@ const deleteCartItem = async (req, res) => {
       salePrice: item.productId ? item.productId.salePrice : null,
       quantity: item.quantity,
       discount: item.discount ? item.productId.discount : "No discout",
+      totalStock:item.totalStock?item.productId.totalStock:null,
     }));
 
     res.status(200).json({

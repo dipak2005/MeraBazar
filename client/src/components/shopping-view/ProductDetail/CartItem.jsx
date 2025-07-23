@@ -22,8 +22,17 @@ const CartItem = ({ item }) => {
 
   function handleUpdateQuantity(item, typeOfAction) {
     const currentQty = Number(item.quantity) || 1;
+
+    
+
+ 
+
     const updatedQuantity =
       typeOfAction === "plus" ? currentQty + 1 : currentQty - 1;
+
+    if (updatedQuantity < 1) {
+      return;
+    }
 
     dispatch(
       updateCartProduct({
@@ -49,7 +58,6 @@ const CartItem = ({ item }) => {
             href={`/shop/product/${item.productId}`}
             className="text-decoration-none text-dark"
             rel="noopener noreferrer"
-           
           >
             <img
               src={item.image}
@@ -75,6 +83,7 @@ const CartItem = ({ item }) => {
               <button
                 className="btn btn-sm btn-outline-primary"
                 onClick={() => handleUpdateQuantity(item, "plus")}
+                disabled={item.quantity >= item.totalStock} 
               >
                 +
               </button>

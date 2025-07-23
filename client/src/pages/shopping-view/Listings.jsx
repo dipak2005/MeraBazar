@@ -11,6 +11,7 @@ function ShoppingViewListings() {
   const dispatch = useDispatch();
   const [openDetailsPage, setOpenDetailsPage] = useState(false);
   const { user } = useSelector((state) => state.auth);
+   const { cartItems } = useSelector((state) => state.shoppingcart);
   const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProduct
   );

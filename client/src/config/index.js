@@ -326,6 +326,7 @@ export const profileFields = [
     type: "text",
     placeholder: "Enter your full name",
     required: true,
+    disabled: true, 
   },
   {
     name: "email",

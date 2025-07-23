@@ -13,6 +13,8 @@ const ShopProductRouter = require("./routes/shop/productRoute");  // for Shop : 
 const CartRouter = require("./routes/shop/cartRoute");  // for Shop : cart
 const UserAddressRouter = require("./routes/shop/addressRoute"); // for Shop : store user's address
 const UserOrderRouter = require("./routes/shop/orderRoute"); // for shop : manage User's orders 
+const SellerOrderRouter = require("./routes/seller/OrderRoute");// for seller : to fetch user's order
+const UserRouter = require("./routes/seller/UserRoute"); // for seller : to get the details of buyer's
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -50,8 +52,10 @@ app.use(cookieParser());
 
 app.use(express.static("public"));
 app.use("/api/auth", AuthRouter);
+app.use("/api/auth/user",UserRouter);
 app.use("/api/admin/products",AdminProductRouter);
-app.use("/api/seller/products",SellerProductRouter); 
+app.use("/api/seller/products",SellerProductRouter);
+app.use("/api/seller/orders",SellerOrderRouter); 
 app.use("/api/shop/products",ShopProductRouter);
 app.use("/api/products",ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart",CartRouter);
