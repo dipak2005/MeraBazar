@@ -148,7 +148,7 @@ function App() {
               <Route path="address" element={<ManageAddress  />} />
               <Route path="orders" element={<Orders />} />
               <Route path="wishlist" element={<Wishlist />} />
-              <Route path="settings" element={<Settings />} />
+              {/* <Route path="settings" element={<Settings />} /> */}
               <Route path="logout" element={<Settings />} />
             </Route>
 

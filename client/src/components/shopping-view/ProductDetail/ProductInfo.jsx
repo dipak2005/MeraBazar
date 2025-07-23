@@ -1,9 +1,20 @@
 // components/ProductDetail/ProductInfo.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import ProductReview from "./ProductReview";
+import { useDispatch, useSelector } from "react-redux";
+import { getReviews } from "../../../store/shop/reviewSlice";
 // import { Button } from 'react-bootstrap';
 
 const ProductInfo = ({ product }) => {
+  const { reviewList } = useSelector((state) => state.reviewProduct);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (product?._id) {
+      dispatch(getReviews(product?._id));
+    }
+  }, [dispatch, product?._id]);
+
+  console.log(reviewList, "review");
   return (
     <div className="mt-3 ">
       <h4>{product?.title}</h4>
@@ -11,9 +22,14 @@ const ProductInfo = ({ product }) => {
         by <strong>{product?.brand}</strong>
       </p>
       <div className="mb-2 h-10">
-        <span className="badge bg-success">3.4{product?.rating} ★</span>
-        {/* <span className="ms-2 text-muted">{product?.description} Ratings & Reviews</span> */}
+        {reviewList &&
+          reviewList.map((item, index) => (
+            <span key={index} className="badge bg-success me-2">
+              {item?.reviewVal?.toFixed(1) || 3.4} ★
+            </span>
+          ))}
       </div>
+
       <div className="mb-3">
         <p className="">
           {" "}

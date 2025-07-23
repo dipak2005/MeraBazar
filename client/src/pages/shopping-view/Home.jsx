@@ -8,10 +8,9 @@ import { useEffect } from "react";
 import { fetchAllFilteredProducts } from "../../store/shop/productSlice";
 
 function ShoppingViewHome() {
-  const { isLoading } = useSelector((state) => state.auth);
-  const { productList } = useSelector((state) => state.shopProduct);
+  // const { isLoading } = useSelector((state) => state.auth);
+  const { productList , isLoading} = useSelector((state) => state.shopProduct);
   const dispatch = useDispatch();
-
 
   const mens = "category=men";
   const sortMens = "sort=&sortBy=nullquery";
@@ -290,7 +289,7 @@ function ShoppingViewHome() {
       ))}
       <div className="d-flex ">
         <DealsSection title={"mens"} items={productList} load={isLoading} />
-         <DealsSection title={"Featured Products"} items={productList} />
+        <DealsSection title={"Featured Products"} items={productList} />
       </div>
 
       <Footer />
@@ -327,6 +326,12 @@ const DealsSection = ({ title, items, load }) => {
                   className="card h-100 border-0 rounded-2 product-card p-2"
                   style={{ minWidth: "180px", maxWidth: "210px" }}
                 >
+                  <a
+                    href={`/shop/product/${item._id}`}
+                    className="text-decoration-none text-dark"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                   <img
                     src={item?.image}
                     className="card-img-top p-2"
@@ -336,6 +341,7 @@ const DealsSection = ({ title, items, load }) => {
                       objectFit: "contain",
                     }}
                   />
+                  </a>
                   <div className="card-body py-2 ">
                     <h6 className="card-title small mb-1 text-truncate">
                       {item.title}

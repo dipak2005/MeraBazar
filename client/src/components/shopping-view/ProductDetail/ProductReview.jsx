@@ -21,40 +21,44 @@ const ProductReview = ({ product }) => {
     if (!rating || !comment.trim())
       return toast.warn("Please rate and review first.");
 
-   
-    dispatch(
-      addNewReviews({
-        productId: product?._id,
-        userId: user?.id,
-        username: user?.username,
-        reviewMessage: comment,
-        reviewVal: rating,
-      })
-    ).then((data) => {
-      if (data?.payload?.success) {
-        setRating(0);
-        setComment("");
-        dispatch(getReviews(product?._id));
-        toast.success("Review Added Successfully!");
-      }
-    });
+    try {
+      dispatch(
+        addNewReviews({
+          productId: product?._id,
+          userId: user?.id,
+          username: user?.username,
+          reviewMessage: comment,
+          reviewVal: rating,
+        })
+      ).then((data) => {
+        if (data?.payload?.success) {
+          setRating(0);
+          setComment("");
+          dispatch(getReviews(product?._id));
+          toast.success("Review Added Successfully!");
+        }
+      });
+    } catch (e) {
+      toast.error(data?.payload?.message);
+    }
   };
 
   useEffect(() => {
     const averageReview =
       reviewList && reviewList.length > 0
-        ? reviewList.reduce((sum, reviewItem) => sum + reviewItem.reviewVal, 0) /
-          reviewList.length
+        ? reviewList.reduce(
+            (sum, reviewItem) => sum + reviewItem.reviewVal,
+            0
+          ) / reviewList.length
         : 0;
-       setAverageReview(averageReview);
-  },[reviewList]);
+    setAverageReview(averageReview);
+  }, [reviewList]);
 
   useEffect(() => {
-  if (product?._id) {
-    dispatch(getReviews(product?._id));
-  }
-}, [dispatch, product?._id]);
-
+    if (product?._id) {
+      dispatch(getReviews(product?._id));
+    }
+  }, [dispatch, product?._id]);
 
   return (
     <div className="mt-4">

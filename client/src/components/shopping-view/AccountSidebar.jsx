@@ -47,12 +47,12 @@ const AccountSidebar = () => {
       >
         <BookHeart /> Wishlist
       </Link>
-      <Link
+      {/* <Link
         to="/shop/account/settings"
         className="list-group-item list-group-item-action"
       >
         <Settings /> Settings
-      </Link>
+      </Link> */}
       <button
         onClick={handleLogout}
         className="list-group-item list-group-item-action text-danger"

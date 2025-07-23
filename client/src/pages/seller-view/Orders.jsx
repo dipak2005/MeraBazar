@@ -83,9 +83,13 @@ function SellerOrder() {
                     <td>
                       <span
                         className={`badge px-1 py-2 bg-${
-                          order?.orderStatus !== "rejected"
-                            ? "success"
-                            : "danger"
+                           order?.orderStatus === "pending"
+                          ? "primary"
+                          : order?.orderStatus === "rejected"
+                          ? "danger"
+                          : order?.orderStatus === "delivered"
+                          ? "success"
+                          : "info"
                         } text-white text-uppercase`}
                       >
                         {order?.orderStatus}

@@ -201,12 +201,12 @@ useEffect(() => {
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
                 orderDetails?.paymentStatus === "pending"
-                  ? "primary"
-                  : orderDetails?.paymentStatus === "rejected"
-                  ? "danger"
-                  : orderDetails?.paymentStatus === "paid"
-                  ? "success"
-                  : "info"
+                          ? "primary"
+                          : orderDetails?.paymentStatus === "rejected"
+                          ? "danger"
+                          : orderDetails?.paymentStatus === "paid"
+                          ? "success"
+                          : "info"
               } text-white`}
             >
               {orderDetails.paymentStatus}
