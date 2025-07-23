@@ -49,7 +49,6 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-     
     if (!email || !password) {
       return res
         .status(400)
@@ -86,18 +85,24 @@ const loginUser = async (req, res) => {
       { expiresIn: "7d" } //  7- days cookies will store and after user will need to login again
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
-      success: true,
-      message: "Logged in Successfully",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      user: {
-        email: checkUser.email,
-        role: checkUser.role,
-        id: checkUser._id,
-        username: checkUser.username,
-      },
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "Strict",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({
+        success: true,
+        message: "Logged in Successfully",
+
+        user: {
+          email: checkUser.email,
+          role: checkUser.role,
+          id: checkUser._id,
+          username: checkUser.username,
+        },
+      });
   } catch (e) {
     console.log(e);
     res.status(500).json({

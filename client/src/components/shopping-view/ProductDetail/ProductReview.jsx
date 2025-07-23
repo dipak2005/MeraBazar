@@ -91,7 +91,7 @@ const ProductReview = ({ product }) => {
           rows={3}
         />
 
-        <button className="btn btn-outline-primary btn-sm" type="submit">
+        <button disabled={comment.trim() === ""} className="btn btn-outline-primary btn-sm" type="submit">
           Submit Review
         </button>
       </form>

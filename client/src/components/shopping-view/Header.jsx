@@ -57,12 +57,12 @@ function HeaderRightContent({ toast }) {
               &nbsp; Profile
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/shop/account/settings" className="dropdown-item">
               <Settings />
               &nbsp; Settings
             </Link>
-          </li>
+          </li> */}
           <li>
             <button onClick={handleLogout} className="dropdown-item">
               <LogOut /> &nbsp; Logout
