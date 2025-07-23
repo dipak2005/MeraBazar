@@ -24,7 +24,7 @@ const addProductReview = async (req, res) => {
     const order = await OrderModel.findOne({
       userId,
       "cartItems.productId": productId,
-      orderStatus: "confirmed" || "delivered",
+      orderStatus: { $in: ["confirmed", "delivered"] },
     });
 
     if (!order) {
