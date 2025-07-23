@@ -16,6 +16,7 @@ const UserOrderRouter = require("./routes/shop/orderRoute"); // for shop : manag
 const SellerOrderRouter = require("./routes/seller/OrderRoute"); // for seller : to fetch user's order
 const UserRouter = require("./routes/seller/UserRoute"); // for seller : to get the details of buyer's
 const SearchRouter = require("./routes/shop/searchRoute"); // for user : to search the product via : title,description , category,brand
+const ReviewRouter = require("./routes/shop/reviewRoute"); // for user : to post review on specific product
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -61,7 +62,8 @@ app.use("/api/products", ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart", CartRouter);
 app.use("/api/shop/address", UserAddressRouter);
 app.use("/api/shop/order", UserOrderRouter);
-app.use("/api/shop/products/search",SearchRouter);
+app.use("/api/shop/product/search", SearchRouter);
+app.use("/api/shop/review",ReviewRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

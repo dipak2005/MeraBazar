@@ -15,6 +15,7 @@ function ShoppingViewListings() {
   const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProduct
   );
+  
 
 
    function handleAddToCart(productId) {

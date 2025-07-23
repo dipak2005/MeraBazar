@@ -9,6 +9,7 @@ import userAddressSclice from "./shop/addressSlice";
 import userOrderSlice from "./shop/orderSlice";
 import getUserByIdSlice from "./seller/UserSlice";
 import searchSlice from "./shop/searchSlice";
+import reviewSlice from "./shop/reviewSlice";
 
 
 const store = configureStore({
@@ -24,6 +25,7 @@ const store = configureStore({
     sellerOrder:sellerOrderSlice,
     getUser:getUserByIdSlice,
     searchProduct:searchSlice,
+    reviewProduct:reviewSlice,
   },
 });
 

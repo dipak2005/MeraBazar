@@ -309,7 +309,7 @@ const DealsSection = ({ title, items, load }) => {
             <div className="d-flex justify-content-between align-items-center mb-1">
               <h5 className="mb-0">{title}</h5>
               <Link
-                to="/shop/listing?category=men"
+                to="/shop/listing/search"
                 className="btn btn-sm btn-outline-primary mb-1"
               >
                 View All

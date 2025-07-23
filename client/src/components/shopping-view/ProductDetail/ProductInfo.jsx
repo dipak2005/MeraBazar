@@ -33,7 +33,7 @@ const ProductInfo = ({ product }) => {
         </h4>
         <b>Available Stock : {product?.totalStock} </b>
       </div>
-      <ProductReview />
+      <ProductReview product={product} />
     </div>
   );
 };

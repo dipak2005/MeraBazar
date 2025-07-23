@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../auth-slice";
 import { useState } from "react";
 
-function HeaderRightContent({toast}) {
+function HeaderRightContent({ toast }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ function HeaderRightContent({toast}) {
 
   return (
     <div className="d-flex flex-row flex-lg-column align-items-lg-center justify-content-between justify-content-lg-start gap-3 w-100">
-      <div className="dropdown" >
+      <div className="dropdown">
         <button
           className="btn btn-primary rounded-circle dropdown-toggle no-caret d-flex align-items-center justify-content-center"
           type="button"
@@ -74,13 +74,22 @@ function HeaderRightContent({toast}) {
   );
 }
 
-function ShoppingHeader({toast,search}) {
+function ShoppingHeader({ toast, search }) {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const navigate = useNavigate();
- const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("");
 
+  const handleSearch = (e) => {
+    // e.preventDefault();
+    if (query.trim() != "") {
+      navigate(
+        `/shop/listing/search?keyword=${encodeURIComponent(query.trim())}`
+      );
+      setQuery("");
+    }
+  };
 
   return (
     <header className="sticky-top bg-white shadow-sm border-bottom">
@@ -119,16 +128,26 @@ function ShoppingHeader({toast,search}) {
             id="headerNavbar"
           >
             {/* Search Bar */}
-            <div className="mx-auto vw-100 px-lg-3">
+            <div className="mx-auto w-100 px-2  px-md-3">
               <div className="input-group">
-                <input onClick={"/shop/listing/search"}
+                <input
+                  onChange={(e) => setQuery(e.target.value)}
                   type="text"
                   className="form-control"
+                  onKeyDown={(e) => {
+                    if (e.key == "Enter") {
+                      //   // e.preventDefault();
+                      handleSearch();
+                    }
+                  }}
                   placeholder="Search for products, brands and more"
                 />
-                <span className="input-group-text bg-white">
+                <button
+                  className="input-group-text bg-white"
+                  onClick={handleSearch}
+                >
                   <Search size={18} />
-                </span>
+                </button>
               </div>
             </div>
 
@@ -137,7 +156,10 @@ function ShoppingHeader({toast,search}) {
                 to={"/auth/register"}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <div className="d-none d-md-flex align-items-center " style={{width: "140px"}}>
+                <div
+                  className="d-none d-md-flex align-items-center "
+                  style={{ width: "140px" }}
+                >
                   <Store /> Become a Seller
                 </div>
               </Link>

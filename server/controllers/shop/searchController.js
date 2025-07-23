@@ -11,14 +11,14 @@ const searchProduct = async (req, res) => {
       });
     }
 
-    const regeEx = new RegExp(keyword, "i");
+    const regex = new RegExp(keyword, "i");
 
     const createSearchQuery = {
       $or: [
-        { title: regeEx },
-        { description: regeEx },
-        { category: regeEx },
-        { brand: regeEx },
+        { title: regex },
+        { description: regex },
+        { category: regex },
+        { brand: regex },
       ],
     };
 
