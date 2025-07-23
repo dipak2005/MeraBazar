@@ -20,10 +20,16 @@ const CartItem = ({ item }) => {
     );
   }
 
-  function handleUpdateQuantity(item, typeOfAction) {
-    const currentQty = Number(item.quantity) || 1;
+  function handleUpdateQuantity(item, typeOfAction,totalStock) {
+    const currentQty = Number(item.quantity) || 0;
 
-    
+    if (currentQty >= totalStock) {
+      toast.error(`Only ${totalStock} Quantity are left`);
+      return;
+    }
+
+    console.log(item.totalStock,"stock");
+    console.log(item.quantity,"quantity");
 
  
 
@@ -82,8 +88,8 @@ const CartItem = ({ item }) => {
               <span>{item.quantity || 1}</span>
               <button
                 className="btn btn-sm btn-outline-primary"
-                onClick={() => handleUpdateQuantity(item, "plus")}
-                disabled={item.quantity >= item.totalStock} 
+                onClick={() => handleUpdateQuantity(item, "plus", item.totalStock)}
+                // disabled={item.quantity >= item.totalStock} 
               >
                 +
               </button>

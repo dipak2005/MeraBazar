@@ -74,12 +74,12 @@ function HeaderRightContent({toast}) {
   );
 }
 
-function ShoppingHeader({toast}) {
+function ShoppingHeader({toast,search}) {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const navigate = useNavigate();
-
+ const [query, setQuery] = useState("");
 
 
   return (
@@ -121,7 +121,7 @@ function ShoppingHeader({toast}) {
             {/* Search Bar */}
             <div className="mx-auto vw-100 px-lg-3">
               <div className="input-group">
-                <input
+                <input onClick={"/shop/listing/search"}
                   type="text"
                   className="form-control"
                   placeholder="Search for products, brands and more"

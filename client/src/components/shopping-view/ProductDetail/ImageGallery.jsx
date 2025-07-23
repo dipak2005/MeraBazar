@@ -55,7 +55,7 @@ const ImageGallery = ({ product, toast }) => {
       <div className="border p-3 bg-white text-center">
         {product?.totalStock > 0 && product?.totalStock < 10 && (
           <span
-            className="badge bg-danger text-white"
+            className="badge bg-warning text-white"
             style={{
               position: "absolute",
               top: "10px",
@@ -68,6 +68,37 @@ const ImageGallery = ({ product, toast }) => {
             Only {product?.totalStock} items left
           </span>
         )}
+
+        {product?.totalStock === 0 ? (
+          <span
+            className="badge bg-danger text-white"
+            style={{
+              position: "absolute",
+              top: "10px",
+              left: "10px",
+              zIndex: 10,
+              padding: "0.5rem",
+              // fontSize: "0.9rem",
+            }}
+          >
+            Only of Stock
+          </span>
+        ) : (product?.totalStock !== 0  && product?.salePrice > 500)? (
+          <span
+            className="badge bg-success text-white"
+            style={{
+              position: "absolute",
+              top: "10px",
+              left: "10px",
+              zIndex: 10,
+              padding: "0.5rem",
+              // fontSize: "0.9rem",
+            }}
+          >
+            Best Seller
+          </span>):null}
+
+
         <img
           src={product?.image}
           alt={product?.title}

@@ -8,6 +8,7 @@ import shoppingCartSlice from "./shop/cartSlice";
 import userAddressSclice from "./shop/addressSlice";
 import userOrderSlice from "./shop/orderSlice";
 import getUserByIdSlice from "./seller/UserSlice";
+import searchSlice from "./shop/searchSlice";
 
 
 const store = configureStore({
@@ -21,7 +22,8 @@ const store = configureStore({
     userAddress: userAddressSclice,
     userOrder:userOrderSlice,
     sellerOrder:sellerOrderSlice,
-    getUser:getUserByIdSlice
+    getUser:getUserByIdSlice,
+    searchProduct:searchSlice,
   },
 });
 
