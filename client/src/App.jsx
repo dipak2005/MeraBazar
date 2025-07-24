@@ -75,7 +75,7 @@ function App() {
               path="/auth"
               element={
                 <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                  <AuthLayout />
+                  <AuthLayout key={window.location.search}/>
                 </CheckAuth>
               }
             >
@@ -85,7 +85,7 @@ function App() {
                 {/* <Route path="auth=seller" element={<AuthSeller/>}/> */}
               </Route>
               <Route
-                path="/auth/register/roll=seller"
+                path="/auth/register"
                 element={<SellerRegistration />}
               />
             </Route>

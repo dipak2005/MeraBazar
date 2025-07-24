@@ -54,7 +54,7 @@ function SearchPage() {
             </div>
           </div> */}
 
-          <div className="d-flex flex-column justifu-content-center col-12 col-lg-12">
+          <div className="d-flex flex-column justify-content-center col-12 col-lg-12">
             {isLoading ? (
               <ProductSkeleton />
             ) : searchResults.length === 0 ? (

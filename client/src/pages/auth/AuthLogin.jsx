@@ -57,7 +57,7 @@ function AuthLogin() {
 
           <p className="mt-3 text-center">
             Don't have an account?
-            <Link className="fw-semibold" to="/auth/register">
+            <Link className="fw-semibold" to="/auth/register?role=user" state={{role:"user"}}>
               Register now
             </Link>
           </p>

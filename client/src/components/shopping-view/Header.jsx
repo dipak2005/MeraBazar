@@ -11,13 +11,15 @@ import {
 } from "lucide-react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser } from "../../auth-slice";
-import { useState } from "react";
+import { fetchUser, logOutUser } from "../../auth-slice";
+import { useEffect, useState } from "react";
+import { fetchCartProduct } from "../../store/shop/cartSlice";
 
 function HeaderRightContent({ toast }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingcart);
 
   function handleLogout() {
     dispatch(logOutUser());
@@ -90,7 +92,12 @@ function ShoppingHeader({ toast, search }) {
       setQuery("");
     }
   };
+   useEffect(() => {
+    dispatch(fetchCartProduct({userId:user?.id}));
+   
+  }, [dispatch,fetchCartProduct]);
 
+  console.log(cartItem,"items",user?.id);
   return (
     <header className="sticky-top bg-white shadow-sm border-bottom">
       <nav className="navbar navbar-expand-lg px-3 px-md-4 py-2">
@@ -153,7 +160,7 @@ function ShoppingHeader({ toast, search }) {
 
             <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-auto">
               <Link
-                to={"/auth/register"}
+                to={"/auth/register/role=seller"}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <div
@@ -169,9 +176,9 @@ function ShoppingHeader({ toast, search }) {
                 className="text-decoration-none text-dark d-flex align-items-center position-relative"
               >
                 <ShoppingCart className="me-1" size={20} />
-                {cartItem.length > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {cartItem.length}
+                {cartItem?.items?.length > 0 && (
+                  <span className="position-absolute top-0 start-76   translate-middle badge rounded-pill bg-danger" style={{height:"19px"}}>
+                    {cartItem?.items?.length}
                   </span>
                 )}
                 <span className="ms-2">Cart</span>
@@ -180,7 +187,7 @@ function ShoppingHeader({ toast, search }) {
               {isAuthenticated ? (
                 <HeaderRightContent toast={toast} />
               ) : (
-                <Link to={"/auth/login"}>
+                <Link to={"/auth/login?role=user"} state={{role:"user"}}>
                   <div className=" btn btn-outline-primary">
                     <b style={{ textDecoration: "none" }}>Login</b>
                   </div>

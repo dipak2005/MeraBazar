@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Form from "../../common/Form";
 import { registerFormControls } from "../../config";
 import { registeredUser } from "../../auth-slice";
@@ -12,11 +12,9 @@ const initialState = {
   username: "",
   email: "",
   password: "",
-  // confirmPassword: "",
 };
 
 function AuthRegister() {
-  
   const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
@@ -26,14 +24,9 @@ function AuthRegister() {
   function onSubmit(e) {
     e.preventDefault();
 
-    // if (formData.password !== formData.confirmPassword) {
-    //   toast.error("Passwords do not match");
-    //   return;
-    // }
-
     dispatch(registeredUser(formData)).then((res) => {
       if (res?.payload?.success) {
-         const role = res?.payload?.user.role;
+        const role = res?.payload?.user.role;
         toast.success(res.payload.message || "Registration Successful!");
         role === "admin"
           ? navigate("/admin/dashboard")
@@ -41,7 +34,6 @@ function AuthRegister() {
           ? navigate("/seller/dashboard")
           : navigate("/");
         setFormData(initialState);
-        
       } else {
         toast.error(res?.payload?.message || "Registration failed");
       }
@@ -49,14 +41,16 @@ function AuthRegister() {
   }
 
   return (
-    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light px-3">
+    <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light px-3">
       <div className="w-100" style={{ maxWidth: "500px" }}>
-        <div className="bg-white shadow rounded-4 p-4 p-md-5 w-100">
+        <div className="bg-white shadow rounded-4 p-4 p-sm-5">
+          {/* Header */}
           <div className="text-center mb-4">
             <h1 className="fw-bold fs-2">Create New Account</h1>
-            <p className="text-muted">Register to MeraBazar</p>
+            <p className="text-muted mb-0">Register to MeraBazar</p>
           </div>
 
+          {/* Form */}
           <Form
             formControls={registerFormControls}
             formData={formData}
@@ -66,19 +60,20 @@ function AuthRegister() {
             isLoading={isLoading}
           />
 
-          <div className="my-4 d-flex justify-content-center">
+          {/* Become a Seller */}
+          <div className="my-4 text-center">
             <Link
-              to="/auth/register/roll=seller"
-              style={{ textDecoration: "none", color: "black" }}
-              className="d-none d-md-flex align-items-center"
+              to="/auth/register?role=seller" state={{role:"seller"}}
+              className="text-decoration-none text-dark d-inline-flex align-items-center gap-1"
             >
-              <Store /> &nbsp; Become a Seller
+              <Store size={18} /> Become a Seller
             </Link>
           </div>
 
+          {/* Login Link */}
           <p className="mt-3 text-center">
             Already have an account?{" "}
-            <Link to="/auth/login" className="fw-semibold text-primary">
+            <Link to="/auth/login?role=user" state={{role:"user"}} className="fw-semibold text-primary">
               Login
             </Link>
           </p>

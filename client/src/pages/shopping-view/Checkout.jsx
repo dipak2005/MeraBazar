@@ -28,13 +28,14 @@ function ShoppingViewCheckout() {
   const [formData, setFormData] = useState(initialState);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-  const {approvalURL} = useSelector((state) => state.userOrder);
+  const { approvalURL } = useSelector((state) => state.userOrder);
   const [isPaymentStart, setIsPaymentStart] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const { addressList, isLoading } = useSelector((state) => state.userAddress);
   const navigate = useNavigate();
+  
 
   const items = Array.isArray(cartItem?.items) ? cartItem.items : [];
 
@@ -194,15 +195,12 @@ function ShoppingViewCheckout() {
 
       if (data?.payload.success) {
         setIsPaymentStart(true);
-
-      }else {
-        setIsPaymentStart(false);
       }
     });
   }
 
   if (approvalURL) {
-    window.location.href=approvalURL;
+    window.location.href = approvalURL;
   }
 
   return (
@@ -283,7 +281,17 @@ function ShoppingViewCheckout() {
                           className="btn btn-outline-warning btn-sm px-3"
                           disabled={currentSelectedAddress?._id !== item._id}
                         >
-                          DELIVER HERE
+                          {isPaymentStart ? (
+                            <>
+                              <span
+                                className="spinner-border spinner-border-sm me-2 "
+                                role="status"
+                              />
+                              Processing...
+                            </>
+                          ) : (
+                            "DELIVER HERE"
+                          )}
                         </button>
                         <span
                           onClick={() => {

@@ -98,7 +98,7 @@ const ProductReview = ({ product }) => {
 
       {/* Reviews List */}
       {reviewList && reviewList.length > 0 && (
-        <div className="border-top pt-3 row bg-light">
+        <div className="border-top pt-3 row bg-light px-4">
           <h6 className="mb-2">Customer Reviews</h6>
           {reviewList.map((review) => (
             <div key={review._id} className="mb-3 ">
@@ -110,7 +110,7 @@ const ProductReview = ({ product }) => {
                   <b className="text-white" style={{ fontSize: "14px" }}>
                     {review?.username[0].toUpperCase()}
                   </b>
-                </div>{" "}
+                </div>
                 &nbsp;&nbsp;
                 <div className="d-flex align-items-center mb-1">
                   {[1, 2, 3, 4, 5].map((s) => (

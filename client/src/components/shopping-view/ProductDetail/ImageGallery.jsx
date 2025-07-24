@@ -81,7 +81,7 @@ const ImageGallery = ({ product, toast }) => {
               // fontSize: "0.9rem",
             }}
           >
-            Only of Stock
+            Out of Stock
           </span>
         ) : (product?.totalStock !== 0  && product?.salePrice > 500)? (
           <span
