@@ -160,7 +160,7 @@ function ShoppingHeader({ toast, search }) {
 
             <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-auto">
               <Link
-                to={"/auth/register/role=seller"}
+                to={"/auth/register-seller"}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <div

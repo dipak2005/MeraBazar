@@ -43,7 +43,7 @@ import PaypalRetunPage from "./pages/shopping-view/Paypal-Return";
 import PaymentSuccess from "./pages/shopping-view/Payment-Success";
 import PaymentCancelled from "./pages/shopping-view/Payment-Cancel";
 import SearchPage from "./pages/shopping-view/Search";
-
+import PendingApproval from "./pages/seller-view/PendingApproval";
 
 function App() {
   const { user, isAuthenticated, authChecked } = useSelector(
@@ -75,19 +75,14 @@ function App() {
               path="/auth"
               element={
                 <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                  <AuthLayout key={window.location.search}/>
+                  <AuthLayout key={window.location.search} />
                 </CheckAuth>
               }
             >
               {/* child Route */}
               <Route path="login" element={<AuthLogin />} />
-              <Route path="register" element={<AuthRegister />}>
-                {/* <Route path="auth=seller" element={<AuthSeller/>}/> */}
-              </Route>
-              <Route
-                path="/auth/register"
-                element={<SellerRegistration />}
-              />
+              <Route path="register" element={<AuthRegister />} />
+              <Route path="register-seller" element={<SellerRegistration />} />
             </Route>
             {/* Admin */}
             <Route
@@ -116,7 +111,9 @@ function App() {
               <Route path="dashboard" element={<SellerDashboard />} />
               <Route path="products" element={<SellerProduct />} />
               <Route path="orders" element={<SellerOrder />} />
+             
             </Route>
+             <Route path="/seller/pending" element={<PendingApproval/>}/>
             {/* Shop */}
             {/* HomePage for Customers */}
             <Route
@@ -136,28 +133,26 @@ function App() {
               }
             >
               <Route path="listing" element={<ShoppingViewListings />} />
-             
             </Route>
-             <Route path="/shop/paypal-return" element={<PaypalRetunPage/>}/>
-              <Route path="/shop/payment-success/:orderId" element={<PaymentSuccess/>}/>
-              <Route path="/shop/paypal-cancel" element={<PaymentCancelled/>}/>
+            <Route path="/shop/paypal-return" element={<PaypalRetunPage />} />
+            <Route
+              path="/shop/payment-success/:orderId"
+              element={<PaymentSuccess />}
+            />
+            <Route path="/shop/paypal-cancel" element={<PaymentCancelled />} />
             <Route path="/shop/account" element={<ShoppingViewAccount />}>
-           
-              <Route index element={<Navigate to={"profile"}/>} />
+              <Route index element={<Navigate to={"profile"} />} />
               <Route path="profile" element={<Profile toast={toast} />} />
-              <Route path="address" element={<ManageAddress  />} />
+              <Route path="address" element={<ManageAddress />} />
               <Route path="orders" element={<Orders />} />
               <Route path="wishlist" element={<Wishlist />} />
               {/* <Route path="settings" element={<Settings />} /> */}
               <Route path="logout" element={<Settings />} />
             </Route>
-
-            
             <Route path="/shop/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
-            <Route path="/shop/listing/search" element={<SearchPage/>}/>
-            
+            <Route path="/shop/listing/search" element={<SearchPage />} />
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,11 +1,12 @@
 import { logOutUser } from "../../auth-slice";
 import Button from "../ui/Button";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 function SellerHeader() {
   const dispatch = useDispatch();
+  
   function handleLogout() {
     dispatch(logOutUser());
     toast.success("Logged out successful!");
@@ -23,6 +24,7 @@ function SellerHeader() {
           >
             <i className="fa-solid fa-bars me-2"></i>
           </Button>
+         
         </div>
 
         {/* Right Column: Logout Button */}

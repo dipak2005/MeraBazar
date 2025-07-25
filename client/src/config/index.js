@@ -46,19 +46,20 @@ export const sellerRegistrationControl = [
     step: 1,
     label: "Personal Details",
     fields: [
-      { name: "username", label: "user Name", type: "text", required: true },
-      { name: "email", label: "Email", type: "email", required: true },
-      { name: "phone", label: "Phone Number", type: "text", required: true },
+      { name: "username", label: "user Name", type: "text", required: true ,placeholder:"Enter your name" },
+      { name: "email", label: "Email", type: "email", required: true ,placeholder:"Enter your E-mail"},
+      { name: "phone", label: "Phone Number", type: "text", required: true ,placeholder:"Enter your phone"},
+       { name: "password", label: "Password", type: "password", required: true ,placeholder:"Enter password"},
     ],
   },
   {
     step: 2,
     label: "Business Details",
     fields: [
-      { name: "storeName", label: "Store Name", type: "text", required: true },
-      { name: "gstNumber", label: "GST Number", type: "text", required: false },
+      { name: "storename", label: "Store Name", type: "text", required: true , placeholder:"Enter your store name"},
+      { name: "gstno", label: "GST Number", type: "text", required: false ,placeholder:"Enter GST No." },
       {
-        name: "businessType",
+        name: "businesstype",
         label: "Business Type",
         type: "select",
         options: ["Individual", "Company"],
@@ -71,14 +72,15 @@ export const sellerRegistrationControl = [
     label: "Bank & Document",
     fields: [
       {
-        name: "bankAccount",
+        name: "bankaccount",
         label: "Bank Account No.",
         type: "text",
         required: true,
+        placeholder:"Enter your bank no."
       },
-      { name: "ifscCode", label: "IFSC Code", type: "text", required: true },
+      { name: "ifsccode", label: "IFSC Code", type: "text", required: true,placeholder:"Enter your IFSC CODE" },
       {
-        name: "document",
+        name: "image",
         label: "Upload Document",
         type: "file",
         required: true,

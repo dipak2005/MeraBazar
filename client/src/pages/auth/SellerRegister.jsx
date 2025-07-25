@@ -1,41 +1,77 @@
 import React, { useState } from "react";
 import { sellerRegistrationControl } from "../../config/index";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registeredSeller } from "../../auth-slice/sellerSlice";
+import { toast } from "react-toastify";
+import ImageUpload from "../../components/admin-view/ImageUpload";
+import PendingApproval from "../seller-view/PendingApproval";
 
 export const InitialState = {
   username: "",
   email: "",
   phone: "",
-  storeName: "",
-  gstNumber: "",
-  businessType: "",
-  bankAccount: "",
-  ifscCode: "",
+  password: "",
+  storename: "",
+  gstno: "",
+  businesstype: "",
+  bankaccount: "",
+  ifsccode: "",
   document: null,
 };
 
 const SellerRegistration = () => {
   const [step, setStep] = useState(1);
+
   const [formData, setFormData] = useState(InitialState);
+  const { seller, isLoading } = useSelector((state) => state.sellerAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const totalSteps = sellerRegistrationControl.length;
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageLoadingState, setImageLoadingState] = useState(false);
+  const [currentEditedId, setCurrentEditedId] = useState(null);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleFileChange = (field, file) => {
-    setFormData((prev) => ({ ...prev, [field]: file }));
-  };
+  const currentStepFields = sellerRegistrationControl.find(
+    (s) => s.step === step
+  );
 
-  const currentStepFields = sellerRegistrationControl.find((s) => s.step === step);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = () => {
-    const form = new FormData();
-    for (const key in formData) {
-      form.append(key, formData[key]);
+    if (imageLoadingState) {
+      toast.warn("Please wait for image upload to complete.");
+      return;
     }
-    console.log("Submitting:", Object.fromEntries(form));
-    
+
+    if (!uploadedImageUrl) {
+      toast.error("Please upload a document/image first.");
+      return;
+    }
+
+    await dispatch(
+      registeredSeller({ ...formData, document: uploadedImageUrl })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        toast.success(data.payload.message || "Registration Successful!");
+
+        if (seller.isapproved) {
+          navigate("/seller/dashboard");
+        } else {
+          navigate("/seller/pending");
+        }
+        setFormData(InitialState);
+      } else {
+        toast.error(data?.payload?.message || "Registration failed");
+      }
+    });
   };
+  console.log(seller?.userId, "",seller.isapproved);
 
   return (
     <div className="container my-5">
@@ -44,7 +80,7 @@ const SellerRegistration = () => {
           <div className="card shadow rounded-4 p-4">
             <h2 className="text-center mb-4">MeraBazar Seller Registration</h2>
 
-            {/* Step  UI */}
+            {/* Step UI */}
             <div className="row text-center mb-4">
               {sellerRegistrationControl.map((s, index) => (
                 <div key={s.step} className="col-12 col-sm">
@@ -61,7 +97,7 @@ const SellerRegistration = () => {
               ))}
             </div>
 
-            {/* Dynamic Form */}
+            {/* Form */}
             <form>
               {currentStepFields.fields.map((field) => (
                 <div key={field.name} className="mb-3">
@@ -72,9 +108,7 @@ const SellerRegistration = () => {
                     <select
                       className="form-select"
                       value={formData[field.name] || ""}
-                      onChange={(e) =>
-                        handleChange(field.name, e.target.value)
-                      }
+                      onChange={(e) => handleChange(field.name, e.target.value)}
                     >
                       <option value="">Select</option>
                       {field.options.map((opt, i) => (
@@ -84,21 +118,22 @@ const SellerRegistration = () => {
                       ))}
                     </select>
                   ) : field.type === "file" ? (
-                    <input
-                      type="file"
-                      className="form-control"
-                      onChange={(e) =>
-                        handleFileChange(field.name, e.target.files[0])
-                      }
+                    <ImageUpload
+                      imageFile={imageFile}
+                      setImageFile={setImageFile}
+                      uploadedImageUrl={uploadedImageUrl}
+                      setUploadedImageUrl={setUploadedImageUrl}
+                      setImageLoadingState={setImageLoadingState}
+                      imageLoadingState={imageLoadingState}
+                      isEditMode={currentEditedId !== null}
                     />
                   ) : (
                     <input
                       type={field.type}
+                      placeholder={field.placeholder}
                       className="form-control"
                       value={formData[field.name] || ""}
-                      onChange={(e) =>
-                        handleChange(field.name, e.target.value)
-                      }
+                      onChange={(e) => handleChange(field.name, e.target.value)}
                     />
                   )}
                 </div>
@@ -130,6 +165,7 @@ const SellerRegistration = () => {
                     onClick={handleSubmit}
                   >
                     Submit
+                    {/* {isLoading ? "Submitting..." : "Submit"} */}
                   </button>
                 )}
               </div>

@@ -4,7 +4,7 @@ import "./css/layout.css";
 function AuthLayout() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-    const role = params.get("role") || "user"; 
+    const role = params.get("role"); 
 
   return (
     <div className="container-fluid px-0">

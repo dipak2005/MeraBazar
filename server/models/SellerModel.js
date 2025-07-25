@@ -1,45 +1,48 @@
 const mongoose = require("mongoose");
 
-const SellerSchema = new mongoose.Schema({
-  username: {
-     type: String,
-    required: true,
-    unique: true,
-  },
-  email:{
+const SellerSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    storename: {
       type: String,
-    required: true,
-    unique: true,
-  },
-  password:{
-     type: String,
-    required: true,
-  },
-  storeName: {
-     type: String,
-    required: true,
-  },
-  businessType: {
-     type: String,
-    required: true,
-  },
-  address: {
-     type: String,
-    required: true,
-  },
-  gstNumber: {
-     type: String,
-    required: true,
-  },
-  phone: {
-     type: Number,
-    required: true,
-  },
-  documents: {
-    type: String,
-    required: true,
-  },
-});
+      required: true,
+    },
+    businesstype: {
+      type: String,
+      enum: ["Individual", "Company"],
+      required: true,
+    },
+    bankaccount: {
+      type: String,
+      required: true,
+    },
+    ifsccode: {
+      type: String,
+      required: true,
+    },
+    document: {
+      type: String, // file path or URL
+      required: true,
+    },
+    approvalstatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+    approvalnote: String,
 
+    gstno: String,
 
-module.exports = new mongoose.model("Seller",SellerSchema);
+    isapproved: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+module.exports = new mongoose.model("seller", SellerSchema);

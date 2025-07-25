@@ -10,6 +10,7 @@ import userOrderSlice from "./shop/orderSlice";
 import getUserByIdSlice from "./seller/UserSlice";
 import searchSlice from "./shop/searchSlice";
 import reviewSlice from "./shop/reviewSlice";
+import sellerSlice from "../auth-slice/sellerSlice";
 
 
 const store = configureStore({
@@ -26,6 +27,7 @@ const store = configureStore({
     getUser:getUserByIdSlice,
     searchProduct:searchSlice,
     reviewProduct:reviewSlice,
+    sellerAuth:sellerSlice,
   },
 });
 

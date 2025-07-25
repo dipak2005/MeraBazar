@@ -14,6 +14,7 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
+  const { seller } = useSelector((state) => state.sellerAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.auth);
@@ -29,7 +30,9 @@ function AuthLogin() {
         role === "admin"
           ? navigate("/admin/dashboard")
           : role === "seller"
-          ? navigate("/seller/dashboard")
+          ? seller.isapproved
+            ? navigate("/seller/dashboard")
+            : navigate("/seller/pending")
           : navigate("/");
       } else {
         toast.error(data.payload.message);
@@ -57,7 +60,11 @@ function AuthLogin() {
 
           <p className="mt-3 text-center">
             Don't have an account?
-            <Link className="fw-semibold" to="/auth/register?role=user" state={{role:"user"}}>
+            <Link
+              className="fw-semibold"
+              to="/auth/register?role=user"
+              state={{ role: "user" }}
+            >
               Register now
             </Link>
           </p>
