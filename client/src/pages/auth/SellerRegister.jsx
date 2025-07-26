@@ -18,6 +18,7 @@ export const InitialState = {
   bankaccount: "",
   ifsccode: "",
   document: null,
+  address:""
 };
 
 const SellerRegistration = () => {
@@ -60,18 +61,18 @@ const SellerRegistration = () => {
       if (data?.payload?.success) {
         toast.success(data.payload.message || "Registration Successful!");
 
-        if (seller.isapproved) {
+        // if (seller.isapproved) {
           navigate("/seller/dashboard");
-        } else {
-          navigate("/seller/pending");
-        }
+        // } else {
+          // navigate("/seller/pending");
+        // }
         setFormData(InitialState);
       } else {
         toast.error(data?.payload?.message || "Registration failed");
       }
     });
   };
-  console.log(seller?.userId, "",seller.isapproved);
+  console.log(seller?.userId, "", seller.isapproved);
 
   return (
     <div className="container my-5">
@@ -118,7 +119,7 @@ const SellerRegistration = () => {
                       ))}
                     </select>
                   ) : field.type === "file" ? (
-                    <ImageUpload
+                    <ImageUpload className="mb-2"
                       imageFile={imageFile}
                       setImageFile={setImageFile}
                       uploadedImageUrl={uploadedImageUrl}
@@ -126,6 +127,14 @@ const SellerRegistration = () => {
                       setImageLoadingState={setImageLoadingState}
                       imageLoadingState={imageLoadingState}
                       isEditMode={currentEditedId !== null}
+                    />
+                  ) : field.type === "textarea" ? (
+                    <textarea
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      className="form-control"
+                      value={formData[field.name] || ""}
+                      onChange={(e) => handleChange(field.name, e.target.value)}
                     />
                   ) : (
                     <input

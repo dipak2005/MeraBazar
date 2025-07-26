@@ -58,6 +58,7 @@ export const sellerRegistrationControl = [
     fields: [
       { name: "storename", label: "Store Name", type: "text", required: true , placeholder:"Enter your store name"},
       { name: "gstno", label: "GST Number", type: "text", required: false ,placeholder:"Enter GST No." },
+      {name:"address",label:"Address",type:"textarea",required:true,placeholder:"Enter Business Address"},
       {
         name: "businesstype",
         label: "Business Type",
@@ -69,7 +70,7 @@ export const sellerRegistrationControl = [
   },
   {
     step: 3,
-    label: "Bank & Document",
+    label: "Bank Details & Document",
     fields: [
       {
         name: "bankaccount",

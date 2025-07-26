@@ -30,9 +30,11 @@ function AuthLogin() {
         role === "admin"
           ? navigate("/admin/dashboard")
           : role === "seller"
-          ? seller.isapproved
-            ? navigate("/seller/dashboard")
-            : navigate("/seller/pending")
+          ?
+          //  seller.isapproved
+            // ? 
+            navigate("/seller/dashboard")
+            // : navigate("/seller/pending")
           : navigate("/");
       } else {
         toast.error(data.payload.message);

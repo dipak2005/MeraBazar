@@ -11,6 +11,7 @@ import getUserByIdSlice from "./seller/UserSlice";
 import searchSlice from "./shop/searchSlice";
 import reviewSlice from "./shop/reviewSlice";
 import sellerSlice from "../auth-slice/sellerSlice";
+import sellerListingSlice from "./admin/seller-listingSlice";
 
 
 const store = configureStore({
@@ -28,6 +29,7 @@ const store = configureStore({
     searchProduct:searchSlice,
     reviewProduct:reviewSlice,
     sellerAuth:sellerSlice,
+    sellerListing:sellerListingSlice,
   },
 });
 

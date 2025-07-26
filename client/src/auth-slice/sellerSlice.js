@@ -29,6 +29,9 @@ export const registeredSeller = createAsyncThunk(
   }
 );
 
+
+
+
 // for
 // export const loggedinSeller = createAsyncThunk(
 //   "/auth/loggedinSeller",

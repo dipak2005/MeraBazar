@@ -5,7 +5,7 @@ import AuthRegister from "./pages/auth/AuthRegister";
 import AdminLayout from "./components/admin-view/Layout";
 import AdminDashBoard from "./pages/admin-view/Dashboard";
 import AdminFeatures from "./pages/admin-view/Features";
-import AdminOrder from "./pages/admin-view/Orders";
+import AdminOrder from "./pages/admin-view/SellerListing";
 import AdminProducts from "./pages/admin-view/Products";
 import ShoppingLayout from "./components/shopping-view/Layout";
 import NotFound from "./pages/not-found/Index";
@@ -44,6 +44,7 @@ import PaymentSuccess from "./pages/shopping-view/Payment-Success";
 import PaymentCancelled from "./pages/shopping-view/Payment-Cancel";
 import SearchPage from "./pages/shopping-view/Search";
 import PendingApproval from "./pages/seller-view/PendingApproval";
+import SellerListing from "./pages/admin-view/SellerListing";
 
 function App() {
   const { user, isAuthenticated, authChecked } = useSelector(
@@ -95,7 +96,7 @@ function App() {
             >
               <Route path="dashboard" element={<AdminDashBoard />} />
               <Route path="products" element={<AdminProducts />} />
-              <Route path="orders" element={<AdminOrder />} />
+              <Route path="seller-listing" element={<SellerListing />} />
               <Route path="features" element={<AdminFeatures />} />
             </Route>
             {/* Seller */}

@@ -34,7 +34,10 @@ const SellerSchema = new mongoose.Schema(
       default: "pending",
     },
     approvalnote: String,
-
+    address: {
+      type: String,
+      required: true,
+    },
     gstno: String,
 
     isapproved: {

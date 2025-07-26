@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   ListOrdered,
   ShoppingBasket,
+  UserCog,
 } from "lucide-react";
 
 const adminSidebarMenu = [
@@ -22,9 +23,9 @@ const adminSidebarMenu = [
   },
   {
     id: "orders",
-    label: "Orders",
-    path: "/admin/orders",
-    icon: <ListOrdered size={18} />,
+    label: "Seller's",
+    path: "/admin/seller-listing",
+    icon: <UserCog size={18}/>
   },
 ];
 

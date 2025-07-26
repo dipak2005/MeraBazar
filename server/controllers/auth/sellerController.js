@@ -1,12 +1,9 @@
- const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const UserModel = require("../../models/UserModel");
 const SellerModel = require("../../models/SellerModel");
 
 const registerSeller = async (req, res) => {
   try {
-
-
-
     const {
       username,
       email,
@@ -17,21 +14,21 @@ const registerSeller = async (req, res) => {
       businesstype,
       bankaccount,
       ifsccode,
-      document
+      document,
+      address,
     } = req.body;
-
-    
 
     if (
       !username ||
       !email ||
-      !phone || 
+      !phone ||
       !password ||
       !storename ||
       !businesstype ||
       !bankaccount ||
       !ifsccode ||
-      !document
+      !document 
+      
     ) {
       return res.status(400).json({
         success: false,
@@ -55,11 +52,11 @@ const registerSeller = async (req, res) => {
       email,
       password: hashPassword,
       role: "seller",
+      phone
     });
 
-    
     const savedUser = await newUser.save();
-console.log("Saved User:", savedUser);
+    console.log("Saved User:", savedUser);
 
     // for seller profile
     const seller = new SellerModel({
@@ -71,14 +68,13 @@ console.log("Saved User:", savedUser);
       bankaccount,
       ifsccode,
       document,
+      address,
     });
-     const savedSeller = await seller.save();
+    const savedSeller = await seller.save();
     console.log("Saved Seller:", savedSeller);
-    console.log("saved user",savedUser);
+    console.log("saved user", savedUser);
 
-   
-
-     console.log("Document URL:", document);
+    console.log("Document URL:", document);
     res.status(200).json({
       success: true,
       data: seller,
@@ -87,6 +83,7 @@ console.log("Saved User:", savedUser);
         username: savedUser.username,
         email: savedUser.email,
         role: savedUser.role,
+        phone:savedUser.phone
       },
     });
   } catch (e) {
@@ -97,7 +94,5 @@ console.log("Saved User:", savedUser);
     });
   }
 };
-
-
 
 module.exports = { registerSeller };
