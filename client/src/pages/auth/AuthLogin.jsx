@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth, loggedinUser } from "../../auth-slice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getSellerDetails } from "../../store/admin/seller-listingSlice";
 
 const initialState = {
   email: "",
@@ -22,20 +23,23 @@ function AuthLogin() {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    dispatch(loggedinUser(formData)).then((data) => {
+    dispatch(loggedinUser(formData)).then(async (data) => {
       if (data?.payload?.success) {
         const role = data.payload.user.role;
+        const userId = data.payload.user._id;
 
         toast.success(data.payload.message);
-        role === "admin"
-          ? navigate("/admin/dashboard")
-          : role === "seller"
-          ?
-          //  seller.isapproved
-            // ? 
-            navigate("/seller/dashboard")
-            // : navigate("/seller/pending")
-          : navigate("/");
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (role === "seller") {
+          const sellerRes = await dispatch(getSellerDetails(userId));
+          const isApproved = sellerRes?.payload?.isapproved;
+          isApproved
+            ? navigate("/seller/dashboard")
+            : navigate("/seller/pending");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error(data.payload.message);
       }

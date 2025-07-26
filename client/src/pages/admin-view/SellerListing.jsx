@@ -13,9 +13,9 @@ function SellerOrder() {
   const [showModal, setShowModal] = useState(false);
   const { seller } = useSelector((state) => state.sellerAuth);
   const [selectedSeller, setSelectedSeller] = useState(null);
-   const [sellerName, setSellerName] = useState("");
-   const [sellerEmail , setSellerEmail] = useState("");
-   const [sellerPhone , setSellerPhone] = useState("");
+  const [sellerName, setSellerName] = useState("");
+  const [sellerEmail, setSellerEmail] = useState("");
+  const [sellerPhone, setSellerPhone] = useState("");
 
   const dispatch = useDispatch();
 
@@ -27,19 +27,15 @@ function SellerOrder() {
     dispatch(getAllSeller());
   }, [dispatch]);
 
-  
-
-  const handleViewDetail = (getId , selleId) => {
-   
+  const handleViewDetail = (getId, selleId) => {
     dispatch(resetSellerDetails());
     dispatch(getSellerDetails(getId));
-    dispatch(getUserByIdForSeller(selleId)).then((data)=>{
+    dispatch(getUserByIdForSeller(selleId)).then((data) => {
       console.log(data);
       setSellerName(data?.payload?.data?.username);
       setSellerEmail(data?.payload?.data?.email);
       setSellerPhone(data?.payload?.data?.phone);
-    })
-    
+    });
   };
 
   useEffect(() => {
@@ -64,7 +60,7 @@ function SellerOrder() {
       <Card className="w-100">
         <h5 className="text-muted p-3">Seller's Listing</h5>
         <div>
-          <Table responsive className="table table align-middle">
+          <Table responsive className="table table-bordered align-middle">
             <thead>
               <tr>
                 <th className="px-5">Seller ID</th>
@@ -114,9 +110,7 @@ function SellerOrder() {
                     <td className="px-5">
                       <button
                         onClick={() => {
-                          handleViewDetail(items?._id,items?.userId)
-                         
-
+                          handleViewDetail(items?._id, items?.userId);
                         }}
                         className="btn btn-outline-primary"
                       >
@@ -147,9 +141,9 @@ function SellerOrder() {
           onHide={() => {
             setShowModal(false);
             dispatch(resetSellerDetails());
-           setSellerEmail("");
-           setSellerName("");
-           setSellerPhone("");
+            setSellerEmail("");
+            setSellerName("");
+            setSellerPhone("");
           }}
           size="lg"
         >

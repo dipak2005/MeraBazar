@@ -6,26 +6,22 @@ import {
   getSellerDetails,
   updateSellerApprovalStatus,
 } from "../../store/admin/seller-listingSlice";
-
-// import {
-//   getUserByIdForSeller
-// } from "../../store/seller/UserSlice";
-// import {getUserById} from "../../store/seller/UserSlice";
 import { toast } from "react-toastify";
 import { getUserByIdForSeller } from "../../store/seller/UserSlice";
 
-// import { getUserById } from "../../../../server/controllers/seller/UserController";
-
-// import { Modal, ModalBody } from "react-bootstrap";
 
 const initialFormData = {
   status: "",
 };
 
-function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , sellerName ,sellerPhone}) {
+function SellerDetailsModel({
+  sellerDetails,
+  setShowModal,
+  sellerEmail,
+  sellerName,
+  sellerPhone,
+}) {
   const [formData, setFormData] = useState(initialFormData);
-  // const { seller } = useSelector((state) => state.sellerAuth);
-  // const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,12 +30,6 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
     }
   }, [sellerDetails?.userId, dispatch]);
 
-  // useEffect(() => {
-  //   if (sellerDetails?.userId) {
-  //     dispatch(getUserByIdForSeller(sellerDetails?.userId));
-  //   }
-  // }, [sellerDetails?.userId, dispatch]);
-  // console.log(sellerDetails,"details")
   if (!sellerDetails?.data) return <p>Loading...</p>;
 
   // console.log(sellerDetails,"details");
@@ -47,12 +37,13 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
     event.preventDefault();
     console.log(formData);
 
-    const { sellerStatus } = formData;
+    const { status } = formData;
 
     dispatch(
       updateSellerApprovalStatus({
-        id: sellerDetails?._id,
-        sellerStatus: sellerStatus,
+        id: sellerDetails?.data?._id,
+        status: status,
+        isapproved: status == "approved" ? true : false,
       })
     ).then((data) => {
       // console.log(data,"sds");
@@ -64,7 +55,7 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
       }
     });
   }
-  // console.log(seller, "Fetched user by ID");
+  console.log(sellerDetails?.data?._id, "Fetched user by ID");
 
   return (
     <div className="container-fluid px-4">
@@ -116,26 +107,19 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
         </div>
         <div className="row mb-2">
           <div className="col-6">Phone No.</div>
-          <div className="col-6 fw-semibold text-end">
-            {sellerPhone}
-          </div>
+          <div className="col-6 fw-semibold text-end">{sellerPhone}</div>
         </div>
         <div className="row mb-2">
           <div className="col-6">Email</div>
-          <div className="col-6 fw-semibold text-end">
-            {sellerEmail}
-          </div>
+          <div className="col-6 fw-semibold text-end">{sellerEmail}</div>
         </div>
         <div className="row mb-2">
           <div className="col-6">Address</div>
           <div className="col-6 fw-semibold text-end">
             {sellerDetails?.data?.address}
           </div>
-        </div> <div className="row mb-2">
-          
-         
-        </div>
-
+        </div>{" "}
+        <div className="row mb-2"></div>
         {/* <div className="row mb-2">
           <div className="col-6">Order Date</div>
           <div className="col-6 text-end">
@@ -154,7 +138,6 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
             ₹ {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
           </div>
         </div> */}
-
         {/* <div className="row">
           <div className="col-6">Order Status</div>
           <div className="col-6 text-end">
@@ -194,24 +177,24 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
           <div className="col-6 fw-semibold text-end">
             {sellerDetails?.data?.gstno}
           </div>
-        </div> <div className="row mb-2">
+        </div>{" "}
+        <div className="row mb-2">
           <div className="col-6">Document</div>
           <div className="col-6 fw-semibold text-end">
             <a href={`${sellerDetails?.data?.document}`} target="_blank">
-              <img className="justify-content-end"
-            src={sellerDetails?.data?.document}
-            alt={"image"}
-            style={{
-              width: "60px",
-              height: "60px",
-              objectFit: "contain",
-            }}
-           
-          />
+              <img
+                className="justify-content-end"
+                src={sellerDetails?.data?.document}
+                alt={"image"}
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  objectFit: "contain",
+                }}
+              />
             </a>
           </div>
         </div>
-
         {/* <div className="row mb-2">
           <div className="col-6">Order Date</div>
           <div className="col-6 text-end">
@@ -230,7 +213,6 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
             ₹ {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
           </div>
         </div> */}
-
         {/* <div className="row">
           <div className="col-6">Order Status</div>
           <div className="col-6 text-end">
@@ -265,28 +247,26 @@ function SellerDetailsModel({ sellerDetails, setShowModal , sellerEmail , seller
             {sellerDetails?.data?.ifsccode}
           </div>
         </div>
-         <div className="row">
+        <div className="row">
           <div className="col-6">Approval Status</div>
           <div className="col-6 text-end">
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
                 sellerDetails?.data?.approvalstatus === "pending"
-                          ? "primary"
-                          : sellerDetails?.data?.approvalstatus === "rejected"
-                          ? "danger"
-                          : sellerDetails?.data?.approvalstatus === "approved"
-                          ? "success"
-                          : "info"
+                  ? "primary"
+                  : sellerDetails?.data?.approvalstatus === "rejected"
+                  ? "danger"
+                  : sellerDetails?.data?.approvalstatus === "approved"
+                  ? "success"
+                  : "info"
               } text-white`}
             >
               {sellerDetails?.data?.approvalstatus}
             </span>
           </div>
         </div>
-
-      
-    </div>
-    <div className="w-100">
+      </div>
+      <div className="w-100">
         <Form
           formControls={[
             {

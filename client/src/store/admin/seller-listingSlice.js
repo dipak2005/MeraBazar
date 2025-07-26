@@ -33,13 +33,15 @@ export const getSellerDetails = createAsyncThunk(
 
 export const updateSellerApprovalStatus = createAsyncThunk(
   "/admin/updateSellerApprovalStatus",
-  async ({ id, sellerStatus }) => {
+  async ({ id, status , isapproved }) => {
     const response = await axios.put(
       `http://localhost:3000/api/auth/sellerlist/update/${id}`,
       {
-        sellerStatus,
+        approvalstatus:status,
+        isapproved
       }
     );
+    console.log("Sending update:", { approvalstatus: status, isapproved });
     console.log(response.data);
     return response.data;
   }

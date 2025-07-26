@@ -18,7 +18,7 @@ export const InitialState = {
   bankaccount: "",
   ifsccode: "",
   document: null,
-  address:""
+  address: "",
 };
 
 const SellerRegistration = () => {
@@ -61,11 +61,11 @@ const SellerRegistration = () => {
       if (data?.payload?.success) {
         toast.success(data.payload.message || "Registration Successful!");
 
-        // if (seller.isapproved) {
+        if (seller.isapproved) {
           navigate("/seller/dashboard");
-        // } else {
-          // navigate("/seller/pending");
-        // }
+        } else {
+          navigate("/seller/pending");
+        }
         setFormData(InitialState);
       } else {
         toast.error(data?.payload?.message || "Registration failed");
@@ -119,7 +119,8 @@ const SellerRegistration = () => {
                       ))}
                     </select>
                   ) : field.type === "file" ? (
-                    <ImageUpload className="mb-2"
+                    <ImageUpload
+                      className="mb-2"
                       imageFile={imageFile}
                       setImageFile={setImageFile}
                       uploadedImageUrl={uploadedImageUrl}

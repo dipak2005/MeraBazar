@@ -29,7 +29,10 @@ const getSellerDetails = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const seller = await SellerModel.findById(id)
+    const seller = await SellerModel.findById(id).populate(
+      "userId",
+      "username email phone role"
+    );
     // .select("-password");
 
     if (!seller) {
@@ -41,7 +44,10 @@ const getSellerDetails = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: seller,
+      data: {
+        ...seller._doc,
+        user: seller.userId,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -78,12 +84,10 @@ const getSellerBussinessDetails = async (req, res) => {
   }
 };
 
-
-
 const updateSellerApprovalStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const { approvalstatus } = req.body;
+    const { approvalstatus, isapproved } = req.body;
 
     const seller = await SellerModel.findById(id);
 
@@ -94,7 +98,7 @@ const updateSellerApprovalStatus = async (req, res) => {
       });
     }
 
-    await SellerModel.findByIdAndUpdate(id, { approvalstatus });
+    await SellerModel.findByIdAndUpdate(id, { approvalstatus, isapproved });
 
     res.status(200).json({
       success: true,
