@@ -215,13 +215,13 @@ export const addProductFormElements = [
     placeholder: "Enter sale price (optional)",
   },
 
-  {
-    label: "Discount",
-    name: "discount",
-    componentType: "input",
-    type: "number",
-    placeholder: "Enter sale discount % (optional)",
-  },
+  // {
+  //   label: "Discount",
+  //   name: "discount",
+  //   componentType: "input",
+  //   type: "number",
+  //   placeholder: "Enter sale discount % (optional)",
+  // },
 
   {
     label: "Total Stock",

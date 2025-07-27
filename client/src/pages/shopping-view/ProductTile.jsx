@@ -64,7 +64,7 @@ function ProductTile({ product, handleAddToCart, toast }) {
           {product?.salePrice > 0 && (
             <>
               <small className="ms-2 text-muted text-decoration-line-through">
-                ₹{product?.price}
+               {(product?.price- product.salePrice) === 0 ?  "": "₹" + product?.price}
               </small>
               <small className="ms-auto text-success fw-semibold">
                 {product?.discount}% off

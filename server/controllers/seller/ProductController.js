@@ -45,7 +45,7 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
-      discount,
+      discount:(((price-salePrice)/price)*100),
       totalStock,
       sellerId
     });
