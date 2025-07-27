@@ -30,8 +30,9 @@ function SellerProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  const { productList } = useSelector((state) => state.adminProduct);
+  const { productList } = useSelector((state) => state.sellerProduct);
   const [currentEditedId, setCurrentEditedId] = useState(null);
+  const {user} = useSelector((state)=>state.auth);
   const dispatch = useDispatch();
 
   function onSubmit(event) {
@@ -47,7 +48,7 @@ function SellerProducts() {
           console.log(data, "edit product");
 
           if (data?.payload?.success) {
-            dispatch(fetchAllProduct());
+            dispatch(fetchAllProduct(user?.id));
             setFormData(initialFormData);
             setShowPopup(false), setCurrentEditedId(null);
           }
@@ -56,10 +57,11 @@ function SellerProducts() {
           addNewProduct({
             ...formData,
             image: uploadedImageUrl,
+            sellerId:user?.id
           })
         ).then((data) => {
           if (data?.payload?.success) {
-            dispatch(fetchAllProduct());
+            dispatch(fetchAllProduct(user?.id));
             setShowPopup(false);
             setImageFile(null);
             setFormData(initialFormData);
@@ -74,10 +76,11 @@ function SellerProducts() {
     dispatch(deleteProduct(getCurrentProductId)).then((data) => {
       if (data?.payload?.success) {
         toast.success(data?.payload?.message);
-        dispatch(fetchAllProduct());
+        dispatch(fetchAllProduct(user?.id));
       }
     });
   }
+  console.log(user?.id);
 
   function isFormValid() {
     return Object.keys(formData)
@@ -86,7 +89,7 @@ function SellerProducts() {
   }
 
   useEffect(() => {
-    dispatch(fetchAllProduct());
+    dispatch(fetchAllProduct(user?.id));
   }, [dispatch]);
 
   // console.log(formData, "productlist");

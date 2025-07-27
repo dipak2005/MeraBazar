@@ -8,6 +8,7 @@ const initialFormData = {
 function OrderDetailsModal({ selectedOrder,orderDetails }) {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
+  
 
   if (!orderDetails) return <p>Loading...</p>;
 
@@ -19,6 +20,11 @@ function OrderDetailsModal({ selectedOrder,orderDetails }) {
         <div className="row mb-2">
           <div className="col-6">Order ID</div>
           <div className="col-6 fw-semibold text-end">{orderDetails._id}</div>
+        </div>
+
+        <div className="row mb-2">
+          <div className="col-6">Seller ID</div>
+          <div className="col-6 fw-semibold text-end">{orderDetails?.cartItems[0].sellerId}</div>
         </div>
         <div className="row mb-2">
           <div className="col-6">Order Date</div>
@@ -84,6 +90,8 @@ function OrderDetailsModal({ selectedOrder,orderDetails }) {
                   <div className="text-muted small">Qty: {item.quantity}</div>
                 </div>
               </div>
+             
+             
               <div className="fw-semibold align-self-center">
                 price: ₹ {item?.price.toLocaleString("en-IN")}/{" "}
                 {item.quantity > 1 ?"Qty" : "-"}

@@ -22,6 +22,15 @@ const PaymentSuccess = () => {
       }
   }, [dispatch, user]);
 
+  
+ const handleClick = (() => {
+    const audio = new Audio("/sounds/success.mp3");
+    audio.load();
+     audio.play().catch((err) => {
+      console.warn("Auto-play blocked by browser:", err);
+    });
+  });
+  
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center min-vh-100">
@@ -56,7 +65,10 @@ const PaymentSuccess = () => {
         </button>
         <button
           className="mt-2 btn btn-outline-primary"
-          onClick={() => navigate("/")}
+          onClick={() => {
+            handleClick
+            navigate("/")
+          }}
         >
           Continue Shopping
         </button>

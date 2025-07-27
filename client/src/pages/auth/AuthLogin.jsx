@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../../common/Form";
 import { loginFormControls } from "../../config";
@@ -16,35 +16,38 @@ const initialState = {
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
   const { seller } = useSelector((state) => state.sellerAuth);
+  const { sellerList, sellerDetails } = useSelector(
+    (state) => state.sellerListing
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading } = useSelector((state) => state.auth);
-
+  const { isLoading, user } = useSelector((state) => state.auth);
+  const [Data, setData] = useState("");
   const onSubmit = async (event) => {
     event.preventDefault();
 
     dispatch(loggedinUser(formData)).then(async (data) => {
       if (data?.payload?.success) {
-        const role = data.payload.user.role;
-        const userId = data.payload.user._id;
-
-        toast.success(data.payload.message);
+        const role = data?.payload?.data?.role;
         if (role === "admin") {
           navigate("/admin/dashboard");
-        } else if (role === "seller") {
-          const sellerRes = await dispatch(getSellerDetails(userId));
-          const isApproved = sellerRes?.payload?.isapproved;
-          isApproved
-            ? navigate("/seller/dashboard")
-            : navigate("/seller/pending");
+        } else if (role == "seller") {
+          const sellerRes = await dispatch(getSellerDetails(seller?._id));
+          const isApproved = sellerRes?.payload?.data?.isapproved;
+          if (isApproved) {
+            navigate("/seller/dashboard");
+          } else {
+            navigate("/seller/pending");
+          }
         } else {
           navigate("/");
         }
-      } else {
-        toast.error(data.payload.message);
+        
       }
     });
   };
+console.log(seller?._id)
+
 
   return (
     <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light px-3">

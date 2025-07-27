@@ -21,24 +21,25 @@ const initialFormData = {
   status: "",
 };
 
-function OrderDetailsModel({ orderDetails, setShowModal }) {
+function OrderDetailsModel({ sellerOrderDetails, setShowModal }) {
   const [formData, setFormData] = useState(initialFormData);
   const {userdetail} = useSelector((state) => state.getUser);
+   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
 
   useEffect(() => {
-  if (orderDetails?.userId) {
-    dispatch(getUserByIdForSeller(orderDetails?.userId));
+  if (sellerOrderDetails?.userId) {
+    dispatch(getUserByIdForSeller(sellerOrderDetails?.userId));
   }
-}, [orderDetails?.userId, dispatch]);
+}, [sellerOrderDetails?.userId, dispatch]);
 
 useEffect(() => {
   if (userdetail) {
     console.log(userdetail, "Fetched user by ID");
   }
 }, [userdetail]);
-  if (!orderDetails) return <p>Loading...</p>;
+  if (!sellerOrderDetails) return <p>Loading...</p>;
 
   function handleUpdateStatus(event) {
     event.preventDefault();
@@ -47,18 +48,19 @@ useEffect(() => {
     const { status } = formData;
 
     dispatch(
-      updateOrderStatusBySeller({ id: orderDetails?._id, orderStatus: status })
+      updateOrderStatusBySeller({ id: sellerOrderDetails?._id, orderStatus: status })
     ).then((data) => {
       // console.log(data,"sds");
       if (data?.payload?.success) {
-        dispatch(getOrderDetailsForSeller(orderDetails?._id));
-        dispatch(getAllOrdersForSeller());
+        dispatch(getOrderDetailsForSeller(sellerOrderDetails?._id));
+        // dispatch(getAllOrdersForSeller());
         setFormData(initialFormData);
         toast.success("Order status updated!");
       }
     });
   }
   console.log(userdetail, "Fetched user by ID");
+  
 
   return (
     <div className="container-fluid px-4">
@@ -66,24 +68,25 @@ useEffect(() => {
         <h6 className="fw-bold mb-3">Order Summary</h6>
         <div className="row mb-2">
           <div className="col-6">Order ID</div>
-          <div className="col-6 fw-semibold text-end">{orderDetails?._id}</div>
+          <div className="col-6 fw-semibold text-end">{sellerOrderDetails?._id}</div>
         </div>
+        
         <div className="row mb-2">
           <div className="col-6">Order Date</div>
           <div className="col-6 text-end">
-            {new Date(orderDetails?.createdAt).toLocaleDateString()}
+            {new Date(sellerOrderDetails?.createdAt).toLocaleDateString()}
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-6">Shipping Charge</div>
           <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.shippingCharge?.toLocaleString("en-IN")}/-
+            ₹ {sellerOrderDetails?.shippingCharge?.toLocaleString("en-IN")}/-
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-6">Order Total</div>
           <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
+            ₹ {sellerOrderDetails?.totalAmount?.toLocaleString("en-IN")}/-
           </div>
         </div>
 
@@ -92,16 +95,16 @@ useEffect(() => {
           <div className="col-6 text-end">
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails?.orderStatus === "pending"
+                sellerOrderDetails?.orderStatus === "pending"
                   ? "warning"
-                  : orderDetails?.orderStatus === "rejected"
+                  : sellerOrderDetails?.orderStatus === "rejected"
                   ? "danger"
-                  : orderDetails?.orderStatus === "Confirmed"
+                  : sellerOrderDetails?.orderStatus === "Confirmed"
                   ? "primary"
                   : "success"
               } text-white`}
             >
-              {orderDetails.orderStatus}
+              {sellerOrderDetails.orderStatus}
             </span>
           </div>
         </div>
@@ -110,7 +113,7 @@ useEffect(() => {
       <div className="mb-4 border rounded p-3">
         <h6 className="fw-bold mb-3">Product Details</h6>
         <ul className="list-unstyled">
-          {orderDetails?.cartItems?.map((item, index) => (
+          {sellerOrderDetails?.cartItems?.map((item, index) => (
             <li
               key={item._id || index}
               className="d-flex justify-content-between border-bottom py-2"
@@ -151,16 +154,16 @@ useEffect(() => {
           <strong>Name:</strong> {userdetail?.username}
         </div>
         <div className="mb-2">
-          <strong>Address:</strong> {orderDetails?.addressInfo?.address}
+          <strong>Address:</strong> {sellerOrderDetails?.addressInfo?.address}
         </div>
         <div className="mb-2">
-          <strong>City:</strong> {orderDetails?.addressInfo?.city}
+          <strong>City:</strong> {sellerOrderDetails?.addressInfo?.city}
         </div>
         <div className="mb-2">
-          <strong>Pincode:</strong> {orderDetails?.addressInfo?.pincode}
+          <strong>Pincode:</strong> {sellerOrderDetails?.addressInfo?.pincode}
         </div>
         <div className="mb-2">
-          <strong>Phone:</strong> {orderDetails?.addressInfo?.phone}
+          <strong>Phone:</strong> {sellerOrderDetails?.addressInfo?.phone}
         </div>
 
         {/* <div>
@@ -174,13 +177,13 @@ useEffect(() => {
         <div className="row mb-2">
           <div className="col-6">PayerID</div>
           <div className="col-6 fw-semibold text-end">
-            {orderDetails?.payerId || "NA"}
+            {sellerOrderDetails?.payerId || "NA"}
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-6">PaymentID</div>
           <div className="col-6 fw-semibold text-end">
-            {orderDetails?.paymentId || "NA"}
+            {sellerOrderDetails?.paymentId || "NA"}
           </div>
         </div>
         {/* <div className="row mb-2">
@@ -192,7 +195,7 @@ useEffect(() => {
         <div className="row mb-2">
           <div className="col-6">Payment Method</div>
           <div className="col-6 fw-semibold text-end">
-            {orderDetails?.paymentMethod}
+            {sellerOrderDetails?.paymentMethod}
           </div>
         </div>
         <div className="row">
@@ -200,16 +203,16 @@ useEffect(() => {
           <div className="col-6 text-end">
             <span
               className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails?.paymentStatus === "pending"
+                sellerOrderDetails?.paymentStatus === "pending"
                           ? "primary"
-                          : orderDetails?.paymentStatus === "rejected"
+                          : sellerOrderDetails?.paymentStatus === "rejected"
                           ? "danger"
-                          : orderDetails?.paymentStatus === "paid"
+                          : sellerOrderDetails?.paymentStatus === "paid"
                           ? "success"
                           : "info"
               } text-white`}
             >
-              {orderDetails.paymentStatus}
+              {sellerOrderDetails.paymentStatus}
             </span>
           </div>
         </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isLoading: false,
-  //   orderId: null,
+
   sellerList: [],
   sellerDetails: null,
   

@@ -1,8 +1,16 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { data, Navigate, useLocation } from "react-router-dom";
+import { getSellerDetails } from "../store/admin/seller-listingSlice";
 
 function CheckAuth({ isAuthenticated, user, children }) {
   const location = useLocation();
-
+  const { seller } = useSelector((state) => state.sellerAuth);
+  const dispatch = useDispatch();
+  const [isApproved, setIsApproved] = useState("null");
+   const { sellerList, sellerDetails } = useSelector(
+    (state) => state.sellerListing
+  );
   // Protect root path ("/") — redirect based on role
 
   // if (location.pathname === "/") {
@@ -21,6 +29,15 @@ function CheckAuth({ isAuthenticated, user, children }) {
   //     }
   //   }
   // }
+  useEffect(() => {
+    dispatch(getSellerDetails((seller?._id))).then((data) => {
+      console.log(data);
+
+      const isApproved = data?.payload?.data?.isapproved;
+
+      setIsApproved(isApproved);
+    });
+  }, [dispatch, seller?._id]);
 
   if (
     !isAuthenticated &&
@@ -30,20 +47,35 @@ function CheckAuth({ isAuthenticated, user, children }) {
     return <Navigate to="/auth/login" />;
   }
 
-  // if (!isAuthenticated && location.pathname.startsWith("/auth/register")) {
-  //   return <Navigate to={"/auth/register/roll=seller"}/>;
-  // }
+  
   if (location.pathname === "/") {
     if (user?.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
     }
 
     if (user?.role === "seller") {
-      return <Navigate to="/seller/dashboard" />;
+      if (isApproved) {
+        return <Navigate to="/seller/dashboard" />;
+      } else {
+        return <Navigate to="/seller/pending" />;
+      }
     }
 
     return children;
   }
+
+  // if (!isApproved && location.pathname.includes("dashboard")) {
+  //   return <Navigate to="/seller/pending" />;
+  // }
+
+  // if (isApproved && location.pathname.includes("pending")) {
+  //    return <Navigate to="/seller/dashboard" />;
+  // }
+
+  // if (!isApproved && location.pathname.includes("admin")) {
+  //   return <Navigate to="/auth/login" />;
+  // }
+
 
   const publlicPaths = ["/", "/listing", "/cart"];
   const isPublic =
@@ -70,7 +102,9 @@ function CheckAuth({ isAuthenticated, user, children }) {
       (user?.role === "admin"
         ? "/admin/dashboard"
         : user?.role === "seller"
-        ? "/seller/dashboard"
+        ? isApproved
+          ? "/seller/dashboard"
+          : "/seller/pending"
         : "/");
     return <Navigate to={redirectPath} replace />;
   }

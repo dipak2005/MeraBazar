@@ -22,7 +22,7 @@ const createOrder = async (req, res) => {
 
     // totalprice
     const totalPrice = cartItems.reduce((acc, item) => {
-      const basePrice = parseFloat( item.price || 0);
+      const basePrice = parseFloat(item.price || 0);
       return acc + basePrice * item.quantity;
     }, 0);
 
@@ -96,9 +96,22 @@ const createOrder = async (req, res) => {
           message: error.message,
         });
       } else {
+        const cartItemsWithSeller = await Promise.all(
+          cartItems.map(async (item) => {
+            const product = await ProductModel.findById(item.productId).select(
+              "sellerId"
+            );
+            return {
+              ...item,
+              sellerId: product.sellerId,
+            };
+          })
+        );
+
+        
         const newlyCreatedOrder = new OrderModel({
           userId,
-          cartItems,
+          cartItems: cartItemsWithSeller,
           addressInfo,
           orderStatus,
           paymentMethod,
@@ -190,10 +203,9 @@ const getAllOrdersByUser = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    
-    const orders = await OrderModel.find({userId });
+    const orders = await OrderModel.find({ userId });
 
-      if (!orders || orders.length === 0) { 
+    if (!orders || orders.length === 0) {
       return res.status(404).json({
         success: false,
         message: "No Orders found!",

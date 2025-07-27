@@ -392,6 +392,14 @@ const DealsSection = ({ title, items, load }) => {
                       <span className="placeholder col-4 bg-success"></span>
                     </p>
                   </div>
+                  <div className="card-body py-2">
+                    <p className="placeholder-glow mb-2">
+                      <span className="placeholder col-8"></span>
+                    </p>
+                    <p className="placeholder-glow mb-0">
+                      <span className="placeholder col-4 bg-success"></span>
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}

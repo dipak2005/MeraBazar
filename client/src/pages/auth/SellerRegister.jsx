@@ -61,11 +61,7 @@ const SellerRegistration = () => {
       if (data?.payload?.success) {
         toast.success(data.payload.message || "Registration Successful!");
 
-        if (seller.isapproved) {
-          navigate("/seller/dashboard");
-        } else {
-          navigate("/seller/pending");
-        }
+        navigate("/auth/login")
         setFormData(InitialState);
       } else {
         toast.error(data?.payload?.message || "Registration failed");

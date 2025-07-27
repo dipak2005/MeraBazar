@@ -9,8 +9,13 @@ const ProductSchema = new mongoose.Schema(
     brand: String,
     price: Number,
     salePrice: Number,
-    discount:Number,
+    discount: Number,
     totalStock: Number,
+    sellerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "seller",
+      required: true,
+    },
   },
   { timestamps: true }
 );

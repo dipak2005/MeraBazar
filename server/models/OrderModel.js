@@ -10,6 +10,11 @@ const OrderSchema = new mongoose.Schema({
       price: String,
       quantity: Number,
       discount: Number,
+      sellerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "seller",
+      required: true,
+    },
     },
   ],
   addressInfo: {

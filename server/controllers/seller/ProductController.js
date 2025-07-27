@@ -24,6 +24,7 @@ const ProductModel = require("../../models/ProductModel");
 const addProduct = async (req, res) => {
   try {
     const {
+      sellerId,
       image,
       title,
       description,
@@ -35,6 +36,7 @@ const addProduct = async (req, res) => {
       totalStock,
     } = req.body;
 
+    
     const newProduct = new ProductModel({
       image,
       title,
@@ -45,6 +47,7 @@ const addProduct = async (req, res) => {
       salePrice,
       discount,
       totalStock,
+      sellerId
     });
 
    
@@ -67,17 +70,26 @@ const addProduct = async (req, res) => {
 // fetch all product
 const fetchProduct = async (req, res) => {
   try {
-    const listOfProduct = await ProductModel.find({});
+    const { sellerId } = req.params;
+
+    if (!sellerId) {
+      return res.status(400).json({
+        success: false,
+        message: "Seller ID is required",
+      });
+    }
+
+    const listOfProduct = await ProductModel.find({ sellerId });
 
     return res.status(200).json({
       success: true,
       data: listOfProduct,
     });
   } catch (e) {
-    console.log(e);
-    res.status(500).json({
+    console.error(e);
+    return res.status(500).json({
       success: false,
-      message: "Error occured while add new Product",
+      message: "Error occurred while fetching seller products",
     });
   }
 };

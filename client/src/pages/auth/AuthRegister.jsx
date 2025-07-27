@@ -38,7 +38,7 @@ function AuthRegister() {
         toast.error(res?.payload?.message || "Registration failed");
       }
 
-      console.log(data.payload.data);
+      
     });
   }
 
@@ -66,9 +66,9 @@ function AuthRegister() {
           <div className="my-4 text-center">
             <Link
               to="/auth/register-seller" state={{role:"seller"}}
-              className="text-decoration-none text-dark d-inline-flex align-items-center gap-1"
+              className=" text-dark d-inline-flex align-items-center gap-1"
             >
-              <Store size={18} /> Become a Seller
+              <Store size={27} /> Become a Seller
             </Link>
           </div>
 

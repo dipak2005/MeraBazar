@@ -121,7 +121,7 @@ function App() {
               path="/"
               element={
                 <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                  <ShoppingViewHome />{" "}
+                  <ShoppingViewHome />
                 </CheckAuth>
               }
             />

@@ -3,6 +3,7 @@ import { Button, Card, Modal, Placeholder, Table } from "react-bootstrap";
 import OrderDetailsModel from "../../components/seller-view/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchOrderBySeller,
   getAllOrdersForSeller,
   getOrderDetailsForSeller,
   resetOrderDetails,
@@ -14,28 +15,33 @@ function SellerOrder() {
 
   const dispatch = useDispatch();
 
-  const { orderList, isLoading, orderDetails } = useSelector(
-    (state) => state.sellerOrder
-  );
+  const { orderList, isLoading,  sellerOrderDetails,orderDetails } =
+    useSelector((state) => state.sellerOrder);
+  const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    dispatch(getAllOrdersForSeller());
-  }, [dispatch]);
+useEffect(() => {
+  if (user?.id) {
+    dispatch(fetchOrderBySeller({ sellerId: user?.id }));
+  }
+}, [dispatch, user?.id]);
+
 
   const handleViewDetail = (getId) => {
+    console.log("Selected Order ID:", getId);
     dispatch(resetOrderDetails());
     dispatch(getOrderDetailsForSeller(getId));
+      setShowModal(true);
   };
 
   useEffect(() => {
     if (orderDetails != null) {
-      setShowModal(true);
+    
       setSelectedOrder(orderDetails);
     }
   }, [orderDetails]);
 
-  // console.log(orderDetails, "orderDetails");
-  // console.log(orderList, "orderlist");
+  console.log(orderDetails, "seller");
+  console.log(user?.id, "id");
 
   // useEffect(() => {
   //   if (user?.id) {
@@ -83,13 +89,13 @@ function SellerOrder() {
                     <td>
                       <span
                         className={`badge px-1 py-2 bg-${
-                           order?.orderStatus === "pending"
-                          ? "primary"
-                          : order?.orderStatus === "rejected"
-                          ? "danger"
-                          : order?.orderStatus === "delivered"
-                          ? "success"
-                          : "info"
+                          order?.orderStatus === "pending"
+                            ? "primary"
+                            : order?.orderStatus === "rejected"
+                            ? "danger"
+                            : order?.orderStatus === "delivered"
+                            ? "success"
+                            : "info"
                         } text-white text-uppercase`}
                       >
                         {order?.orderStatus}
@@ -100,7 +106,10 @@ function SellerOrder() {
                     </td>
                     <td className="px-5">
                       <button
-                        onClick={() => handleViewDetail(order?._id)}
+                        onClick={() =>{
+                           handleViewDetail(order._id)
+                           console.log(order._id)
+                        }}
                         className="btn btn-outline-primary"
                       >
                         View Detail
@@ -138,7 +147,7 @@ function SellerOrder() {
           <Modal.Body>
             {selectedOrder && (
               <OrderDetailsModel
-                orderDetails={selectedOrder}
+                sellerOrderDetails={selectedOrder}
                 // order={selectedOrder}
                 setShowModal={setShowModal}
               />

@@ -36,7 +36,7 @@ function ShoppingViewListings() {
         if (data?.payload?.success) {
           toast.success("Product added Successfully!");
           dispatch(fetchCartProduct({ userId: user?.id }));
-
+ 
          
         }
       })

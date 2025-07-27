@@ -27,27 +27,28 @@ function SellerOrder() {
     dispatch(getAllSeller());
   }, [dispatch]);
 
-  const handleViewDetail = (getId, selleId) => {
+  const handleViewDetail = (getId, sellerId) => {
     dispatch(resetSellerDetails());
     dispatch(getSellerDetails(getId));
-    dispatch(getUserByIdForSeller(selleId)).then((data) => {
+    dispatch(getUserByIdForSeller(sellerId)).then((data) => {
       console.log(data);
       setSellerName(data?.payload?.data?.username);
       setSellerEmail(data?.payload?.data?.email);
       setSellerPhone(data?.payload?.data?.phone);
     });
+    setShowModal(true);
   };
 
   useEffect(() => {
     if (sellerDetails != null) {
-      setShowModal(true);
+      
       setSelectedSeller(sellerDetails);
     }
   }, [sellerDetails]);
 
   console.log(sellerDetails, "orderDetails");
-  // console.log(sellerList, "sellerlist");
-  // console.log(seller, "seller");
+  console.log(seller?._id,"seller");
+  // console.log(sellerDetails, "seller");
 
   // useEffect(() => {
   //   if (user?.id) {

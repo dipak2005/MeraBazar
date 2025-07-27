@@ -9,10 +9,10 @@ const initialState = {
 // add product thunk
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
-  async (formData) => {
+  async (formData,sellerId) => {
     const result = await axios.post(
       "http://localhost:3000/api/seller/products/add",
-      formData
+      formData ,sellerId
     );
     return result?.data;
   }
@@ -21,9 +21,9 @@ export const addNewProduct = createAsyncThunk(
 // add fetchAllProduct thunk
 export const fetchAllProduct = createAsyncThunk(
   "/products/fetchallproduct",
-  async () => {
+  async (sellerId) => {
     const result = await axios.get(
-      "http://localhost:3000/api/seller/products/get"
+      `http://localhost:3000/api/seller/products/get/${sellerId}`
     );
     return result?.data;
   }

@@ -46,19 +46,61 @@ export const sellerRegistrationControl = [
     step: 1,
     label: "Personal Details",
     fields: [
-      { name: "username", label: "user Name", type: "text", required: true ,placeholder:"Enter your name" },
-      { name: "email", label: "Email", type: "email", required: true ,placeholder:"Enter your E-mail"},
-      { name: "phone", label: "Phone Number", type: "text", required: true ,placeholder:"Enter your phone"},
-       { name: "password", label: "Password", type: "password", required: true ,placeholder:"Enter password"},
+      {
+        name: "username",
+        label: "user Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter your name",
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+        required: true,
+        placeholder: "Enter your E-mail",
+      },
+      {
+        name: "phone",
+        label: "Phone Number",
+        type: "text",
+        required: true,
+        placeholder: "Enter your phone",
+      },
+      {
+        name: "password",
+        label: "Password",
+        type: "password",
+        required: true,
+        placeholder: "Enter password",
+      },
     ],
   },
   {
     step: 2,
     label: "Business Details",
     fields: [
-      { name: "storename", label: "Store Name", type: "text", required: true , placeholder:"Enter your store name"},
-      { name: "gstno", label: "GST Number", type: "text", required: false ,placeholder:"Enter GST No." },
-      {name:"address",label:"Address",type:"textarea",required:true,placeholder:"Enter Business Address"},
+      {
+        name: "storename",
+        label: "Store Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter your store name",
+      },
+      {
+        name: "gstno",
+        label: "GST Number",
+        type: "text",
+        required: false,
+        placeholder: "Enter GST No.",
+      },
+      {
+        name: "address",
+        label: "Address",
+        type: "textarea",
+        required: true,
+        placeholder: "Enter Business Address",
+      },
       {
         name: "businesstype",
         label: "Business Type",
@@ -77,9 +119,15 @@ export const sellerRegistrationControl = [
         label: "Bank Account No.",
         type: "text",
         required: true,
-        placeholder:"Enter your bank no."
+        placeholder: "Enter your bank no.",
       },
-      { name: "ifsccode", label: "IFSC Code", type: "text", required: true,placeholder:"Enter your IFSC CODE" },
+      {
+        name: "ifsccode",
+        label: "IFSC Code",
+        type: "text",
+        required: true,
+        placeholder: "Enter your IFSC CODE",
+      },
       {
         name: "image",
         label: "Upload Document",
@@ -114,6 +162,10 @@ export const addProductFormElements = [
       { value: "kids", label: "Kids" },
       { value: "accessories", label: "Accessories" },
       { value: "footwear", label: "Footwear" },
+      { value: "mobile", label: "Mobile" },
+      { value: "appliances", label: "Appliances" },
+      { value: "electonics", label: "Electronics" },
+      { value: "fashion", label: "Fashion" },
     ],
   },
   {
@@ -127,6 +179,25 @@ export const addProductFormElements = [
       { value: "levi", label: "Levi's" },
       { value: "zara", label: "Zara" },
       { value: "h&m", label: "H&M" },
+      { value: "apple", label: "Apple" },
+      { value: "samsung", label: "Samsung" },
+      { value: "oneplus", label: "OnePlus" },
+      { value: "xiaomi", label: "Xiaomi" },
+      { value: "realme", label: "Realme" },
+      { value: "vivo", label: "Vivo" },
+      { value: "oppo", label: "Oppo" },
+      { value: "motorola", label: "Motorola" },
+      { value: "tecno", label: "Tecno" },
+      { value: "boat", label: "Boat" },
+      { value: "noise", label: "Noise" },
+      { value: "fastrack", label: "Fastrack" },
+      { value: "casio", label: "Casio" },
+      { value: "philips", label: "Philips" },
+      { value: "panasonic", label: "Whirlpool" },
+      { value: "godrej", label: "Godrej" },
+      { value: "voltas", label: "Voltas" },
+       { value: "bluestar", label: "BlueStar" },
+        { value: "lg", label: "LG" },
     ],
   },
   {
@@ -312,6 +383,15 @@ export const filterOptions = {
     { id: "levi", label: "Levi's" },
     { id: "zara", label: "Zara" },
     { id: "h&m", label: "H&M" },
+    { id: "apple", label: "Apple" },
+    { id: "samsung", label: "Samsung" },
+    { id: "oneplus", label: "OnePlus" },
+    { id: "xiaomi", label: "Xiaomi" },
+    { id: "realme", label: "Realme" },
+    { id: "vivo", label: "Vivo" },
+    { id: "oppo", label: "Oppo" },
+    { id: "motorola", label: "Motorola" },
+    { id: "tecno", label: "Tecno" },
   ],
 };
 
@@ -329,7 +409,7 @@ export const profileFields = [
     type: "text",
     placeholder: "Enter your full name",
     required: true,
-    disabled: true, 
+    disabled: true,
   },
   {
     name: "email",
@@ -337,7 +417,7 @@ export const profileFields = [
     type: "email",
     placeholder: "Enter your email",
     required: true,
-    disabled: true, 
+    disabled: true,
   },
   {
     name: "phone",
@@ -362,16 +442,10 @@ export const profileFields = [
     type: "date",
     required: false,
   },
- 
- 
-  
 ];
 
-
 export const addressFormControls = [
-
-   
-   {
+  {
     name: "phone",
     label: "Mobile Number",
     type: "tel",
@@ -386,7 +460,7 @@ export const addressFormControls = [
     type: "text",
     placeholder: "Enter your address",
   },
-  
+
   {
     label: "City",
     name: "city",
@@ -401,7 +475,7 @@ export const addressFormControls = [
     type: "text",
     placeholder: "Enter your pincode",
   },
-  
+
   {
     label: "Notes",
     name: "notes",
@@ -412,12 +486,10 @@ export const addressFormControls = [
     name: "place",
     label: "Your place",
     componentType: "radio",
-    
+
     options: [
       { value: "home", label: "Home" },
       { value: "work", label: "Work" },
-      
     ],
   },
-  
 ];

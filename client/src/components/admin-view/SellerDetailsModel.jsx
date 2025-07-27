@@ -23,7 +23,7 @@ function SellerDetailsModel({
 }) {
   const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
-
+const { seller } = useSelector((state) => state.sellerAuth);
   useEffect(() => {
     if (sellerDetails?.userId) {
       dispatch(getUserByIdForSeller(sellerDetails?.userId));
@@ -46,7 +46,7 @@ function SellerDetailsModel({
         isapproved: status == "approved" ? true : false,
       })
     ).then((data) => {
-      // console.log(data,"sds");
+      
       if (data?.payload?.success) {
         dispatch(getSellerDetails(sellerDetails?.data?._id));
         dispatch(getAllSeller());
@@ -55,7 +55,7 @@ function SellerDetailsModel({
       }
     });
   }
-  console.log(sellerDetails?.data?._id, "Fetched user by ID");
+  
 
   return (
     <div className="container-fluid px-4">
@@ -175,7 +175,7 @@ function SellerDetailsModel({
         <div className="row mb-2">
           <div className="col-6">GST No.</div>
           <div className="col-6 fw-semibold text-end">
-            {sellerDetails?.data?.gstno}
+            {sellerDetails?.data?.gstno || "NA"}
           </div>
         </div>{" "}
         <div className="row mb-2">
