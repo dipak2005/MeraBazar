@@ -28,7 +28,7 @@ const CartPage = () => {
     0
   );
 
-  const handleclick = () => navigate("/");
+  const handleclick = () => navigate("/shop/listing");
   const handleLogin = () => navigate("/auth/login");
   const handleNavigate = () => navigate("/shop/checkout");
 
