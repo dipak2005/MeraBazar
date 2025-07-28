@@ -242,3 +242,14 @@ h1 {
     padding: 1rem !important;
   }
 }
+
+/* .carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(255, 255, 255, 1) !important;
+  transform: scale(1.1);
+  color: black;
+} */
+/* 
+.carousel-control-next-icon:hover{
+color: black;
+} */

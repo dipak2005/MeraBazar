@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingHeader from "../../components/shopping-view/Header";
 import ShoppingCategory from "../../components/shopping-view/ShoppingCategory";
 import Footer from "../../common/Footer";
@@ -6,140 +6,131 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAllFilteredProducts } from "../../store/shop/productSlice";
+import { getBannerImages } from "../../store/common/bannerSlice";
+
+function normalize(value, max = 1000) {
+  return Math.min(value / max, 1);
+}
+
+function getBestDeals(products) {
+  return products
+    .map((product) => {
+      const discountPercent =
+        ((product.price - product.salePrice) / product.price) * 100;
+
+      const dealScore =
+        discountPercent * 0.4 +
+        (product.rating || 0) * 0.2 +
+        normalize(product.popularity || 0) * 0.15 +
+        (product.stock < 10 ? 10 : 0) * 0.1; //
+
+      return {
+        ...product,
+        discountPercent: Math.round(discountPercent),
+        dealScore: parseFloat(dealScore.toFixed(2)),
+      };
+    })
+    .sort((a, b) => b.dealScore - a.dealScore)
+    .slice(0, 10);
+}
+
+const getBestDiscountProducts = (products) => {
+  return products
+    .map((product) => ({
+      ...product,
+      discount: Math.round(
+        ((product.price - product.salePrice) / product.price) * 100
+      ),
+    }))
+    .sort((a, b) => b.discount - a.discount) // highest discount first
+    .slice(0, 10); // top 10 deals
+};
+
+const getTopSelection = (products) => {
+  return products
+    .map((product) => {
+      const discountPercent =
+        ((product.price - product.salePrice) / product.price) * 100;
+      const score =
+        (product.reviewVal || 0) * 0.5 + // 50% weight
+        (product.popularity || 0) * 0.2 + // 20%
+        (discountPercent || 0) * 0.2 + // 20%
+        (product.stock < 5 ? 5 : 0); // bonus for urgency
+
+      return {
+        ...product,
+        discountPercent: Math.round(discountPercent),
+        topScore: score.toFixed(2),
+      };
+    })
+    .sort((a, b) => b.topScore - a.topScore) // best first
+    .slice(0, 10); // top 10
+};
 
 function ShoppingViewHome() {
-  // const { isLoading } = useSelector((state) => state.auth);
-  const { productList , isLoading} = useSelector((state) => state.shopProduct);
+  const { productList, isLoading } = useSelector((state) => state.shopProduct);
+  const { bannerImageList } = useSelector((state) => state.commonBanner);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const mens = "category=men";
-  const sortMens = "sort=&sortBy=nullquery";
+  const bestDeals = getBestDeals(productList || []);
+  const bestDiscount = getBestDiscountProducts(productList || []);
+  const bestTopSelection = getTopSelection(productList || []);
+  const electronics = productList.filter((product) =>
+    [
+      "laptop",
+      "tv",
+      "printer",
+      "router",
+      "mobile",
+      "freeze",
+      "airconditioner",
+    ].some((keyword) => product.title.toLowerCase().includes(keyword))
+  );
+
   useEffect(() => {
+    const savedFilters = JSON.parse(sessionStorage.getItem("filters"));
     dispatch(
       fetchAllFilteredProducts({
-        filterParams: mens,
+        filterParams: savedFilters,
         sortParams: null,
       })
     );
-    console.log();
   }, [dispatch]);
+
+  useEffect(() => {
+    // for unfiltered
+
+    sessionStorage.removeItem("filters");
+
+    dispatch(
+      fetchAllFilteredProducts({
+        filterParams: null,
+        sortParams: null,
+      })
+    );
+  }, [dispatch]);
+
+  function handleNavigateToListingPage(product, section = "category") {
+    sessionStorage.removeItem("filters");
+
+    const filterKey = section; // "category" or "brand"
+    const filterValue = product[filterKey]?._id || product[filterKey]; // support nested
+    const currentFilter = {
+      [filterKey]: [filterValue], // category : men like this
+    };
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate(`/shop/listing`);
+  }
 
   const productSections = [
     {
       title: "Best Deals",
-      products: [
-        {
-          id: 1,
-          title: "Realme Narzo",
-          price: 9999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/1/r/z/narzo-n61-narzo-n61-realme-original-imah4ff7syhrqwnh.jpeg?q=70",
-        },
-        {
-          id: 2,
-          title: "Boat Earbuds",
-          price: 1299,
-          image:
-            "https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/q/m/s/-original-imah3zvdthupfejc.jpeg?q=70",
-        },
-        {
-          id: 3,
-          title: "T-Shirt",
-          price: 599,
-          image:
-            "https://rukminim2.flixcart.com/image/612/612/xif0q/t-shirt/w/f/f/xl-ausk0165-ausk-original-imahc7bcvb78cuyj.jpeg?q=70",
-        },
-        {
-          id: 4,
-          title: "Fan",
-          price: 2199,
-          image:
-            "https://rukminim2.flixcart.com/image/832/832/xif0q/fan/n/w/u/neo-star-p2-48-ultra-hight-speed-50-2-ceiling-fan-1200-minmax-original-imah6f5xaqpgks2f.jpeg?q=70&crop=false",
-        },
-        {
-          id: 5,
-          title: "Realme Narzo",
-          price: 9999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/1/r/z/narzo-n61-narzo-n61-realme-original-imah4ff7syhrqwnh.jpeg?q=70",
-        },
-        {
-          id: 6,
-          title: "Boat Earbuds",
-          price: 1299,
-          image:
-            "https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/q/m/s/-original-imah3zvdthupfejc.jpeg?q=70",
-        },
-
-        {
-          id: 7,
-          title: "Fan",
-          price: 2199,
-          image:
-            "https://rukminim2.flixcart.com/image/832/832/xif0q/fan/n/w/u/neo-star-p2-48-ultra-hight-speed-50-2-ceiling-fan-1200-minmax-original-imah6f5xaqpgks2f.jpeg?q=70&crop=false",
-        },
-      ],
+      products: bestDeals,
     },
     {
       title: "Top Offers on Electronics",
-      products: [
-        {
-          id: 7,
-          title: "Laptop",
-          price: 39999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/computer/i/t/b/-original-imahcd999rpcg3cj.jpeg?q=70",
-        },
-        {
-          id: 8,
-          title: "Smart TV",
-          price: 14999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/television/j/u/i/-original-imahefyhj2gjg5h3.jpeg?q=70",
-        },
-        {
-          id: 9,
-          title: "Printer",
-          price: 4999,
-          image:
-            "https://rukminim2.flixcart.com/image/612/612/k4a7c7k0/printer/y/j/z/canon-e3370-original-imafn2wyyxjjvzd6.jpeg?q=70",
-        },
-        {
-          id: 10,
-          title: "Router",
-          price: 1499,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/router/b/w/g/dir-825-dlink-original-imagkcchgzwwzqac.jpeg?q=70",
-        },
-        {
-          id: 11,
-          title: "Router",
-          price: 1499,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/router/b/w/g/dir-825-dlink-original-imagkcchgzwwzqac.jpeg?q=70",
-        },
-        {
-          id: 12,
-          title: "Laptop",
-          price: 39999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/computer/i/t/b/-original-imahcd999rpcg3cj.jpeg?q=70",
-        },
-        {
-          id: 13,
-          title: "Laptop",
-          price: 39999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/computer/i/t/b/-original-imahcd999rpcg3cj.jpeg?q=70",
-        },
-        {
-          id: 14,
-          title: "Laptop",
-          price: 39999,
-          image:
-            "https://rukminim2.flixcart.com/image/312/312/xif0q/computer/i/t/b/-original-imahcd999rpcg3cj.jpeg?q=70",
-        },
-      ],
+      products: electronics.slice(0, 8),
     },
   ];
 
@@ -149,6 +140,12 @@ function ShoppingViewHome() {
     "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/30e8800d3fcca35b.jpeg?q=60",
     "https://rukminim1.flixcart.com/fk-p-flap/3240/540/image/dfc6954413d2b3d7.jpeg?q=60",
   ];
+
+  useEffect(() => {
+    dispatch(getBannerImages()).then((data) => {
+      console.log(bannerImageList, "ls");
+    });
+  }, [dispatch]);
 
   return isLoading ? (
     <div className="container py-4">
@@ -165,7 +162,7 @@ function ShoppingViewHome() {
       </div>
 
       <div className="row">
-        {productSections.map((_, idx) => (
+        {productList.map((_, idx) => (
           <div className="col-md-3 mb-4" key={idx}>
             <div className="card">
               <div className="placeholder-glow">
@@ -202,7 +199,7 @@ function ShoppingViewHome() {
         data-bs-ride="carousel"
       >
         <div className="carousel-inner">
-          {slides.map((slide, index) => (
+          {bannerImageList.map((slide, index) => (
             <div
               className={`carousel-item ${index === 0 ? "active" : ""}`}
               key={index}
@@ -212,7 +209,7 @@ function ShoppingViewHome() {
               }}
             >
               <img
-                src={slide}
+                src={slide.image}
                 className="d-block w-100 h-100"
                 alt={`Banner ${index + 1}`}
                 style={{
@@ -229,10 +226,26 @@ function ShoppingViewHome() {
           type="button"
           data-bs-target="#mainBanner"
           data-bs-slide="prev"
+          // style={{
+          //   zIndex: 2,
+          //   width: "60px",
+          //   height: "60px",
+          //   backgroundColor: "white",
+          //   borderRadius: "50%",
+          //   top: "50%",
+          //   transform: "translateY(-50%)",
+          //   right: "20px",
+          //   transition: "all 0.3s ease",
+          // }}
         >
           <span
-            className="carousel-control-prev-icon"
+            className="carousel-control-prev-icon text-dark"
             aria-hidden="true"
+            // style={{
+            //   filter: "invert(1)",
+            //   width: "30px",
+            //   height: "30px",
+            // }}
           ></span>
           <span className="visually-hidden">Previous</span>
         </button>
@@ -241,10 +254,26 @@ function ShoppingViewHome() {
           type="button"
           data-bs-target="#mainBanner"
           data-bs-slide="next"
+          // style={{
+          //   zIndex: 2,
+          //   width: "60px",
+          //   height: "60px",
+          //   backgroundColor: "white",
+          //   borderRadius: "50%",
+          //   top: "50%",
+          //   transform: "translateY(-50%)",
+          //   right: "20px",
+          //   transition: "all 0.3s ease",
+          // }}
         >
           <span
             className="carousel-control-next-icon"
             aria-hidden="true"
+            // style={{
+            //   filter: "invert(1)",
+            //   width: "30px",
+            //   height: "30px",
+            // }}
           ></span>
           <span className="visually-hidden">Next</span>
         </button>
@@ -264,32 +293,47 @@ function ShoppingViewHome() {
               <div
                 className="card h-100 border-0 rounded-2 product-card p-2 mb-3"
                 style={{ minWidth: "230px", maxWidth: "250px" }}
-                key={product.id}
+                key={product._id}
               >
-                <img
-                  src={product.image}
-                  className="card-img-top"
-                  alt={product.title}
-                  style={{
-                    height: "15rem",
-                    // width: "210px",
-                    objectFit: "contain",
+                <Link
+                  to={"/shop/listing"}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigateToListingPage(product, "category");
                   }}
-                />
+                >
+                  <img
+                    src={product.image}
+                    className="card-img-top"
+                    alt={product.title}
+                    style={{ height: "15rem", objectFit: "contain" }}
+                  />
+                </Link>
                 <div className="card-body p-2">
                   <h6 className="card-title text-truncate mb-1">
                     {product.title}
                   </h6>
-                  <p className="text-primary fw-bold mb-1">₹{product.price}</p>
+                  <p className="text-primary fw-bold mb-1">
+                    ₹{product.salePrice}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       ))}
+
       <div className="d-flex ">
-        <DealsSection title={"mens"} items={productList} load={isLoading} />
-        <DealsSection title={"Featured Products"} items={productList} />
+        <DealsSection
+          title={"Best Discount For You"}
+          items={bestDiscount}
+          load={isLoading}
+        />
+        <DealsSection
+          title={"Top Selection"}
+          items={bestTopSelection}
+          load={isLoading}
+        />
       </div>
 
       <Footer />
@@ -332,15 +376,15 @@ const DealsSection = ({ title, items, load }) => {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                  <img
-                    src={item?.image}
-                    className="card-img-top p-2"
-                    alt={item.title}
-                    style={{
-                      height: "12rem",
-                      objectFit: "contain",
-                    }}
-                  />
+                    <img
+                      src={item?.image}
+                      className="card-img-top p-2"
+                      alt={item.title}
+                      style={{
+                        height: "12rem",
+                        objectFit: "contain",
+                      }}
+                    />
                   </a>
                   <div className="card-body py-2 ">
                     <h6 className="card-title small mb-1 text-truncate">

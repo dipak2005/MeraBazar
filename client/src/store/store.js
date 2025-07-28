@@ -12,6 +12,7 @@ import searchSlice from "./shop/searchSlice";
 import reviewSlice from "./shop/reviewSlice";
 import sellerSlice from "../auth-slice/sellerSlice";
 import sellerListingSlice from "./admin/seller-listingSlice";
+import commonSlice from "./common/bannerSlice";
 
 
 const store = configureStore({
@@ -30,6 +31,7 @@ const store = configureStore({
     reviewProduct:reviewSlice,
     sellerAuth:sellerSlice,
     sellerListing:sellerListingSlice,
+    commonBanner:commonSlice
   },
 });
 

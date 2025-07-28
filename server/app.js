@@ -19,6 +19,7 @@ const SearchRouter = require("./routes/shop/searchRoute"); // for user : to sear
 const ReviewRouter = require("./routes/shop/reviewRoute"); // for user : to post review on specific product
 const SellerAuthRouter = require("./routes/auth/SellerAuthRouter"); // seller Authentication
 const SellerListingRouter = require("./routes/admin/seller-listingRoute");// admin : to manage the seller's
+const CommonBannerRouter = require("./routes/common/BannerRoute"); // banner added by admin show to User's
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -69,6 +70,7 @@ app.use("/api/shop/address", UserAddressRouter);
 app.use("/api/shop/order", UserOrderRouter);
 app.use("/api/shop/product/search", SearchRouter);
 app.use("/api/shop/review",ReviewRouter);
+app.use("/api/common/banner",CommonBannerRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

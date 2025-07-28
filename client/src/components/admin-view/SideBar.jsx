@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import {
   ChartNoAxesCombined,
+  GalleryVertical,
   LayoutDashboard,
   ListOrdered,
   ShoppingBasket,
@@ -26,6 +27,13 @@ const adminSidebarMenu = [
     label: "Seller's",
     path: "/admin/seller-listing",
     icon: <UserCog size={18}/>
+  },
+
+  {
+    id: "banner",
+    label: "Banner",
+    path: "/admin/banner",
+    icon:<GalleryVertical size={18} />
   },
 ];
 

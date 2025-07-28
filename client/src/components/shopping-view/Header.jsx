@@ -92,19 +92,22 @@ function ShoppingHeader({ toast, search }) {
       setQuery("");
     }
   };
-   useEffect(() => {
-    dispatch(fetchCartProduct({userId:user?.id}));
-   
-  }, [dispatch,fetchCartProduct]);
+  useEffect(() => {
+    dispatch(fetchCartProduct({ userId: user?.id }));
+  }, [dispatch, fetchCartProduct]);
 
-  console.log(cartItem,"items",user?.id);
+  console.log(cartItem, "items", user?.id);
   return (
     <header className="sticky-top bg-white shadow-sm border-bottom">
       <nav className="navbar navbar-expand-lg px-3 px-md-4 py-2">
         <div className="container-fluid">
           {/* Logo */}
           <Link
-            to="/"
+            to="/" onClick={()=>{
+              if (location.pathname === "/") {
+                sessionStorage.removeItem("filters");
+              }
+            }}
             className="navbar-brand d-flex align-items-center text-decoration-none"
           >
             <span className="fw-bold text-primary fs-4">MeraBazar</span>
@@ -160,7 +163,7 @@ function ShoppingHeader({ toast, search }) {
 
             <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-auto">
               <Link
-                to={"/auth/register-seller"}
+                to={"/auth/login"}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <div
@@ -177,7 +180,10 @@ function ShoppingHeader({ toast, search }) {
               >
                 <ShoppingCart className="me-1" size={20} />
                 {cartItem?.items?.length > 0 && (
-                  <span className="position-absolute top-0 start-76   translate-middle badge rounded-pill bg-danger" style={{height:"19px"}}>
+                  <span
+                    className="position-absolute top-0 start-76   translate-middle badge rounded-pill bg-danger"
+                    style={{ height: "19px" }}
+                  >
                     {cartItem?.items?.length}
                   </span>
                 )}
@@ -187,7 +193,7 @@ function ShoppingHeader({ toast, search }) {
               {isAuthenticated ? (
                 <HeaderRightContent toast={toast} />
               ) : (
-                <Link to={"/auth/login?role=user"} state={{role:"user"}}>
+                <Link to={"/auth/login?role=user"} state={{ role: "user" }}>
                   <div className=" btn btn-outline-primary">
                     <b style={{ textDecoration: "none" }}>Login</b>
                   </div>

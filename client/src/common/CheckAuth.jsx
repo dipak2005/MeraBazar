@@ -94,9 +94,9 @@ function CheckAuth({ isAuthenticated, user, children }) {
   // Redirect authenticated users away from login/register #Rasta Clear hai
   if (
     isAuthenticated &&
-    (location.pathname.startsWith("/auth/login") ||
+    // (location.pathname.startsWith("/auth/login") ||
       location.pathname.startsWith("/auth/register"))
-  ) {
+   {
     const redirectPath =
       location.state?.from?.pathname ||
       (user?.role === "admin"

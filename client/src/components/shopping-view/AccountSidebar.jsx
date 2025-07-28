@@ -5,6 +5,7 @@ import {
   MapPinHouse,
   Settings,
   ShoppingBag,
+  Store,
 } from "lucide-react";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -47,12 +48,10 @@ const AccountSidebar = () => {
       >
         <BookHeart /> Wishlist
       </Link>
-      {/* <Link
-        to="/shop/account/settings"
-        className="list-group-item list-group-item-action"
-      >
-        <Settings /> Settings
-      </Link> */}
+
+      <Link to="/auth/login" className="list-group-item list-group-item-action">
+        <Store /> Become a Seller
+      </Link>
       <button
         onClick={handleLogout}
         className="list-group-item list-group-item-action text-danger"
