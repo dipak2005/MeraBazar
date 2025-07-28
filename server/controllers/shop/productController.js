@@ -9,7 +9,7 @@ const getFilteredProducts = async (req, res) => {
       sortBy = "price-lowtohigh",
     } = req.query;
 
-    const filters = {};
+    const filters = {}; 
 
      if (category.length) {
       filters.category = { $in: category.split(",") };
