@@ -1,8 +1,9 @@
+
 import React, { useEffect, useRef } from "react";
 import { CloudUpload, XIcon, FileText } from "lucide-react";
 import axios from "axios";
 import SkeletonCard from "../../common/ProductSkeleton";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 function ImageUpload({
   imageFile,
   setImageFile,
@@ -46,7 +47,7 @@ function ImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:3000/api/admin/products/upload-image",
+      `${API_BASE_URL}/api/admin/products/upload-image`,
       data
     );
 

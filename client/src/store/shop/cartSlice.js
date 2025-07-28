@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   cartItem: [],
   isLoading: false,
@@ -10,25 +10,22 @@ const initialState = {
 export const addToCart = createAsyncThunk(
   "cart/addtocart",
   async ({ userId, productId, quantity, discount }) => {
-    const response = await axios.post(
-      "http://localhost:3000/api/shop/cart/add",
-      {
-        userId,
-        productId,
-        quantity,
-        discount,
-      }
-    );
+    const response = await axios.post(`${API_BASE_URL}/api/shop/cart/add`, {
+      userId,
+      productId,
+      quantity,
+      discount,
+    });
     return response.data;
   }
-); 
+);
 
 // Fetch cart products
 export const fetchCartProduct = createAsyncThunk(
   "cart/fetchcartproduct",
   async ({ userId }) => {
     const response = await axios.get(
-      `http://localhost:3000/api/shop/cart/get/${userId}`
+      `${API_BASE_URL}/api/shop/cart/get/${userId}`
     );
     return response.data;
     console.log(response.data, "cart data");
@@ -40,12 +37,11 @@ export const updateCartProduct = createAsyncThunk(
   "cart/updatecartproduct",
   async ({ userId, productId, quantity }) => {
     const response = await axios.put(
-      `http://localhost:3000/api/shop/cart/update-cart`,
+      `${API_BASE_URL}/api/shop/cart/update-cart`,
       {
         userId,
         productId,
         quantity,
-        
       }
     );
     return response.data;
@@ -57,8 +53,9 @@ export const deleteCartProduct = createAsyncThunk(
   "cart/deletecartproduct",
   async ({ userId, productId }) => {
     const response = await axios.delete(
-      `http://localhost:3000/api/shop/cart/${userId}/${productId}`
+      `${API_BASE_URL}/api/shop/cart/${userId}/${productId}`
     );
+    console.log(response.data);
     return response.data;
   }
 );
@@ -119,6 +116,7 @@ const shoppingCartSlice = createSlice({
       .addCase(deleteCartProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.cartItem = action.payload.data;
+        console.log(state.cartItem,"cart item");
       })
       .addCase(deleteCartProduct.rejected, (state) => {
         state.isLoading = false;

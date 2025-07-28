@@ -1,6 +1,8 @@
+
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   productList: [],
@@ -11,7 +13,7 @@ export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData,sellerId) => {
     const result = await axios.post(
-      "http://localhost:3000/api/seller/products/add",
+      `${API_BASE_URL}/api/seller/products/add`,
       formData ,sellerId
     );
     return result?.data;
@@ -23,7 +25,7 @@ export const fetchAllProduct = createAsyncThunk(
   "/products/fetchallproduct",
   async (sellerId) => {
     const result = await axios.get(
-      `http://localhost:3000/api/seller/products/get/${sellerId}`
+      `${API_BASE_URL}/api/seller/products/get/${sellerId}`
     );
     return result?.data;
   }
@@ -34,7 +36,7 @@ export const editProduct = createAsyncThunk(
   "/products/editproduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `http://localhost:3000/api/seller/products/edit/${id}`,
+      `${API_BASE_URL}/api/seller/products/edit/${id}`,
       formData
     );
     return result?.data;
@@ -46,7 +48,7 @@ export const deleteProduct = createAsyncThunk(
   "/products/deleteproduct",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:3000/api/seller/products/delete/${id}`,
+      `${API_BASE_URL}/api/seller/products/delete/${id}`,
       
     );
     return result?.data;

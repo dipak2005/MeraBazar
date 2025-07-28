@@ -1,6 +1,8 @@
+
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   //   orderId: null,
@@ -13,7 +15,7 @@ export const getAllOrdersForSeller = createAsyncThunk(
   "/order/getAllOrdersForSeller",
   async () => {
     const response = await axios.get(
-      `http://localhost:3000/api/seller/orders/get`
+      `${API_BASE_URL}/api/seller/orders/get`
     );
     console.log(response.data);
     return response.data;
@@ -24,7 +26,7 @@ export const getOrderDetailsForSeller = createAsyncThunk(
   "/order/getOrderDetailsForSeller",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:3000/api/seller/orders/details/${id}`
+      `${API_BASE_URL}/api/seller/orders/details/${id}`
     );
     console.log(response.data);
     return response.data;
@@ -35,7 +37,7 @@ export const updateOrderStatusBySeller = createAsyncThunk(
   "/order/updateOrderStatusBySeller",
   async ({ id, orderStatus }) => {
     const response = await axios.put(
-      `http://localhost:3000/api/seller/orders/update/${id}`,
+      `${API_BASE_URL}/api/seller/orders/update/${id}`,
       {
         orderStatus,
       }
@@ -49,7 +51,7 @@ export const fetchOrderBySeller = createAsyncThunk(
   "/order/fetchOrderBySeller",
   async ({ sellerId }) => {
     const response = await axios.get(
-      `http://localhost:3000/api/seller/orders/${sellerId}`
+      `${API_BASE_URL}/api/seller/orders/${sellerId}`
     );
     console.log(response.data);
     return response.data;

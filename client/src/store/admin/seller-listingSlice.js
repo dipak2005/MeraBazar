@@ -1,6 +1,7 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
 
@@ -13,7 +14,7 @@ export const getAllSeller = createAsyncThunk(
   "/admin/getAllSeller",
   async () => {
     const response = await axios.get(
-      "http://localhost:3000/api/auth/sellerlist/get"
+      `${API_BASE_URL}/api/auth/sellerlist/get`
     );
     console.log(response.data);
     return response.data;
@@ -24,7 +25,7 @@ export const getSellerDetails = createAsyncThunk(
   "/admin/getSellerDetails",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:3000/api/auth/sellerlist/details/${id}`
+      `${API_BASE_URL}/api/auth/sellerlist/details/${id}`
     );
     console.log(response.data);
     return response.data;
@@ -35,7 +36,7 @@ export const updateSellerApprovalStatus = createAsyncThunk(
   "/admin/updateSellerApprovalStatus",
   async ({ id, status , isapproved }) => {
     const response = await axios.put(
-      `http://localhost:3000/api/auth/sellerlist/update/${id}`,
+      `${API_BASE_URL}/api/auth/sellerlist/update/${id}`,
       {
         approvalstatus:status,
         isapproved

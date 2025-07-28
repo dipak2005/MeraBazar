@@ -107,7 +107,7 @@ function SellerOrder() {
                 <tr>
                   <td colSpan="5" className="text-center py-4 text-muted">
                     <img
-                      src="https://w7.pngwing.com/pngs/432/266/png-transparent-empty-box-age-3d-icon.png"
+                      src="/images/box.png"
                       alt="No orders"
                       width={80}
                       className="mb-2"

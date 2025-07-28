@@ -35,7 +35,7 @@ const CartPage = () => {
   return (
     <>
       <div className="container-fluid px-0 bg-light min-vh-100 d-flex flex-column">
-        <SimpleNavbar/>
+        <SimpleNavbar />
         <div className="container my-4 flex-grow-1">
           <div className="w-100 mt-4 px-2 px-sm-3">
             <div className="row">
@@ -58,7 +58,7 @@ const CartPage = () => {
                       <div className="outer text-center">
                         <div className="img-container">
                           <img
-                            src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+                            src="/images/cart.webp"
                             alt="empty cart"
                             className="img-fluid"
                             style={{ height: "190px", width: "252px" }}
@@ -87,7 +87,7 @@ const CartPage = () => {
                       <div className="outer text-center">
                         <div className="img-container">
                           <img
-                            src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+                            src="/images/cart.webp"
                             alt="empty cart"
                             className="img-fluid"
                             style={{ height: "190px", width: "252px" }}
@@ -134,7 +134,8 @@ const CartPage = () => {
                           Shop now
                         </button>
                       ) : (
-                        <button onClick={handleNavigate}
+                        <button
+                          onClick={handleNavigate}
                           className="btn m-3 w-100 w-sm-auto"
                           style={{
                             maxWidth: "15rem",

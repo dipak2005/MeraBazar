@@ -1,6 +1,7 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 // setup
 // const initialState = {
 //   isAuthenticated: false,
@@ -22,7 +23,7 @@ export const registeredUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:3000/api/auth/register",
+      `${API_BASE_URL}/api/auth/register`,
       formData,
       { withCredentials: true }
     );
@@ -35,7 +36,7 @@ export const loggedinUser = createAsyncThunk(
   "/auth/login",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:3000/api/auth/login",
+      `${API_BASE_URL}/api/auth/login`,
       formData,
       { withCredentials: true }
     );
@@ -46,7 +47,7 @@ export const loggedinUser = createAsyncThunk(
 //  logout user
 export const logOutUser = createAsyncThunk("/auth/logout", async () => {
   const response = await axios.post(
-    "http://localhost:3000/api/auth/logout",
+    `${API_BASE_URL}/api/auth/logout`,
     {},
     { withCredentials: true }
   );
@@ -55,7 +56,7 @@ export const logOutUser = createAsyncThunk("/auth/logout", async () => {
 
 // fetch user
 export const fetchUser = createAsyncThunk("/auth/fetchUser", async () => {
-  const response = await axios.get(`http://localhost:3000/api/auth/get`);
+  const response = await axios.get(`${API_BASE_URL}/api/auth/get`);
   return response.data;
 });
 
@@ -64,7 +65,7 @@ export const editUser = createAsyncThunk(
   "/auth/editUser",
   async ({ id, formData }) => {
     const response = await axios.put(
-      `http://localhost:3000/api/auth/update/${id}`,
+      `${API_BASE_URL}/api/auth/update/${id}`,
       formData
       // { withCredentials: true }
     );
@@ -74,7 +75,7 @@ export const editUser = createAsyncThunk(
 
 export const checkAuth = createAsyncThunk("/auth/check-auth", async () => {
   const response = await axios.get(
-    "http://localhost:3000/api/auth/check-auth",
+    `${API_BASE_URL}/api/auth/check-auth`,
 
     {
       withCredentials: true,

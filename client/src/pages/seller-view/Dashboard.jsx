@@ -23,15 +23,21 @@ function SellerDashboard() {
     }
   }, [sellerdetail]);
 
-  
   const isApproved = sellerInfo?.sellerinfo?.isapproved;
 
-  
   if (!sellerInfo) {
     return <p className="text-center">Loading seller information...</p>;
   }
 
-  return <div>{isApproved ? <h2>Welcome to Mera MarketPlace : {user.username}</h2> : navigate("/seller/pending") }</div>;
+  return (
+    <div>
+      {!isApproved ? (
+        navigate("/seller/pending")
+      ) : (
+        <h2>Welcome to Mera MarketPlace : {user.username}</h2>
+      )}
+    </div>
+  );
 }
 
 export default SellerDashboard;

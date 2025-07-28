@@ -154,7 +154,7 @@ const Footer = () => {
           </div>
           <div>
             <img
-              src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-method-c454fb.svg"
+              src="/images/payment.svg"
               style={{ maxHeight: "30px" }}
             />
           </div>

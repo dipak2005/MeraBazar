@@ -76,6 +76,7 @@ const addToCart = async (req, res) => {
 const fetchCartItems = async (req, res) => {
   try {
     const { userId } = req.params;
+    
 
     if (!userId) {
       return res.status(400).json({
@@ -231,8 +232,9 @@ const deleteCartItem = async (req, res) => {
     }
 
     cart.items = cart.items.filter(
-      (item) => item.productId._id.toString() !== productId
-    );
+  (item) => item.productId && item.productId._id.toString() !== productId
+);
+
 
     await cart.save();
 
@@ -248,8 +250,8 @@ const deleteCartItem = async (req, res) => {
       price: item.productId ? item.productId.price : null,
       salePrice: item.productId ? item.productId.salePrice : null,
       quantity: item.quantity,
-      discount: item.discount ? item.productId.discount : "No discout",
-      totalStock:item.totalStock?item.productId.totalStock:null,
+      discount: item.productId ? item.productId.discount : "No discout",
+      totalStock:item.productId ? item.productId.totalStock:null,
     }));
 
     res.status(200).json({

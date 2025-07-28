@@ -147,6 +147,9 @@ function ShoppingViewHome() {
     });
   }, [dispatch]);
 
+
+  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
+
   return isLoading ? (
     <div className="container py-4">
       <div className="mb-4">

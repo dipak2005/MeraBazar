@@ -10,12 +10,9 @@ import {
 import {
   getUserByIdForSeller
 } from "../../store/seller/UserSlice";
-// import {getUserById} from "../../store/seller/UserSlice";
+
 import { toast } from "react-toastify";
 
-// import { getUserById } from "../../../../server/controllers/seller/UserController";
-
-// import { Modal, ModalBody } from "react-bootstrap";
 
 const initialFormData = {
   status: "",

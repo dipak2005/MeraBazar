@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCartProduct,
+  fetchCartProduct,
   updateCartProduct,
 } from "../../../store/shop/cartSlice";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,12 +16,21 @@ const CartItem = ({ item }) => {
     dispatch(
       deleteCartProduct({
         userId: user?.id,
-        productId: item?.productId,
+        productId:  item?.productId,
       })
-    );
+    ).then((data) => {
+      console.log(data);
+      if (data?.payload?.success) {
+        
+        toast.success("Item removed from cart!");
+        dispatch(fetchCartProduct({ userId: user?.id }));
+      } else {
+        toast.error("Failed to remove item.");
+      }
+    });
   }
-
-  function handleUpdateQuantity(item, typeOfAction,totalStock) {
+  // console.log(user);
+  function handleUpdateQuantity(item, typeOfAction, totalStock) {
     const currentQty = Number(item.quantity) || 0;
 
     if (currentQty >= totalStock) {
@@ -28,10 +38,8 @@ const CartItem = ({ item }) => {
       return;
     }
 
-    console.log(item.totalStock,"stock");
-    console.log(item.quantity,"quantity");
-
- 
+    console.log(item.totalStock, "stock");
+    console.log(item.quantity, "quantity");
 
     const updatedQuantity =
       typeOfAction === "plus" ? currentQty + 1 : currentQty - 1;
@@ -45,7 +53,7 @@ const CartItem = ({ item }) => {
         userId: user?.id,
         productId: item?.productId,
         quantity: updatedQuantity,
-        discount: item?.discount,
+        discount: item?.discount || item?.productId?.discount,
       })
     ).then((data) => {
       if (data?.payload?.success) {
@@ -61,7 +69,7 @@ const CartItem = ({ item }) => {
       <div className="d-flex justify-content-between align-items-center border-bottom py-3">
         <div className="d-flex">
           <a
-            href={`/shop/product/${item.productId}`}
+            href={`/shop/product/${item.productId?._id || item.productId}`}
             className="text-decoration-none text-dark"
             rel="noopener noreferrer"
           >
@@ -80,7 +88,9 @@ const CartItem = ({ item }) => {
             <div className="d-flex align-items-center gap-2 mt-2">
               <button
                 className="btn btn-sm btn-outline-primary"
-                onClick={() => handleUpdateQuantity(item, "minus")}
+                onClick={() =>
+                  handleUpdateQuantity(item, "minus", item.totalStock)
+                }
                 disabled={item.quantity <= 1}
               >
                 −
@@ -88,8 +98,10 @@ const CartItem = ({ item }) => {
               <span>{item.quantity || 1}</span>
               <button
                 className="btn btn-sm btn-outline-primary"
-                onClick={() => handleUpdateQuantity(item, "plus", item.totalStock)}
-                // disabled={item.quantity >= item.totalStock} 
+                onClick={() =>
+                  handleUpdateQuantity(item, "plus", item.totalStock)
+                }
+                // disabled={item.quantity >= item.totalStock}
               >
                 +
               </button>

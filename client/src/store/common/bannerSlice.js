@@ -1,6 +1,7 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   bannerImageList: [],
@@ -10,7 +11,7 @@ export const addBannerImages = createAsyncThunk(
   "/shop/addBannerImages",
   async (imageUrl) => {
     const response = await axios.post(
-      "http://localhost:3000/api/common/banner/add",
+      `${API_BASE_URL}/api/common/banner/add`,
       { image: imageUrl }
     );
     console.log(response.data);
@@ -22,7 +23,7 @@ export const getBannerImages = createAsyncThunk(
   "/shop/getBannerImages",
   async () => {
     const response = await axios.get(
-      "http://localhost:3000/api/common/banner/get"
+      `${API_BASE_URL}/api/common/banner/get`
     );
 
     return response.data;
@@ -33,7 +34,7 @@ export const deleteBannerImages = createAsyncThunk(
   "/shop/deleteBannerImages",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:3000/api/common/banner/delete/${id}`
+      `${API_BASE_URL}/api/common/banner/delete/${id}`
     );
     console.log(result.data);
     return result?.data;

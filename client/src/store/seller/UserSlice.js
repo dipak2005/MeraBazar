@@ -1,6 +1,7 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   userdetail: null,
@@ -11,7 +12,7 @@ export const getUserByIdForSeller = createAsyncThunk(
   "/auth/user/getUserById",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:3000/api/auth/user/${id}`
+      `${API_BASE_URL}/api/auth/user/${id}`
     );
 
     console.log(response.data);
@@ -23,7 +24,7 @@ export const getSpecificSellerInfo = createAsyncThunk(
   "/auth/user/getSpecificSellerInfo",
   async (email) => {
     const response = await axios.get(
-      `http://localhost:3000/api/auth/user/seller-info?email=${email}`,
+      `${API_BASE_URL}/api/auth/user/seller-info?email=${email}`,
       
     );
     console.log(response.data);

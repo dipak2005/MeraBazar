@@ -1,6 +1,7 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const storedSeller = localStorage.getItem("seller");
 
 const initialState = {
@@ -14,7 +15,7 @@ export const registeredSeller = createAsyncThunk(
   "/auth/registerSeller",
   async (payload) => {
     const response = await axios.post(
-      "http://localhost:3000/api/auth/seller/register-seller",
+      `${API_BASE_URL}/api/auth/seller/register-seller`,
       payload,
       {
         withCredentials: true,
@@ -43,7 +44,7 @@ export const registeredSeller = createAsyncThunk(
 
 export const logOutUser = createAsyncThunk("/auth/logout", async () => {
   const response = await axios.post(
-    "http://localhost:3000/api/auth/logout",
+    `${API_BASE_URL}/api/auth/logout`,
     {},
     { withCredentials: true }
   );
