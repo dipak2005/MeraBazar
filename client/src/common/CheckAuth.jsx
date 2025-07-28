@@ -1,10 +1,30 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { data, Navigate, useLocation } from "react-router-dom";
+import { data, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { getSellerDetails } from "../store/admin/seller-listingSlice";
+import { getSpecificSellerInfo } from "../store/seller/UserSlice";
 
 function CheckAuth({ isAuthenticated, user, children }) {
   const location = useLocation();
+  const { sellerdetail } = useSelector((state) => state.getUser);
+    const [sellerInfo, setSellerInfo] = useState(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (user?.email) {
+        dispatch(getSpecificSellerInfo(user.email));
+      }
+    }, [dispatch, user]);
+  
+    useEffect(() => {
+      if (sellerdetail) {
+        setSellerInfo(sellerdetail);
+      }
+    }, [sellerdetail]);
+  
+    
+    const isApproved = sellerInfo?.sellerinfo?.isapproved;
 
   if (
     !isAuthenticated &&
@@ -24,11 +44,6 @@ function CheckAuth({ isAuthenticated, user, children }) {
     return children;
   }
 
-
-  if (condition) {
-    
-  }
-
   const publlicPaths = ["/", "/listing", "/cart"];
   const isPublic =
     publlicPaths.some((path) => location.pathname.startsWith(path)) ||
@@ -42,6 +57,20 @@ function CheckAuth({ isAuthenticated, user, children }) {
   if (!isAuthenticated && !location.pathname.startsWith("/auth")) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
+
+   
+     if (!isApproved && location.pathname.startsWith("/seller/dashboard")) {
+        return <Navigate to={"/seller/pending"} />
+     }else if (!isApproved && location.pathname.startsWith("/seller/orders")) {
+        return <Navigate to={"/seller/pending"} />
+     } else if (!isApproved && location.pathname.startsWith("/seller/products")) {
+        return <Navigate to={"/seller/pending"} />
+     } 
+    //  else {
+      // return <Navigate to={"/seller/dashboard"} />
+    //  }
+  
+
 
   // Redirect authenticated users away from login/register #Rasta Clear hai
   if (

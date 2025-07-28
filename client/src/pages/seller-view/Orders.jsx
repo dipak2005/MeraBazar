@@ -44,13 +44,9 @@ useEffect(() => {
   console.log(orderDetails, "seller");
   console.log(user?.id, "id");
 
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     dispatch(getAllOrdersByUserId(user?.id));
-  //   }
-  // }, [dispatch, user?.id]);
+
   return (
-    // <div></div>
+    
     !isLoading ? (
       <Card className="w-100">
         <h5 className="text-muted p-3">Order Histroy</h5>
@@ -62,7 +58,7 @@ useEffect(() => {
                 <th className="px-5">Order Date</th>
                 <th className="px-3">Status</th>
                 <th className="px-5">Price</th>
-                <th></th>
+                <th className="px-5">Details</th>
               </tr>
             </thead>
             <tbody>
