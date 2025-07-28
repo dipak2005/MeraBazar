@@ -9,7 +9,6 @@ import {
 import { toast } from "react-toastify";
 import { getUserByIdForSeller } from "../../store/seller/UserSlice";
 
-
 const initialFormData = {
   status: "",
 };
@@ -23,7 +22,7 @@ function SellerDetailsModel({
 }) {
   const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
-const { seller } = useSelector((state) => state.sellerAuth);
+  const { seller } = useSelector((state) => state.sellerAuth);
   useEffect(() => {
     if (sellerDetails?.userId) {
       dispatch(getUserByIdForSeller(sellerDetails?.userId));
@@ -32,7 +31,6 @@ const { seller } = useSelector((state) => state.sellerAuth);
 
   if (!sellerDetails?.data) return <p>Loading...</p>;
 
-  // console.log(sellerDetails,"details");
   function handleUpdateStatus(event) {
     event.preventDefault();
     console.log(formData);
@@ -46,7 +44,6 @@ const { seller } = useSelector((state) => state.sellerAuth);
         isapproved: status == "approved" ? true : false,
       })
     ).then((data) => {
-      
       if (data?.payload?.success) {
         dispatch(getSellerDetails(sellerDetails?.data?._id));
         dispatch(getAllSeller());
@@ -55,48 +52,9 @@ const { seller } = useSelector((state) => state.sellerAuth);
       }
     });
   }
-  
 
   return (
     <div className="container-fluid px-4">
-      {/* <div className="mb-4 border rounded p-3">
-        <h6 className="fw-bold mb-3">Product Details</h6>
-        <ul className="list-unstyled">
-          {orderDetails?.cartItems?.map((item, index) => (
-            <li
-              key={item._id || index}
-              className="d-flex justify-content-between border-bottom py-2"
-            >
-              <div className="d-flex align-items-center">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{
-                    width: "60px",
-                    height: "60px",
-                    objectFit: "contain",
-                  }}
-                  className="me-3"
-                />
-                <div>
-                  <div className="fw-semibold">{item.title}</div>
-                  <div className="text-muted small">Qty: {item.quantity}</div>
-                </div>
-              </div>
-              <div className="fw-semibold align-self-center">
-                price: ₹ {item?.price?.toLocaleString("en-IN")}/{" "}
-                {item.quantity > 1 ? "Qty" : "-"}
-              </div>
-              {/* <div>
-                <div className="fw-semibold align-self-center">
-                   Total: ₹ {orderDetails.subtotal.toLocaleString("en-IN")}/-
-                </div>
-              </div> */}
-      {/* </li>
-          ))}
-        </ul>
-      </div> */}
-
       <div className="mb-4 border rounded p-3 bg-light">
         <h6 className="fw-bold mb-3">Personal Details</h6>
         <div className="row mb-2">
@@ -120,42 +78,6 @@ const { seller } = useSelector((state) => state.sellerAuth);
           </div>
         </div>{" "}
         <div className="row mb-2"></div>
-        {/* <div className="row mb-2">
-          <div className="col-6">Order Date</div>
-          <div className="col-6 text-end">
-            {new Date(orderDetails?.createdAt).toLocaleDateString()}
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col-6">Shipping Charge</div>
-          <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.shippingCharge?.toLocaleString("en-IN")}/-
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col-6">Order Total</div>
-          <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
-          </div>
-        </div> */}
-        {/* <div className="row">
-          <div className="col-6">Order Status</div>
-          <div className="col-6 text-end">
-            <span
-              className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails?.orderStatus === "pending"
-                  ? "warning"
-                  : orderDetails?.orderStatus === "rejected"
-                  ? "danger"
-                  : orderDetails?.orderStatus === "Confirmed"
-                  ? "primary"
-                  : "success"
-              } text-white`}
-            >
-              {orderDetails.orderStatus}
-            </span>
-          </div>
-        </div> */}
       </div>
 
       <div className="mb-4 border rounded p-3 bg-light">
@@ -195,42 +117,6 @@ const { seller } = useSelector((state) => state.sellerAuth);
             </a>
           </div>
         </div>
-        {/* <div className="row mb-2">
-          <div className="col-6">Order Date</div>
-          <div className="col-6 text-end">
-            {new Date(orderDetails?.createdAt).toLocaleDateString()}
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col-6">Shipping Charge</div>
-          <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.shippingCharge?.toLocaleString("en-IN")}/-
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col-6">Order Total</div>
-          <div className="col-6 fw-semibold text-end">
-            ₹ {orderDetails?.totalAmount?.toLocaleString("en-IN")}/-
-          </div>
-        </div> */}
-        {/* <div className="row">
-          <div className="col-6">Order Status</div>
-          <div className="col-6 text-end">
-            <span
-              className={`badge px-3 py-2 text-uppercase bg-${
-                orderDetails?.orderStatus === "pending"
-                  ? "warning"
-                  : orderDetails?.orderStatus === "rejected"
-                  ? "danger"
-                  : orderDetails?.orderStatus === "Confirmed"
-                  ? "primary"
-                  : "success"
-              } text-white`}
-            >
-              {orderDetails.orderStatus}
-            </span>
-          </div>
-        </div> */}
       </div>
 
       <div className="mb-4 border rounded p-3 bg-light">

@@ -2,8 +2,13 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import SellerSideBar from "./SiderBar";
 import SellerHeader from "./Header";
+import { useSelector } from "react-redux";
 
 function SellerLayout() {
+   const {user} = useSelector((state)=>state.auth);
+
+   console.log(user?.id,"hello");
+   
   return (
       <div className="d-flex ">
       {/* admin sidebar */}

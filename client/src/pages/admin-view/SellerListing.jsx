@@ -48,15 +48,9 @@ function SellerOrder() {
 
   console.log(sellerDetails, "orderDetails");
   console.log(seller?._id,"seller");
-  // console.log(sellerDetails, "seller");
-
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     dispatch(getAllOrdersByUserId(user?.id));
-  //   }
-  // }, [dispatch, user?.id]);
+ 
   return (
-    // <div></div>
+   
     !isLoading ? (
       <Card className="w-100">
         <h5 className="text-muted p-3">Seller's Listing</h5>
@@ -76,24 +70,13 @@ function SellerOrder() {
                 sellerList.map((items) => (
                   <tr key={items._id}>
                     <td className="px-3">
-                      {/* <img
-                        src={order?.cartItems?.[0]?.image}
-                        alt="Product"
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "contain",
-                        }}
-                        className="me-3"
-                      /> */}
+                      
                       {items._id}
                     </td>
                     <td className="px-5">
                       {new Date(items.createdAt).toLocaleDateString()}
                     </td>
-                    {/* className={`badge ${
-                       address.place === "home" ? "bg-success" : "bg-primary"
-                     }   fw-bold mb-2 text-capitalize`} */}
+                    
                     <td>
                       <span
                         className={`badge px-1 py-2 bg-${

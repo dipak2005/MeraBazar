@@ -5,39 +5,6 @@ import { getSellerDetails } from "../store/admin/seller-listingSlice";
 
 function CheckAuth({ isAuthenticated, user, children }) {
   const location = useLocation();
-  const { seller } = useSelector((state) => state.sellerAuth);
-  const dispatch = useDispatch();
-  const [isApproved, setIsApproved] = useState("null");
-   const { sellerList, sellerDetails } = useSelector(
-    (state) => state.sellerListing
-  );
-  // Protect root path ("/") — redirect based on role
-
-  // if (location.pathname === "/") {
-  //   if (!isAuthenticated) {
-  //     return <Navigate to="/auth/login" />;
-  //   } else {
-  //     if (user?.role === "admin") {
-  //       return <Navigate to="/admin/dashboard" />;
-  //     } else if (user?.role === "seller") {
-  //       return <Navigate to="/seller/dashboard" />;
-  //     } else if (user?.role === "user") {
-  //       return children;
-  //     }
-  //     else {
-
-  //     }
-  //   }
-  // }
-  useEffect(() => {
-    dispatch(getSellerDetails((seller?._id))).then((data) => {
-      console.log(data);
-
-      const isApproved = data?.payload?.data?.isapproved;
-
-      setIsApproved(isApproved);
-    });
-  }, [dispatch, seller?._id]);
 
   if (
     !isAuthenticated &&
@@ -47,35 +14,20 @@ function CheckAuth({ isAuthenticated, user, children }) {
     return <Navigate to="/auth/login" />;
   }
 
-  
   if (location.pathname === "/") {
     if (user?.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
-    }
-
-    if (user?.role === "seller") {
-      if (isApproved) {
-        return <Navigate to="/seller/dashboard" />;
-      } else {
-        return <Navigate to="/seller/pending" />;
-      }
+    } else if (user?.role === "seller") {
+      return <Navigate to="/seller/dashboard" />;
     }
 
     return children;
   }
 
-  // if (!isApproved && location.pathname.includes("dashboard")) {
-  //   return <Navigate to="/seller/pending" />;
-  // }
 
-  // if (isApproved && location.pathname.includes("pending")) {
-  //    return <Navigate to="/seller/dashboard" />;
-  // }
-
-  // if (!isApproved && location.pathname.includes("admin")) {
-  //   return <Navigate to="/auth/login" />;
-  // }
-
+  if (condition) {
+    
+  }
 
   const publlicPaths = ["/", "/listing", "/cart"];
   const isPublic =
@@ -95,16 +47,14 @@ function CheckAuth({ isAuthenticated, user, children }) {
   if (
     isAuthenticated &&
     // (location.pathname.startsWith("/auth/login") ||
-      location.pathname.startsWith("/auth/register"))
-   {
+    location.pathname.startsWith("/auth/register")
+  ) {
     const redirectPath =
       location.state?.from?.pathname ||
       (user?.role === "admin"
         ? "/admin/dashboard"
         : user?.role === "seller"
-        ? isApproved
-          ? "/seller/dashboard"
-          : "/seller/pending"
+        ? "/seller/dashboard"
         : "/");
     return <Navigate to={redirectPath} replace />;
   }

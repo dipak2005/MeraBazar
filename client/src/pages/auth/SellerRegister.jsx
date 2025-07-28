@@ -68,7 +68,7 @@ const SellerRegistration = () => {
       }
     });
   };
-  console.log(seller?.userId, "", seller.isapproved);
+  // console.log(seller?.userId, "", seller.isapproved);
 
   return (
     <div className="container my-5">

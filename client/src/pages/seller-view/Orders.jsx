@@ -22,6 +22,7 @@ function SellerOrder() {
 useEffect(() => {
   if (user?.id) {
     dispatch(fetchOrderBySeller({ sellerId: user?.id }));
+    // dispatch(getAllOrdersForSeller());
   }
 }, [dispatch, user?.id]);
 

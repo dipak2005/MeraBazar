@@ -13,24 +13,20 @@ const initialState = {
 export const registeredSeller = createAsyncThunk(
   "/auth/registerSeller",
   async (payload) => {
- 
     const response = await axios.post(
       "http://localhost:3000/api/auth/seller/register-seller",
       payload,
-       {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     console.log(response.data);
     return response.data;
   }
 );
-
-
-
 
 // for
 // export const loggedinSeller = createAsyncThunk(
@@ -57,7 +53,15 @@ export const logOutUser = createAsyncThunk("/auth/logout", async () => {
 const sellerSlice = createSlice({
   name: "sellerSlice",
   initialState,
-  reducers: {},
+  reducers: {
+  resetSeller: (state) => {
+    state.seller = null;
+    state.isAuthenticated = false;
+    state.isLoading = false;
+    localStorage.removeItem("seller");
+  }
+},
+
   extraReducers: (builder) => {
     builder
       .addCase(registeredSeller.pending, (state) => {
@@ -77,8 +81,15 @@ const sellerSlice = createSlice({
         state.isLoading = false;
         state.seller = null;
         state.isAuthenticated = false;
+      })
+      .addCase(logOutUser.fulfilled, (state) => {
+        state.seller = null;
+        state.isAuthenticated = false;
+        state.isLoading = false;
+        localStorage.removeItem("seller");
       });
   },
 });
 
+export const {resetSeller} = sellerSlice.actions;
 export default sellerSlice.reducer;

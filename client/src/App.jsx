@@ -112,9 +112,10 @@ function App() {
               <Route path="dashboard" element={<SellerDashboard />} />
               <Route path="products" element={<SellerProduct />} />
               <Route path="orders" element={<SellerOrder />} />
+              <Route path="pending" element={<PendingApproval/>}/>
              
             </Route>
-             <Route path="/seller/pending" element={<PendingApproval/>}/>
+             
             {/* Shop */}
             {/* HomePage for Customers */}
             <Route
