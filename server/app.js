@@ -74,11 +74,11 @@ app.use("/api/shop/review",ReviewRouter);
 app.use("/api/common/banner",CommonBannerRouter);
 
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
+// app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+// });
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);

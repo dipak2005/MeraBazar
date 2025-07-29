@@ -11,7 +11,7 @@ export const getSearchResult = createAsyncThunk(
   "/shop/getSearchResult",
   async (keyword) => {
     const response = await axios.get(
-      `${API_BASE_URL}/api/shop/product/search/${keyword}`
+      `${API_BASE_URL}/api/shop/product/search/search-product/${keyword}`
     );
 
     return response.data;

@@ -6,7 +6,7 @@ const {
 const router = express.Router();
 
 
-router.get("/:keyword", searchProduct);
+router.get("/search-product/:keyword", searchProduct);
 
 
 module.exports = router;
