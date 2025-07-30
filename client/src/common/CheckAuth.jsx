@@ -70,7 +70,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
         ? "/admin/dashboard"
         : user?.role === "seller"
         ? "/seller/dashboard"
-        : "/");
+        : "/auth/login");
     return <Navigate to={redirectPath} replace />;
   }
 

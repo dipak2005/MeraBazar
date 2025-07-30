@@ -34,8 +34,9 @@ function ShoppingViewCheckout() {
   const { user } = useSelector((state) => state.auth);
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const { addressList, isLoading } = useSelector((state) => state.userAddress);
+  const [processingAddressId, setProcessingAddressId] = useState(null);
+
   const navigate = useNavigate();
-  
 
   const items = Array.isArray(cartItem?.items) ? cartItem.items : [];
 
@@ -142,14 +143,9 @@ function ShoppingViewCheckout() {
     navigate("/auth/login");
   }
 
-  // console.log(items, "items");
-  // console.log(cartItem, "cartItems");
-
-  /*
-      
-     
-  */
   function handleInitiatePaypalPayment() {
+    setProcessingAddressId(currentSelectedAddress?._id);
+
     const orderData = {
       userId: user?.id,
       cartId: cartItem?._id,
@@ -195,6 +191,8 @@ function ShoppingViewCheckout() {
 
       if (data?.payload.success) {
         setIsPaymentStart(true);
+      } else {
+        setProcessingAddressId(null);
       }
     });
   }
@@ -216,8 +214,9 @@ function ShoppingViewCheckout() {
               <h5 className="text-primary mb-3">1 LOGIN ✓</h5>
               <p className="mb-0">
                 {user?.username} &nbsp;&nbsp;
-                <strong>{user?.phone || "+91 0000000000"}</strong>
+                <strong>{user?.email || "+91 0000000000"}</strong>
               </p>
+
               <div
                 className="btn btn-outline-primary mt-2"
                 onClick={handleLogin}
@@ -250,7 +249,7 @@ function ShoppingViewCheckout() {
                         type="radio"
                         name="address"
                         id={`address-${index}`}
-                        className="mb-2"
+                        className="mb-2 .custom-radio"
                         label=""
                         checked={currentSelectedAddress?._id === item._id}
                         onChange={() => setCurrentSelectedAddress(item)}
@@ -279,9 +278,12 @@ function ShoppingViewCheckout() {
                           type="button"
                           onClick={handleInitiatePaypalPayment}
                           className="btn btn-outline-warning btn-sm px-3"
-                          disabled={currentSelectedAddress?._id !== item._id}
+                          disabled={
+                            currentSelectedAddress?._id !== item._id ||
+                            processingAddressId === item._id
+                          }
                         >
-                          {isPaymentStart ? (
+                          {processingAddressId === item._id ? (
                             <>
                               <span
                                 className="spinner-border spinner-border-sm me-2 "
@@ -323,7 +325,7 @@ function ShoppingViewCheckout() {
               </Form>
             </Card>
 
-            <Accordion defaultActiveKey="0" className="mb-3">
+            {/* <Accordion defaultActiveKey="0" className="mb-3">
               <Accordion.Item eventKey="0">
                 <Accordion.Header>3 ORDER SUMMARY</Accordion.Header>
                 <Accordion.Body>Order items will appear here...</Accordion.Body>
@@ -337,7 +339,7 @@ function ShoppingViewCheckout() {
                   Payment methods will appear here...
                 </Accordion.Body>
               </Accordion.Item>
-            </Accordion>
+            </Accordion> */}
           </div>
 
           <div className="col-12 col-md-4  mt-4 mt-md-0">

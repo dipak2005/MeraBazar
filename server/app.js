@@ -19,8 +19,9 @@ const UserRouter = require("./routes/seller/UserRoute"); // for seller : to get 
 const SearchRouter = require("./routes/shop/searchRoute"); // for user : to search the product via : title,description , category,brand
 const ReviewRouter = require("./routes/shop/reviewRoute"); // for user : to post review on specific product
 const SellerAuthRouter = require("./routes/auth/SellerAuthRouter"); // seller Authentication
-const SellerListingRouter = require("./routes/admin/seller-listingRoute");// admin : to manage the seller's
+const SellerListingRouter = require("./routes/admin/seller-listingRoute"); // admin : to manage the seller's
 const CommonBannerRouter = require("./routes/common/BannerRoute"); // banner added by admin show to User's
+const WishListRouter = require("./routes/shop/wishlistRoute"); // user store favourite item in there list.
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -59,7 +60,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api/auth", AuthRouter);
 app.use("/api/auth/seller", SellerAuthRouter);
-app.use("/api/auth/sellerlist",SellerListingRouter);
+app.use("/api/auth/sellerlist", SellerListingRouter);
 app.use("/api/auth/user", UserRouter);
 app.use("/api/admin/products", AdminProductRouter);
 app.use("/api/seller/products", SellerProductRouter);
@@ -69,16 +70,10 @@ app.use("/api/shop/cart", CartRouter);
 app.use("/api/shop/address", UserAddressRouter);
 app.use("/api/shop/order", UserOrderRouter);
 app.use("/api/shop/product/search", SearchRouter);
-app.use("/api/shop/review",ReviewRouter);
-app.use("/api/common/banner",CommonBannerRouter);
-
-
-
+app.use("/api/shop/review", ReviewRouter);
+app.use("/api/common/banner", CommonBannerRouter);
+app.use("/api/shop/account/wishlist",WishListRouter);
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);
 });
-
-
-
-

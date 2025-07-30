@@ -72,9 +72,7 @@ function SearchPage() {
                     <ProductTile
                       product={product}
                       toast={toast}
-                      // handleAddToCart={() =>
-                      //   handleAddToCart(product._id || product.id)
-                      // }
+                      
                     />
                   </div>
                 ))}

@@ -34,12 +34,12 @@ const SimpleNavbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2 px-3">
       <div className="container-fluid d-flex flex-wrap align-items-center justify-content-between">
-        {/* Logo */}
+        
         <Link className="navbar-brand fw-bold text-primary me-3 fs-5" to="/">
           MeraBazar
         </Link>
 
-        {/* Search bar */}
+        
         <div className="flex-grow-1 mx-2 my-2 my-lg-0" style={{ maxWidth: "800px" }}>
           <div className="input-group">
             <input
@@ -55,7 +55,7 @@ const SimpleNavbar = () => {
           </div>
         </div>
 
-        {/* User/Login */}
+        
         <div className="d-flex align-items-center mt-2 mt-lg-0">
           {isAuthenticated ? (
             <span className="fw-bold text-primary text-uppercase px-2">

@@ -5,25 +5,59 @@ import ProductSkeleton from "../../common/ProductSkeleton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { addToCart } from "../../store/shop/cartSlice";
-
+import {
+  addNewItem,
+  deleteItem,
+  getItem,
+} from "../../store/shop/wishlistSlice";
 
 function ShoppingViewListings() {
   const dispatch = useDispatch();
   const [openDetailsPage, setOpenDetailsPage] = useState(false);
+  const { wishList } = useSelector((state) => state.userWishList);
   const { user } = useSelector((state) => state.auth);
-   const { cartItems } = useSelector((state) => state.shoppingcart);
+  const { cartItems } = useSelector((state) => state.shoppingcart);
+  // const {isInWishList , setIsInWishList} = useState(false);
   const { productList, productDetails, isLoading } = useSelector(
     (state) => state.shopProduct
   );
-  
+
+  function handleWishlistToggle(productId) {
+  if (!user?.id) {
+    return toast.error("Please login to manage wishlist");
+  }
+
+  const isWishlisted = wishList.some((item) => item.productId === productId);
+
+  if (isWishlisted) {
+    dispatch(deleteItem({ userId: user?.id, productId }))
+      .then(() => {
+        toast.success("Removed from wishlist");
+        dispatch(getItem(user?.id));
+        
+      })
+      .catch(() => toast.error("Failed to remove from wishlist"));
+      
+  } else {
+    dispatch(addNewItem({ userId: user?.id, productId }))
+      .then(() => {
+        toast.success("Added to wishlist");
+        dispatch(getItem(user?.id));
+         
+      })
+      .catch(() => toast.error("Failed to add to wishlist"));
+      
+  }
+}
 
 
-   function handleAddToCart(productId) {
+
+  function handleAddToCart(productId) {
     console.log("Trying to add to cart with:", {
-    userId: user?._id || user?.id,  
-    productId: productId, 
-    quantity: 1
-  });
+      userId: user?._id || user?.id,
+      productId: productId,
+      quantity: 1,
+    });
     dispatch(
       addToCart({
         userId: user?.id,
@@ -36,8 +70,6 @@ function ShoppingViewListings() {
         if (data?.payload?.success) {
           toast.success("Product added Successfully!");
           dispatch(fetchCartProduct({ userId: user?.id }));
- 
-         
         }
       })
       .catch((error) => {
@@ -52,7 +84,13 @@ function ShoppingViewListings() {
     }
   }, [productDetails]);
 
-  
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getItem(user?.id)).then((data)=>{
+        console.log(data);
+      })
+    }
+  }, [user]);
 
   return (
     <div className="container-fluid d-flex flex-column min-vh-100">
@@ -72,10 +110,16 @@ function ShoppingViewListings() {
               >
                 <ProductTile
                   key={product.id || product._id}
-                  handleAddToCart={() => handleAddToCart(product.id || product._id)}
+                  handleAddToCart={() =>
+                    handleAddToCart(product.id || product._id)
+                  }
                   toast={toast}
                   product={product}
-                  
+                  wishList={wishList}
+                  // isInWishList={wishList.some((item)=> item.productId === product._id)}
+                  handleWishlistToggle={() =>
+                    handleWishlistToggle(product._id)
+                  }
                 />
               </div>
             )

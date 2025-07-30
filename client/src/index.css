@@ -253,3 +253,31 @@ h1 {
 .carousel-control-next-icon:hover{
 color: black;
 } */
+
+.heart-icon-wrapper {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.pop-animation {
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.custom-radio {
+ border: 2px solid #ced4da;
+}

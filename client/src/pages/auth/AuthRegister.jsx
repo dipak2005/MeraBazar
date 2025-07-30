@@ -32,7 +32,7 @@ function AuthRegister() {
           ? navigate("/admin/dashboard")
           : role === "seller"
           ? navigate("/seller/dashboard")
-          : navigate("/");
+          : navigate("/auth/login");
         setFormData(initialState);
       } else {
         toast.error(res?.payload?.message || "Registration failed");

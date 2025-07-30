@@ -14,7 +14,6 @@ const addAddress = async (req, res) => {
 
     const newAddress = new AddressModel({
       userId,
-      
       address,
       city,
       pincode,
