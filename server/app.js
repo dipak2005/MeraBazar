@@ -65,7 +65,7 @@ app.use("/api/admin/products", AdminProductRouter);
 app.use("/api/seller/products", SellerProductRouter);
 app.use("/api/seller/orders", SellerOrderRouter);
 app.use("/api/shop/products", ShopProductRouter);
-app.use("/api/products", ShopProductRouter); // for global level Detail-page
+// app.use("/api/products", ShopProductRouter); // for global level Detail-page
 app.use("/api/shop/cart", CartRouter);
 app.use("/api/shop/address", UserAddressRouter);
 app.use("/api/shop/order", UserOrderRouter);

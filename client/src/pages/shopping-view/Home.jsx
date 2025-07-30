@@ -373,10 +373,10 @@ const DealsSection = ({ title, items, load }) => {
                   className="card h-100 border-0 rounded-2 product-card p-2"
                   style={{ minWidth: "180px", maxWidth: "210px" }}
                 >
-                  <a
-                    href={`/shop/product/${item._id}`}
+                  <Link
+                    to={`/shop/product/${item._id}`}
                     className="text-decoration-none text-dark"
-                    rel="noopener noreferrer"
+                    // rel="noopener noreferrer"
                     target="_blank"
                   >
                     <img
@@ -388,7 +388,7 @@ const DealsSection = ({ title, items, load }) => {
                         objectFit: "contain",
                       }}
                     />
-                  </a>
+                  </Link>
                   <div className="card-body py-2 ">
                     <h6 className="card-title small mb-1 text-truncate">
                       {item.title}
