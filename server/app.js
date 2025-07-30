@@ -53,6 +53,14 @@ app.use(
   })
 );
 
+
+// Fix __dirname for ES Modules
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// Serve static files from the frontend's dist folder
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -73,6 +81,12 @@ app.use("/api/shop/product/search", SearchRouter);
 app.use("/api/shop/review", ReviewRouter);
 app.use("/api/common/banner", CommonBannerRouter);
 app.use("/api/shop/account/wishlist",WishListRouter);
+
+
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
+// });
 
 app.listen(port, () => {
   console.log(`listening port on ${port}`);
