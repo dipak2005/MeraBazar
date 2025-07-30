@@ -151,7 +151,7 @@ function App() {
               {/* <Route path="settings" element={<Settings />} /> */}
               <Route path="logout" element={<Settings />} />
             </Route>
-            <Route path="/shop/product/:id" element={<ProductDetailPage />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
             <Route path="/shop/cart" element={<CartPage />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
             <Route path="/shop/listing/search" element={<SearchPage />} />

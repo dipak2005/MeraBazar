@@ -9,7 +9,7 @@ function ProductTile({ product, handleAddToCart, toast }) {
       style={{ transition: "all 0.3s ease-in-out" }}
     >
       <Link
-        to={`/shop/product/${product._id}`}
+        to={`/product/${product._id}`}
         className="text-decoration-none text-dark"
         rel="noopener noreferrer"
         target="_blank"

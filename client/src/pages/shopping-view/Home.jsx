@@ -374,7 +374,7 @@ const DealsSection = ({ title, items, load }) => {
                   style={{ minWidth: "180px", maxWidth: "210px" }}
                 >
                   <Link
-                    to={`/shop/product/${item._id}`}
+                    to={`/product/${item._id}`}
                     className="text-decoration-none text-dark"
                     // rel="noopener noreferrer"
                     target="_blank"
