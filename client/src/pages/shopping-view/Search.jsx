@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SimpleNavbar from "../../common/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProductSkeleton from "../../common/ProductSkeleton";
 import { toast } from "react-toastify";
 import ProductTile from "./ProductTile";
-import FilterSidebar from "../../components/shopping-view/Filter";
 import Footer from "../../common/Footer";
 import { PackageOpen } from "lucide-react";
+import {
+  addNewItem,
+  deleteItem,
+  getItem,
+} from "../../store/shop/wishlistSlice";
 
 function SearchPage() {
   const { searchResults, isLoading } = useSelector(
     (state) => state.searchProduct
   );
   const { cartItems } = useSelector((state) => state.shoppingcart);
+  const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
+  const { wishList } = useSelector((state) => state.userWishList);
   // function handleAddToCart(productId) {
   //   console.log("Trying to add to cart with:", {
   //     userId: user?._id || user?.id,
@@ -40,6 +47,38 @@ function SearchPage() {
   //     });
   // }
 
+  function handleWishlistToggle(productId) {
+    if (!user?.id) {
+      return toast.error("Please login to manage wishlist");
+    }
+
+    const isWishlisted = wishList.some((item) => item.productId === productId);
+
+    if (isWishlisted) {
+      dispatch(deleteItem({ userId: user?.id, productId }))
+        .then(() => {
+          toast.success("Removed from wishlist");
+          dispatch(getItem(user?.id));
+        })
+        .catch(() => toast.error("Failed to remove from wishlist"));
+    } else {
+      dispatch(addNewItem({ userId: user?.id, productId }))
+        .then(() => {
+          toast.success("Added to wishlist");
+          dispatch(getItem(user?.id));
+        })
+        .catch(() => toast.error("Failed to add to wishlist"));
+    }
+  }
+
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getItem(user?.id)).then((data) => {
+        console.log(data);
+      });
+    }
+  }, [user]);
+
   return (
     <div className="d-flex flex-column bg-light min-vh-100">
       <SimpleNavbar searchResults={searchResults} />
@@ -64,24 +103,31 @@ function SearchPage() {
               </div>
             ) : (
               <div className="row g-1">
-                {searchResults.map((product) => (
-                 isLoading?  <ProductSkeleton key={product.id || product._id} />: <div
-                    className="col-6 col-md-6 col-lg-3"
-                    key={product._id || product.id}
-                  >
-                    <ProductTile
-                      product={product}
-                      toast={toast}
-                      
-                    />
-                  </div>
-                ))}
+                {searchResults.map((product) =>
+                  isLoading ? (
+                    <ProductSkeleton key={product.id || product._id} />
+                  ) : (
+                    <div
+                      className="col-6 col-md-6 col-lg-3"
+                      key={product._id || product.id}
+                    >
+                      <ProductTile
+                        product={product}
+                        toast={toast}
+                        wishList={wishList}
+                        handleWishlistToggle={() =>
+                          handleWishlistToggle(product._id || product.id)
+                        }
+                      />
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

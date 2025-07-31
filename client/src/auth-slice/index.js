@@ -1,4 +1,3 @@
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -21,13 +20,17 @@ const initialState = {
 // for register : add user
 export const registeredUser = createAsyncThunk(
   "/auth/register",
-  async (formData) => {
-    const response = await axios.post(
-      `${API_BASE_URL}/api/auth/register`,
-      formData,
-      { withCredentials: true }
-    );
-    return response.data;
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/register`,
+        formData,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (e) {
+       return rejectWithValue(err.response?.data || { message: "Server error" });
+    }
   }
 );
 

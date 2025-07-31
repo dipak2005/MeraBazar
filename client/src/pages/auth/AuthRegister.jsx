@@ -35,7 +35,7 @@ function AuthRegister() {
           : navigate("/auth/login");
         setFormData(initialState);
       } else {
-        toast.error(res?.payload?.message || "Registration failed");
+        toast.error(res?.payload?.message || res.error?.message || "Registration failed");
       }
 
       
