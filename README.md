@@ -9,7 +9,7 @@ This is online platform for shopping
 
 ***
 
-##Live Website: MeraBazar 
+## Live Website: MeraBazar 
 - https://merabazar.onrender.com/
 
 ## 2. Repo \& Directory Structure
