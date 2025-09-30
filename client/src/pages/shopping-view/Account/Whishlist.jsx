@@ -54,11 +54,11 @@ function Wishlist() {
       ) : (
         <div className="d-flex flex-column gap-3">
           {wishList?.map((item, idx) => {
-            const product = item.productId;
+           
             return (
               <div
                 className="card flex-row align-items-center p-2"
-                key={product._id || idx}
+                key={item.productId || idx}
               >
                 <Link
                   to={`/product/${item?.productId}`}
