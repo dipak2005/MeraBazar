@@ -22,12 +22,17 @@ const ProductInfo = ({ product }) => {
         by <strong>{product?.brand}</strong>
       </p>
       <div className="mb-2 h-10">
-        {reviewList &&
-          reviewList.map((item, index) => (
-            <span key={index} className="badge bg-success me-2">
-              {item?.reviewVal?.toFixed(1) || 3.4} ★
-            </span>
-          ))}
+        {reviewList && reviewList.length > 0 ? (
+          <span className="badge bg-success">
+            {(
+              reviewList.reduce((sum, item) => sum + (item.reviewVal || 0), 0) /
+              reviewList.length
+            ).toFixed(1)}{" "}
+            ★
+          </span>
+        ) : (
+          <span className="badge bg-secondary">No ratings yet</span>
+        )}
       </div>
 
       <div className="mb-3">
