@@ -27,8 +27,8 @@ const registerSeller = async (req, res) => {
       !businesstype ||
       !bankaccount ||
       !ifsccode ||
-      !document 
-      
+      !document ||
+      !address
     ) {
       return res.status(400).json({
         success: false,
@@ -52,7 +52,7 @@ const registerSeller = async (req, res) => {
       email,
       password: hashPassword,
       role: "seller",
-      phone
+      phone,
     });
 
     const savedUser = await newUser.save();
@@ -83,7 +83,7 @@ const registerSeller = async (req, res) => {
         username: savedUser.username,
         email: savedUser.email,
         role: savedUser.role,
-        phone:savedUser.phone
+        phone: savedUser.phone,
       },
     });
   } catch (e) {
