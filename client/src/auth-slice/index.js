@@ -15,6 +15,7 @@ const initialState = {
   user: storedUser ? JSON.parse(storedUser) : null,
   isAuthenticated: !!storedUser,
   isLoading: true,
+  message:""
 };
 
 // for register : add user
@@ -123,6 +124,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
+        state.message = action.payload.message;
         if (action.payload.user) {
           localStorage.setItem("user", JSON.stringify(action.payload.user));
         }
@@ -131,6 +133,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        state.message = action.payload.message
       })
       .addCase(loggedinUser.pending, (state, action) => {
         state.isLoading = true;
