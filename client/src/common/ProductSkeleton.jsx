@@ -1,4 +1,4 @@
-function ProductSkeleton() {
+function  ProductSkeleton() {
   return (
     <div className="col-6 col-md-4 col-lg-3 mb-4">
       <div className="card h-100 border-0">
