@@ -13,6 +13,7 @@ import { fetchCartProduct } from "../../store/shop/cartSlice";
 import { AddressCardSkeleton, Model } from "./Account/Address";
 import { toast } from "react-toastify";
 import { createNewOrder } from "../../store/shop/orderSlice";
+import Footer from "../../common/Footer";
 
 const initialState = {
   phone: "",
@@ -341,12 +342,14 @@ function ShoppingViewCheckout() {
               </Accordion.Item>
             </Accordion> */}
           </div>
+          
 
           <div className="col-12 col-md-4  mt-4 mt-md-0">
             <PriceDetails cartItems={items} />
           </div>
         </div>
       </div>
+      <Footer />
       <Model
         onSubmit={onSubmit}
         isFormValid={isFormValid}
