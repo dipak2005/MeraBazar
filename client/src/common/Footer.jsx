@@ -131,7 +131,7 @@ const Footer = () => {
 
           {/* MAIL US */}
           <div className="col-12 col-md-4 mb-3">
-            <h6 className="text-uppercase fw-bold mb-3">Mail Us:</h6>
+            <h6 className=" fw-bold mb-3">Mail Us: merabazar.ecommerce@gmail.com</h6>
             <p className="small mb-1">
               MeraBazar Internet Private Limited,
               <br />
