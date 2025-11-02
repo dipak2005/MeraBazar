@@ -27,7 +27,7 @@ const UserSchema = mongoose.Schema(
     gender: String,
     dob: String,
 
-    // for seller
+   
  
   },
   { timestamps: true }

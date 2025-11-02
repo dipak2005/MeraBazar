@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { addToCart, fetchCartProduct } from "../../../store/shop/cartSlice";
+import { addNewItem, deleteItem, getItem } from "../../../store/shop/wishlistSlice";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-const ImageGallery = ({ product, toast }) => {
-  const { user } = useSelector((state) => state.auth);
+const ImageGallery = ({ product, toast  , handleWishlistToggle , user,wishList }) => {
+ 
   const { cartItem } = useSelector((state) => state.shoppingcart);
+   
+   const isInWishList = wishList?.some((item) => item.productId === product._id);
   const dispatch = useDispatch();
-
+const [animate, setAnimate] = useState(false);
   const navigate = useNavigate();
 
   function handleAddToCart(productId, goToStep, discount) {
@@ -47,57 +51,58 @@ const ImageGallery = ({ product, toast }) => {
     });
   }
 
+   
+
+   function handleHeartClick(params) {
+    handleWishlistToggle(product._id);
+    setAnimate(true);
+
+    setTimeout(() => setAnimate(false), 300);
+  }
+
   return (
     <div
       className=" col-lg-10"
       style={{ position: "relative", display: "inline-block", width: "100%" }}
     >
-      <div className="border p-3 bg-white text-center">
-        {product?.totalStock > 0 && product?.totalStock < 10 && (
-          <span
-            className="badge bg-warning text-white"
-            style={{
-              position: "absolute",
-              top: "10px",
-              left: "10px",
-              zIndex: 10,
-              padding: "0.5rem",
-              // fontSize: "0.9rem",
-            }}
-          >
-            Only {product?.totalStock} items left
-          </span>
-        )}
-
+      <div className="border p-3 bg-white text-center position-relative">
         {product?.totalStock === 0 ? (
           <span
-            className="badge bg-danger text-white"
-            style={{
-              position: "absolute",
-              top: "10px",
-              left: "10px",
-              zIndex: 10,
-              padding: "0.5rem",
-              // fontSize: "0.9rem",
-            }}
+            className="badge bg-danger text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
           >
             Out of Stock
           </span>
-        ) : (product?.totalStock !== 0  && product?.salePrice > 500)? (
+        ) : product?.totalStock > 0 && product?.totalStock < 10 ? (
           <span
-            className="badge bg-success text-white"
-            style={{
-              position: "absolute",
-              top: "10px",
-              left: "10px",
-              zIndex: 10,
-              padding: "0.5rem",
-              // fontSize: "0.9rem",
-            }}
+            className="badge bg-warning text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
+          >
+            Only {product?.totalStock} items left
+          </span>
+        ) : product?.salePrice > 500 ? (
+          <span
+            className="badge bg-success text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
           >
             Best Seller
-          </span>):null}
+          </span>
+        ) : null}
 
+        <div
+               className={`heart-icon-wrapper ${animate ? "pop-animation" : ""}`}
+               style={{ zIndex: 10, cursor: "pointer" }}
+               onClick={handleHeartClick}
+             >
+               {isInWishList ? (
+                 <AiFillHeart size={22} color="red" />
+               ) : (
+                 <AiOutlineHeart size={22} color="gray" />
+               )}
+             </div>
+
+
+          
 
         <img
           src={product?.image}

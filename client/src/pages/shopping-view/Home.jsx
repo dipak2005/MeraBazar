@@ -165,7 +165,7 @@ function ShoppingViewHome() {
       </div>
 
       <div className="row">
-        {productList.map((_, idx) => (
+        {[...Array(8)].map((_, idx) => (
           <div className="col-md-3 mb-4" key={idx}>
             <div className="card">
               <div className="placeholder-glow">
@@ -377,7 +377,7 @@ const DealsSection = ({ title, items, load }) => {
                     to={`/product/${item._id}`}
                     className="text-decoration-none text-dark"
                     // rel="noopener noreferrer"
-                    // target="_blank"
+                    target="_blank"
                   >
                     <img
                       src={item?.image}

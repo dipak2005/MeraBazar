@@ -42,7 +42,7 @@ function ProductTile({
         to={`/product/${product._id}`}
         className="text-decoration-none text-dark"
         // rel="noopener noreferrer"
-        // target="_blank"
+        target="_blank"
       >
         {product?.totalStock === 0 ? (
           <span className="badge bg-danger position-absolute top-0 start-0 m-2">
@@ -52,7 +52,7 @@ function ProductTile({
           <span className="badge bg-warning position-absolute top-0 start-0 m-2">
             Only {product?.totalStock} items left
           </span>
-        ) : product?.salePrice > 500 ? (
+        ) : product?.salePrice > 1500 ? (
           <span className="badge bg-success position-absolute top-0 start-0 m-2">
             Best Seller
           </span>

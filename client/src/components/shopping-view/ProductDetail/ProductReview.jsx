@@ -39,7 +39,7 @@ const ProductReview = ({ product }) => {
         }
       });
     } catch (e) {
-      toast.error(data?.payload?.message);
+      toast.error(e?.response?.data?.message || "Something went wrong");
     }
   };
 

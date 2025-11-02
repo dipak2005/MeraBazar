@@ -103,14 +103,25 @@ function ShoppingHeader({ toast, search }) {
         <div className="container-fluid">
           {/* Logo */}
           <Link
-            to="/" onClick={()=>{
+            to="/"
+            onClick={() => {
               if (location.pathname === "/") {
                 sessionStorage.removeItem("filters");
               }
             }}
             className="navbar-brand d-flex align-items-center text-decoration-none"
           >
-            <span className="fw-bold text-primary fs-4">MeraBazar</span>
+            <img
+              src="/images/merabazar.png"
+              alt="MeraBazar Logo"
+              style={{
+                height: "50px", width:"110px" ,
+                maxHeight: "100%", 
+                objectFit: "cover",
+                display: "block",
+              }}
+              className="me-2"
+            />
             {/* <small
               className="text-muted ms-1 d-none d-md-inline"
               style={{ fontSize: "0.75rem" }}
