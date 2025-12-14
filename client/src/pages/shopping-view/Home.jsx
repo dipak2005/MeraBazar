@@ -377,7 +377,7 @@ const DealsSection = ({ title, items, load }) => {
                     to={`/product/${item._id}`}
                     className="text-decoration-none text-dark"
                     // rel="noopener noreferrer"
-                    target="_blank"
+                    // target="_blank"
                   >
                     <img
                       src={item?.image}

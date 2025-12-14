@@ -42,7 +42,7 @@ function ProductTile({
         to={`/product/${product._id}`}
         className="text-decoration-none text-dark"
         // rel="noopener noreferrer"
-        target="_blank"
+        // target="_blank"
       >
         {product?.totalStock === 0 ? (
           <span className="badge bg-danger position-absolute top-0 start-0 m-2">

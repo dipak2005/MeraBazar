@@ -64,7 +64,7 @@ function Wishlist() {
                   to={`/product/${item?.productId}`}
                   className="text-decoration-none text-dark"
                   rel="noopener noreferrer"
-                  target="_blank"
+                  // target="_blank"
                 >
                   <img
                     className="px-6 "
@@ -82,7 +82,7 @@ function Wishlist() {
                   to={`/product/${item?.productId}`}
                   className="text-decoration-none text-dark"
                   rel="noopener noreferrer"
-                  target="_blank"
+                  // target="_blank"
                 >
                   <div className="flex-grow-1 px-3">
                     <h6 className="mb-1">{item?.title}</h6>
