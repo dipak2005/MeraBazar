@@ -12,11 +12,11 @@ function AuthLayout() {
         
         <div className="d-none d-lg-flex col-lg-6 bg-custom-blue text-white align-items-center justify-content-center">
           <div className="text-center px-4">
-            <h1 className="display-4 mb-0 ">
-              {role === "user" ? "Welcome to Ecommerce" : "Welcome to Mera"}
+            <h1 className="display-4 mb-0 " >
+              {role === "user" ? "Welcome to Mera" : "Welcome to Mera"}
               <br />
-              <span className="fw-bold">
-                {role === "user" ? "Shopping" : "Marketplace"}
+              <span className="fw-bold ">
+                {role === "user" ? "Shopping Mart" : "Marketplace"}
               </span>
             </h1>
           </div>
@@ -27,7 +27,7 @@ function AuthLayout() {
           
           <div className="d-lg-none text-center mb-4 px-3 " >
             <h2 >{role === "seller" ? "Welcome Seller!" : "Welcome!"}</h2>
-            <p className="text-muted small">
+            <p className="small" >
               {role === "user"
                 ? "Sign in or register to start shopping."
                 : "Register to start selling MeraBazar"}

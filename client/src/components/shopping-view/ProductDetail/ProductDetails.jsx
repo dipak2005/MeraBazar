@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import ImageGallery from "../ProductDetail/ImageGallery";
 import ProductInfo from "../ProductDetail/ProductInfo";
-import ProductDetailsSkeleton from "../../../common/ProductDetailsSkeleton"
+import ProductDetailsSkeleton from "../../../common/ProductDetailsSkeleton";
 // import Specifications from "../ProductDetail/Specifications";
 // import OffersSection from "../ProductDetail/OfferSection";
 // import Highlights from "../ProductDetail/Highlights";
@@ -27,7 +27,7 @@ import { Loader, LoaderCircle, LucideLoaderCircle } from "lucide-react";
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [loading , setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const { wishList } = useSelector((state) => state.userWishList);
   const { productDetails: product, isLoading } = useSelector(
@@ -61,7 +61,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      dispatch(fetchProductDetails(id)).finally(()=> setLoading(false));
+      dispatch(fetchProductDetails(id)).finally(() => setLoading(false));
     }
 
     if (user?.id) {
@@ -70,35 +70,38 @@ const ProductDetailPage = () => {
   }, [dispatch, id]);
 
   return (
-   (loading)? <ProductDetailsSkeleton />:
-   <div className="d-flex flex-column min-vh-100 bg-light">
-       <SimpleNavbar />
-       <div className="container-fluid py-3 flex-grow-1">
-         <div className="container bg-white shadow-sm rounded p-3">
-           <div className="row">
-            <div className="col-lg-5 col-md-6 mb-3">
-             <ImageGallery
-                product={product}
-                toast={toast}
-                handleWishlistToggle={handleWishlistToggle}
-                user={user}
-                wishList={wishList}
-              />
+    <div className="d-flex flex-column min-vh-100 bg-light">
+      <SimpleNavbar />
+      <div className="container-fluid py-3 flex-grow-1">
+        {loading ? (
+          <ProductDetailsSkeleton />
+        ) : (
+          <div className="container bg-white shadow-sm rounded p-3">
+            <div className="row">
+              <div className="col-lg-5 col-md-6 mb-3">
+                <ImageGallery
+                  product={product}
+                  toast={toast}
+                  handleWishlistToggle={handleWishlistToggle}
+                  user={user}
+                  wishList={wishList}
+                />
+              </div>
+
+              <div className="col-lg-7 col-md-6 mb-3">
+                <ProductInfo product={product} />
+              </div>
             </div>
 
-            <div className="col-lg-7 col-md-6 mb-3">
-              <ProductInfo product={product} />
-            </div>
+            {/* Additional sections if needed later */}
+            {/* <OffersSection product={product} /> */}
+            {/* <Highlights product={product} /> */}
+            {/* <Specifications product={product} /> */}
           </div>
-
-          {/* Additional sections if needed later */}
-          {/* <OffersSection product={product} /> */}
-          {/* <Highlights product={product} /> */}
-          {/* <Specifications product={product} /> */}
-        </div>
+        )}
       </div>
       <Footer />
-    </div> 
+    </div>
   );
 };
 

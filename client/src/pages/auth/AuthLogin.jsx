@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Form from "../../common/Form";
 import { loginFormControls } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuth, loggedinUser } from "../../auth-slice";
+import { loggedinUser } from "../../auth-slice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  getAllSeller,
-  getSellerDetails,
-} from "../../store/admin/seller-listingSlice";
+// import {
+//   getAllSeller,
+//   getSellerDetails,
+// } from "../../store/admin/seller-listingSlice";
 
 const initialState = {
   email: "",
@@ -18,15 +18,15 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
-  const { seller } = useSelector((state) => state.sellerAuth);
-  const { sellerList, sellerDetails } = useSelector(
-    (state) => state.sellerListing
-  );
+  // const { seller } = useSelector((state) => state.sellerAuth);
+  // const { sellerList, sellerDetails } = useSelector(
+  //   (state) => state.sellerListing
+  // );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, user } = useSelector((state) => state.auth);
-  const [Data, setData] = useState("");
+  const { isLoading } = useSelector((state) => state.auth);
+  // const [Data, setData] = useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -55,8 +55,8 @@ function AuthLogin() {
       <div className="w-100" style={{ maxWidth: "450px" }}>
         <div className="bg-white shadow rounded-4 p-4 p-md-5 w-100">
           <div className="text-center mb-4">
-            <h1 className="fs-2 fw-bold">Welcome to MeraBazar</h1>
-            <p className="text-muted">Sign in to your account</p>
+            <h1 className="fs-2 fw-bold text-primary" >Welcome to MeraBazar</h1>
+            <p className="text-primary">Sign in to your account</p>
           </div>
 
           <Form

@@ -48,8 +48,8 @@ function AuthRegister() {
         <div className="bg-white shadow rounded-4 p-4 p-sm-5">
           {/* Header */}
           <div className="text-center mb-4">
-            <h1 className="fw-bold fs-2">Create New Account</h1>
-            <p className="text-muted mb-0">Register to MeraBazar</p>
+            <h1 className="fw-bold fs-2 text-primary">Create New Account</h1>
+            <p className=" mb-0 text-primary">Register to MeraBazar</p>
           </div>
 
           {/* Form */}

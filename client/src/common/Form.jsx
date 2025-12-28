@@ -131,9 +131,9 @@ function Form({
       <div className="w-100" style={{ maxWidth: "500px", margin: "0 auto" }}>
         {formControls.map((controlItem, index) => (
           <div className="mb-3" key={controlItem.name || index}>
-            <label
+            <label 
               htmlFor={controlItem.name}
-              className="form-label fw-medium text-capitalize"
+              className="form-label fw-medium text-capitalize text-primary"
             >
               {controlItem.label || controlItem.name}
             </label>

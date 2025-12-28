@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import ImageUpload from "../../components/admin-view/ImageUpload";
 import PendingApproval from "../seller-view/PendingApproval";
 
-export const InitialState = {
+ const InitialState = {
   username: "",
   email: "",
   phone: "",
@@ -25,7 +25,7 @@ const SellerRegistration = () => {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState(InitialState);
-  const { seller, isLoading } = useSelector((state) => state.sellerAuth);
+  // const { seller, isLoading } = useSelector((state) => state.sellerAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const totalSteps = sellerRegistrationControl.length;
@@ -75,7 +75,7 @@ const SellerRegistration = () => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-12 col-lg-12">
           <div className="card shadow rounded-4 p-4">
-            <h2 className="text-center mb-4">MeraBazar Seller Registration</h2>
+            <h2 className="text-center mb-4 text-primary">MeraBazar Seller Registration</h2>
 
             {/* Step UI */}
             <div className="row text-center mb-4">
@@ -98,7 +98,7 @@ const SellerRegistration = () => {
             <form>
               {currentStepFields.fields.map((field) => (
                 <div key={field.name} className="mb-3">
-                  <label className="form-label">
+                  <label className="form-label text-primary">
                     {field.label} {field.required && "*"}
                   </label>
                   {field.type === "select" ? (
