@@ -104,7 +104,7 @@ function SellerDetailsModel({
           <div className="col-6">Document</div>
           <div className="col-6 fw-semibold text-end">
             <a href={`${sellerDetails?.data?.document}`} 
-            // target="_blank"
+            target="_blank"
             >
               <img
                 className="justify-content-end"
