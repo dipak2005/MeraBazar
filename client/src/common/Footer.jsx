@@ -27,7 +27,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#" className="text-white text-decoration-none">
-                  Flipkart Stories
+                  Merabazar Stories
                 </a>
               </li>
               <li>
