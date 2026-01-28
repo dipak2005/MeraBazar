@@ -135,13 +135,13 @@ const Footer = () => {
             <p className="small mb-1">
               MeraBazar Internet Private Limited,
               <br />
-              Buildings Alyssa, Begonia & Clove Embassy Tech Village,
+             3rd Floor, Shree Complex,
               <br />
-              Outer Ring Road, Devarabeesanahalli Village,
+              Ring Road Extension, Satellite Area,
               <br />
-              Bengaluru, 560103,
+              Ahmedabad, 380015,
               <br />
-              Karnataka, India
+              Gujarat, India
             </p>
           </div>
         </div>
