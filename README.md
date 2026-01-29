@@ -285,14 +285,5 @@ All routes are protected with authentication middleware as appropriate.
 
 ***
 
-## 14. Best Practices
-
-- Keep `.env` secrets out of public repo.
-- Commit regularly, use branches for features.
-- Use PRs and code reviews for future changes.
-- Modularize every new user-facing feature for easy scaling.
-
-***
-
 
 
