@@ -59,6 +59,8 @@ const ProductDetailPage = () => {
   }
 
   useEffect(() => {
+
+    window.scrollTo(0,0);
     if (id) {
       setLoading(true);
       dispatch(fetchProductDetails(id)).finally(() => setLoading(false));
