@@ -79,6 +79,7 @@ function ShoppingViewListings() {
   }
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if (productDetails != null) {
       setOpenDetailsPage(true);
     }
