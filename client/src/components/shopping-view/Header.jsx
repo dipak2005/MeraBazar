@@ -8,18 +8,21 @@ import {
   LogOut,
   LogOutIcon,
   Store,
+  Camera,
 } from "lucide-react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, logOutUser } from "../../auth-slice";
 import { useEffect, useState } from "react";
 import { fetchCartProduct } from "../../store/shop/cartSlice";
+import { useRef } from "react";
 
 function HeaderRightContent({ toast }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shoppingcart);
+  
 
   function handleLogout() {
     dispatch(logOutUser());
@@ -82,6 +85,8 @@ function ShoppingHeader({ toast, search }) {
   const { cartItem } = useSelector((state) => state.shoppingcart);
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+   const fileInputRef = useRef(null);
+  const [imageLoading, setImageLoading] = useState(false);
 
   const handleSearch = (e) => {
     // e.preventDefault();
@@ -97,6 +102,38 @@ function ShoppingHeader({ toast, search }) {
   }, [dispatch, fetchCartProduct]);
 
   console.log(cartItem, "items", user?.id);
+
+
+  const handleImageSelect = async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    setImageLoading(true);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await axios.post(
+      "http://localhost:5000/api/shop/image-search",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // Assuming backend returns products array
+    // dispatch to redux if needed
+    console.log(res.data);
+
+  } catch (error) {
+    toast.error("Image search failed");
+  } finally {
+    setImageLoading(false);
+  }
+};
   return (
     <header className="sticky-top bg-white shadow-sm border-bottom">
       <nav className="navbar navbar-expand-lg px-3 px-md-4 py-2">
@@ -169,6 +206,24 @@ function ShoppingHeader({ toast, search }) {
                 >
                   <Search size={18} />
                 </button>
+                 <span className="input-group-text bg-white">
+                              <button
+                                type="button"
+                                style={{ border: "none", background: "transparent" }}
+                                onClick={() => fileInputRef.current.click()}
+                              >
+                                <Camera size={20} />
+                              </button>
+                
+                              {/* Hidden File Input */}
+                              <input
+                                type="file"
+                                accept="image/*"
+                                ref={fileInputRef}
+                                style={{ display: "none" }}
+                                onChange={handleImageSelect}
+                              />
+                            </span>
               </div>
             </div>
 

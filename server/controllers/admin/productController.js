@@ -1,5 +1,7 @@
 const { imageUploadUtils } = require("../../helper/cloudinary");
 const ProductModel = require("../../models/ProductModel");
+const { generateEmbedding } = require("../../utils/generateEmbedding ");
+
 
 const handleImageUpload = async (req, res) => {
   try {
@@ -45,17 +47,26 @@ const addProduct = async (req, res) => {
       totalStock,
     });
 
-    await newProduct.save();
+
+      const embedding = await generateEmbedding(newProduct.image);
+
+   if (embedding) {
+      newProduct.embedding = embedding;
+   }
+
+    
 
     return res.status(200).json({
       success: true,
       data: newProduct,
+      message: "Product added successfully!",
     });
+    await newProduct.save();
   } catch (e) {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occured while add new Product",
+      message: "Error occured while adding new Product",
     });
   }
 };
@@ -68,12 +79,13 @@ const fetchProduct = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: listOfProduct,
+      message: "Products fetched successfully!",
     });
   } catch (e) {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occured while add new Product",
+      message: "Error occured while fetching products",
     });
   }
 };
@@ -119,12 +131,13 @@ const editProduct = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: findProduct,
+      message: "Product updated successfully!",
     });
   } catch (e) {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occured while add new Product",
+      message: "Error occured while updating Product",
     });
   }
 };
@@ -151,10 +164,12 @@ const deleteProduct = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occured while add new Product",
+      message: "Error occured while deleting Product",
     });
   }
 };
+
+
 
 module.exports = {
   handleImageUpload,

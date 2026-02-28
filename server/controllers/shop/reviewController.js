@@ -15,7 +15,7 @@ const addProductReview = async (req, res) => {
 
     console.log("Incoming Review Payload:", req.body);
 
-    if (typeof reviewVal !== "number" || reviewVal < 1 || reviewVal > 5) {
+    if (isNaN(reviewVal) || reviewVal < 1 || reviewVal > 5) {
   return res
     .status(400)
     .json({ success: false, message: "Invalid rating value. Must be 1-5." });
@@ -72,6 +72,7 @@ const addProductReview = async (req, res) => {
       success: true,
       data: newReview,
       averageReview,
+      message
     });
   } catch (e) {
     console.log(e);

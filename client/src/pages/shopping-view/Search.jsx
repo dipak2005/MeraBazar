@@ -6,21 +6,27 @@ import { toast } from "react-toastify";
 import ProductTile from "./ProductTile";
 import Footer from "../../common/Footer";
 import { PackageOpen } from "lucide-react";
+
 import {
   addNewItem,
   deleteItem,
   getItem,
 } from "../../store/shop/wishlistSlice";
+import { useRef } from "react";
+import { useState } from "react";
 
 function SearchPage() {
   const { searchResults, isLoading } = useSelector(
-    (state) => state.searchProduct
+    (state) => state.searchProduct,
   );
   const { cartItems } = useSelector((state) => state.shoppingcart);
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
   const { wishList } = useSelector((state) => state.userWishList);
+  const fileInputRef = useRef(null);
+  const [imageLoading, setImageLoading] = useState(false);
+
   // function handleAddToCart(productId) {
   //   console.log("Trying to add to cart with:", {
   //     userId: user?._id || user?.id,
@@ -46,6 +52,36 @@ function SearchPage() {
   //       // toast.error("Failed to add to cart");
   //     });
   // }
+
+  const handleImageSelect = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setImageLoading(true);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await axios.post(
+        "http://localhost:5000/api/shop/image-search",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      // Assuming backend returns products array
+      // dispatch to redux if needed
+      console.log(res.data);
+    } catch (error) {
+      toast.error("Image search failed");
+    } finally {
+      setImageLoading(false);
+    }
+  };
 
   function handleWishlistToggle(productId) {
     if (!user?.id) {
@@ -81,7 +117,11 @@ function SearchPage() {
 
   return (
     <div className="d-flex flex-column bg-light min-vh-100">
-      <SimpleNavbar searchResults={searchResults} />
+      <SimpleNavbar
+        fileInputRef={fileInputRef}
+        handleImageSelect={handleImageSelect}
+        searchResults={searchResults}
+      />
 
       {/* Use regular container for better alignment */}
       <div className="container px-2m py-4 flex-grow-1">
@@ -120,11 +160,28 @@ function SearchPage() {
                         }
                       />
                     </div>
-                  )
+                  ),
                 )}
               </div>
             )}
           </div>
+          {/* <button
+              type="button"
+              className="btn position-absolute end-0 me-2"
+              style={{ border: "none", background: "transparent" }}
+              onClick={() => fileInputRef.current.click()}
+            >
+              <Camera size={20} />
+            </button>
+          
+            {/* Hidden File Input */}
+          {/* <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleImageSelect}
+            />  */}
         </div>
       </div>
       <Footer />

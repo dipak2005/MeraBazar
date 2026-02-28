@@ -16,8 +16,12 @@ const ProductSchema = new mongoose.Schema(
       ref: "seller",
       required: true,
     },
+    embedding: {
+      type: [Number],
+      default: null,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("product", ProductSchema);
