@@ -80,9 +80,9 @@ function ProductTile({
               <small className="ms-2 text-muted text-decoration-line-through">
                 ₹{product?.price}
               </small>
-              <small className="ms-auto text-success fw-semibold">
-                {product?.discount}% off
-              </small>
+              {product.discount > 0 ?<small className="ms-auto text-success fw-semibold">
+                {parseFloat(product?.discount).toPrecision(2)}% off
+              </small> : null}
             </>
           )}
         </div>

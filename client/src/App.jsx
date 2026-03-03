@@ -45,6 +45,7 @@ import SearchPage from "./pages/shopping-view/Search";
 import PendingApproval from "./pages/seller-view/PendingApproval";
 import SellerListing from "./pages/admin-view/SellerListing";
 import Banner from "./pages/admin-view/Banner";
+import ImageSearchPage from "./pages/shopping-view/ImageSearch";
 
 function App() {
   const { user, isAuthenticated, authChecked } = useSelector(
@@ -155,6 +156,7 @@ function App() {
             <Route path="/shop/cart" element={<CartPage />} />
             <Route path="/shop/checkout" element={<ShoppingViewCheckout />} />
             <Route path="/shop/listing/search" element={<SearchPage />} />
+            <Route path="/shop/listing/image-search" element={<ImageSearchPage />} />
             <Route path="/unauth-page" element={<UnAuthPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

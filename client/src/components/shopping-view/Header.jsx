@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, logOutUser } from "../../auth-slice";
 import { useEffect, useRef, useState } from "react";
 import { fetchCartProduct } from "../../store/shop/cartSlice";
+import { searchProductsByImage } from "../../store/shop/searchSlice";
+import store from "../../store/store";
 
 function HeaderRightContent({ toast }) {
   const navigate = useNavigate();
@@ -86,31 +88,59 @@ function ShoppingHeader({ toast, search }) {
 
   const fileInputRef = useRef(null);
 
-const handleImageClick = () => {
-  fileInputRef.current.click();
-};
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
 
-const handleImageUpload = async (e) => {
+  // const handleImageUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   const formData = new FormData();
+  //   formData.append("image", file);
+
+  //   const res = await fetch("http://localhost:3000/api/shop/product/search/search-by-image", {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+
+  //   const data = await res.json();
+  //   console.log(data);
+
+  //   if (data.success) {
+  //     navigate("/shop/listing/search", {
+  //       state: { results: data.products },
+  //     });
+  //   }
+  // };
+
+ const handleImageUpload = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
   const formData = new FormData();
   formData.append("image", file);
 
-  const res = await fetch("http://localhost:3000/api/shop/product/search/search-by-image", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    // unwrap returns actual payload OR throws error
+    const result = await dispatch(
+      searchProductsByImage(formData)
+    ).unwrap();
 
-  const data = await res.json();
-  console.log(data);
-
-  if (data.success) {
-    navigate("/shop/listing/search", {
-      state: { results: data.products },
+    
+    // Simply navigate after success
+    navigate("/shop/listing/image-search" , {
+      state: { results: result.products },
     });
+
+  } catch (error) {
+    console.error("Image search failed:", error);
   }
+
+  // reset input so same image can be selected again
+  e.target.value = null;
 };
+
   const handleSearch = (e) => {
     // e.preventDefault();
     if (query.trim() != "") {
@@ -123,6 +153,8 @@ const handleImageUpload = async (e) => {
   useEffect(() => {
     dispatch(fetchCartProduct({ userId: user?.id }));
   }, [dispatch, fetchCartProduct]);
+
+ 
 
   console.log(cartItem, "items", user?.id);
   return (

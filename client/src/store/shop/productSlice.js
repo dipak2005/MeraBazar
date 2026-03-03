@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   productList: [],
   productDetails: null,
+  
 };
 
 
@@ -40,6 +41,8 @@ export const fetchAllFilteredProducts = createAsyncThunk(
     return result?.data;
   }
 );
+
+
 
 
 //  Fetch product details by ID

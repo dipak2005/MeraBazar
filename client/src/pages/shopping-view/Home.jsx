@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { fetchAllFilteredProducts } from "../../store/shop/productSlice";
 import { getBannerImages } from "../../store/common/bannerSlice";
 
-/* ================= HELPER FUNCTIONS ================= */
+
 
 const formatToTwo = (value) => {
   if (value === undefined || value === null || isNaN(value)) return "0.00";

@@ -11,6 +11,9 @@ import {
   deleteItem,
   getItem,
 } from "../../store/shop/wishlistSlice";
+import { getSearchResult } from "../../store/shop/searchSlice";
+import { searchProductsByImage } from "../../store/shop/searchSlice";
+import { useLocation } from "react-router-dom";
 
 function SearchPage() {
   const { searchResults, isLoading } = useSelector(
@@ -18,6 +21,7 @@ function SearchPage() {
   );
   const { cartItems } = useSelector((state) => state.shoppingcart);
   const dispatch = useDispatch();
+  
 
   const { user } = useSelector((state) => state.auth);
   const { wishList } = useSelector((state) => state.userWishList);
@@ -75,13 +79,17 @@ function SearchPage() {
     if (user?.id) {
       dispatch(getItem(user?.id)).then((data) => {
         console.log(data);
+        console.log(typeof searchResults);
+        
       });
     }
   }, [user]);
 
+
+
   return (
     <div className="d-flex flex-column bg-light min-vh-100">
-      <SimpleNavbar searchResults={searchResults} />
+      <SimpleNavbar  />
 
       {/* Use regular container for better alignment */}
       <div className="container px-2m py-4 flex-grow-1">
@@ -96,7 +104,8 @@ function SearchPage() {
           <div className="d-flex flex-column justify-content-center col-12 col-lg-12">
             {isLoading ? (
               <ProductSkeleton />
-            ) : searchResults.length === 0 ? (
+            ) :
+              searchResults.length === 0? (
               <div className="text-center py-5 bg-white rounded shadow-sm">
                 <PackageOpen size={58} />
                 <h4>No products found</h4>

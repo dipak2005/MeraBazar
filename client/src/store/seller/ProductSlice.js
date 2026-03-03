@@ -6,6 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   productList: [],
+  
 };
 
 // add product thunk
