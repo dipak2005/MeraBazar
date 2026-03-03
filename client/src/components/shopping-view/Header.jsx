@@ -8,11 +8,12 @@ import {
   LogOut,
   LogOutIcon,
   Store,
+  Camera,
 } from "lucide-react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, logOutUser } from "../../auth-slice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchCartProduct } from "../../store/shop/cartSlice";
 
 function HeaderRightContent({ toast }) {
@@ -83,11 +84,38 @@ function ShoppingHeader({ toast, search }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
+  const fileInputRef = useRef(null);
+
+const handleImageClick = () => {
+  fileInputRef.current.click();
+};
+
+const handleImageUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const res = await fetch("http://localhost:3000/api/shop/product/search/search-by-image", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  console.log(data);
+
+  if (data.success) {
+    navigate("/shop/listing/search", {
+      state: { results: data.products },
+    });
+  }
+};
   const handleSearch = (e) => {
     // e.preventDefault();
     if (query.trim() != "") {
       navigate(
-        `/shop/listing/search?keyword=${encodeURIComponent(query.trim())}`
+        `/shop/listing/search?keyword=${encodeURIComponent(query.trim())}`,
       );
       setQuery("");
     }
@@ -115,8 +143,9 @@ function ShoppingHeader({ toast, search }) {
               src="/images/merabazar.png"
               alt="MeraBazar Logo"
               style={{
-                height: "50px", width:"110px" ,
-                maxHeight: "100%", 
+                height: "50px",
+                width: "110px",
+                maxHeight: "100%",
                 objectFit: "cover",
                 display: "block",
               }}
@@ -169,6 +198,20 @@ function ShoppingHeader({ toast, search }) {
                 >
                   <Search size={18} />
                 </button>
+                <button
+                  className="input-group-text bg-white"
+                  onClick={handleImageClick}
+                >
+                  <Camera size={18} />
+                </button>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleImageUpload}
+                />
               </div>
             </div>
 

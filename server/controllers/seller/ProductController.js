@@ -1,5 +1,6 @@
 const { imageUploadUtils } = require("../../helper/cloudinary");
 const ProductModel = require("../../models/ProductModel");
+const axios = require("axios");
 
   const handleImageUpload = async (req, res) => {
     try {
@@ -20,6 +21,15 @@ const ProductModel = require("../../models/ProductModel");
     }
   };
 
+  const normalizeVector = (vector) => {
+  const magnitude = Math.sqrt(
+    vector.reduce((sum, val) => sum + val * val, 0)
+  );
+  return vector.map((val) => val / magnitude);
+};
+
+
+
 //  add a new product
 const addProduct = async (req, res) => {
   try {
@@ -37,6 +47,24 @@ const addProduct = async (req, res) => {
     } = req.body;
 
     
+   const response = await axios.post(
+      "http://localhost:5000/encode",
+      { imageUrl: image }   // ✅ correct format
+    );
+
+    let embedding = response.data.vector;
+
+     if (!embedding) {
+      return res.status(500).json({
+        success: false,
+        message: "Embedding generation failed",
+      });
+    }
+
+    // 🔥 3️⃣ Normalize vector (VERY IMPORTANT)
+    embedding = normalizeVector(embedding);
+
+    
     const newProduct = new ProductModel({
       image,
       title,
@@ -47,7 +75,8 @@ const addProduct = async (req, res) => {
       salePrice,
       discount:(((price-salePrice)/price)*100),
       totalStock,
-      sellerId
+      sellerId,
+      embedding
     });
 
    

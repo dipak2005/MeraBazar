@@ -46,6 +46,8 @@ const addProduct = async (req, res) => {
     });
 
     await newProduct.save();
+    console.log("Product add ho gyi");
+    
 
     return res.status(200).json({
       success: true,

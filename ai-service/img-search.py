@@ -1,8 +1,8 @@
-# ml_server/ml_server.py
 from flask import Flask, request, jsonify
 import torch
 import clip
 from PIL import Image
+import requests
 import io
 
 app = Flask(__name__)
@@ -12,11 +12,14 @@ model, preprocess = clip.load("ViT-B/32", device=device)
 
 @app.route("/encode", methods=["POST"])
 def encode():
-    if "image" not in request.files:
-        return jsonify({"error": "no image"}), 400
-    
-    img_bytes = request.files["image"].read()
-    image = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+    data = request.json
+    image_url = data.get("imageUrl")
+
+    if not image_url:
+        return jsonify({"error": "No imageUrl"}), 400
+
+    response = requests.get(image_url)
+    image = Image.open(io.BytesIO(response.content)).convert("RGB")
     image_input = preprocess(image).unsqueeze(0).to(device)
 
     with torch.no_grad():

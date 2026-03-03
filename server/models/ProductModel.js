@@ -16,6 +16,10 @@ const ProductSchema = new mongoose.Schema(
       ref: "seller",
       required: true,
     },
+     embedding: {
+    type: [Number],   // store vector array
+    default: [],     // default to empty array
+  },
   },
   { timestamps: true }
 );
