@@ -1,22 +1,18 @@
 import {
+  Camera,
+  CircleUserRound,
+  LogOut,
+  Menu,
   Search,
   ShoppingCart,
-  ChevronDown,
-  Menu,
-  CircleUserRound,
-  Settings,
-  LogOut,
-  LogOutIcon,
-  Store,
-  Camera,
+  Store
 } from "lucide-react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, logOutUser } from "../../auth-slice";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logOutUser } from "../../auth-slice";
 import { fetchCartProduct } from "../../store/shop/cartSlice";
 import { searchProductsByImage } from "../../store/shop/searchSlice";
-import store from "../../store/store";
 
 function HeaderRightContent({ toast }) {
   const navigate = useNavigate();
@@ -127,7 +123,7 @@ function ShoppingHeader({ toast, search }) {
       searchProductsByImage(formData)
     ).unwrap();
 
-    
+
     // Simply navigate after success
     navigate("/shop/listing/image-search" , {
       state: { results: result.products },
@@ -154,7 +150,7 @@ function ShoppingHeader({ toast, search }) {
     dispatch(fetchCartProduct({ userId: user?.id }));
   }, [dispatch, fetchCartProduct]);
 
- 
+
 
   console.log(cartItem, "items", user?.id);
   return (
