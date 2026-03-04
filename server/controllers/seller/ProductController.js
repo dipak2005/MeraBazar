@@ -73,7 +73,7 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
-      discount:(((price-salePrice)/price)*100),
+      discount:(((price-salePrice)/price)*100).toFixed(2),
       totalStock,
       sellerId,
       embedding
@@ -156,7 +156,7 @@ const editProduct = async (req, res) => {
     findProduct.price = price === '' ? 0 : price || findProduct.price;
     findProduct.salePrice = salePrice === '' ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
-    findProduct.discount = discount === '' ? 0 : discount || findProduct.discount;
+    findProduct.discount = discount === '' ? 0 : parseFloat(discount).toFixed(2)   || parseFloat(findProduct.discount).toFixed(2);
     findProduct.image = image || findProduct.image;
 
     await findProduct.save();
