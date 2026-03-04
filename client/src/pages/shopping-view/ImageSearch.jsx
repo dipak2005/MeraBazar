@@ -49,8 +49,8 @@ function ImageSearchPage() {
   useEffect(() => {
     if (user?.id) {
       dispatch(getItem(user?.id)).then((data) => {
-        console.log(data);
-        console.log(typeof searchResults);
+        // console.log(data);
+        console.log( searchResults);
       });
     }
   }, [user]);
