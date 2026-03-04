@@ -1,7 +1,7 @@
 const { imageUploadUtils } = require("../../helper/cloudinary");
 const ProductModel = require("../../models/ProductModel");
 const axios = require("axios");
-
+require("dotenv").config();
   const handleImageUpload = async (req, res) => {
     try {
       const b64 = Buffer.from(req.file.buffer).toString("base64");
@@ -48,7 +48,7 @@ const addProduct = async (req, res) => {
 
     
    const response = await axios.post(
-      "http://localhost:5000/encode",
+      `${process.env.ENCODER_API_URL}/encode`,
       { imageUrl: image }   // ✅ correct format
     );
 
