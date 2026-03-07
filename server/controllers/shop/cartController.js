@@ -33,7 +33,7 @@ const addToCart = async (req, res) => {
     }
 
     const findCurrentProductIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId
+      (item) => item.productId.toString() === productId,
     );
 
     if (findCurrentProductIndex === -1) {
@@ -57,7 +57,7 @@ const addToCart = async (req, res) => {
       salePrice: item.productId.salePrice,
       quantity: item.quantity,
       discount: item.discount,
-      totalStock:item.totalStock,
+      totalStock: item.totalStock,
     }));
 
     res.status(200).json({
@@ -76,7 +76,6 @@ const addToCart = async (req, res) => {
 const fetchCartItems = async (req, res) => {
   try {
     const { userId } = req.params;
-    
 
     if (!userId) {
       return res.status(400).json({
@@ -98,7 +97,7 @@ const fetchCartItems = async (req, res) => {
     }
 
     const validItems = cart.items.filter(
-      (productItem) => productItem.productId
+      (productItem) => productItem.productId,
     );
 
     if (validItems.length < cart.items.length) {
@@ -106,16 +105,18 @@ const fetchCartItems = async (req, res) => {
       await cart.save();
     }
 
-    const populateCartItems = validItems.map((item) => ({
-      productId: item.productId._id,
-      image: item.productId.image,
-      title: item.productId.title,
-      price: item.productId.price,
-      salePrice: item.productId.salePrice,
+    const populateCartItems = cart.items.map((item) => ({
+      productId: item.productId?._id || item.productId,
+      image: item.productId?.images?.[0] || item.productId?.image || "", // <-- add this
+      title: item.productId?.title || item.title,
+      price: item.productId?.price || item.price,
+      salePrice: item.productId?.salePrice || item.salePrice,
       quantity: item.quantity,
       discount: item.discount,
-      totalStock:item.totalStock,
+      totalStock: item.productId?.totalStock || item.totalStock,
     }));
+
+    console.log(populateCartItems);
 
     res.status(200).json({
       success: true,
@@ -136,7 +137,7 @@ const fetchCartItems = async (req, res) => {
 const updateCartItemQty = async (req, res) => {
   try {
     console.log(req.body);
-    const { userId, productId, quantity} = req.body;
+    const { userId, productId, quantity } = req.body;
 
     if (
       !userId ||
@@ -161,7 +162,7 @@ const updateCartItemQty = async (req, res) => {
     const findCurrentProductIndex = cart.items.findIndex(
       (item) =>
         (item.productId._id?.toString?.() || item.productId.toString?.()) ===
-        productId
+        productId,
     );
 
     if (findCurrentProductIndex === -1) {
@@ -173,7 +174,6 @@ const updateCartItemQty = async (req, res) => {
 
     cart.items[findCurrentProductIndex].quantity = quantity;
     // cart.items[findCurrentProductIndex].discount = discount;
-
 
     await cart.save();
 
@@ -190,7 +190,7 @@ const updateCartItemQty = async (req, res) => {
       salePrice: item.productId ? item.productId.salePrice : null,
       quantity: item.quantity,
       discount: item.discount,
-      totalStock:item.productId? item.productId.totalStock:null,
+      totalStock: item.productId ? item.productId.totalStock : null,
     }));
 
     res.status(200).json({
@@ -232,9 +232,8 @@ const deleteCartItem = async (req, res) => {
     }
 
     cart.items = cart.items.filter(
-  (item) => item.productId && item.productId._id.toString() !== productId
-);
-
+      (item) => item.productId && item.productId._id.toString() !== productId,
+    );
 
     await cart.save();
 
@@ -251,7 +250,7 @@ const deleteCartItem = async (req, res) => {
       salePrice: item.productId ? item.productId.salePrice : null,
       quantity: item.quantity,
       discount: item.productId ? item.productId.discount : "No discout",
-      totalStock:item.productId ? item.productId.totalStock:null,
+      totalStock: item.productId ? item.productId.totalStock : null,
     }));
 
     res.status(200).json({
