@@ -95,4 +95,4 @@ const registerSeller = async (req, res) => {
   }
 };
 
-module.exports = { registerSeller };
+module.exports = { registerSeller  ,};

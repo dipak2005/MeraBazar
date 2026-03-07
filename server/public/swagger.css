@@ -1,0 +1,4 @@
+.swagger-ui .topbar-wrapper img {
+  content: url("server/merabazar.png");
+  width: 40px;
+}

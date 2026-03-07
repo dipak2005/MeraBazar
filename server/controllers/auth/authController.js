@@ -95,7 +95,7 @@ const loginUser = async (req, res) => {
       .json({
         success: true,
         message: "Logged in Successfully",
-
+        token: token,
         user: {
           email: checkUser.email,
           role: checkUser.role,

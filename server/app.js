@@ -7,21 +7,25 @@ const cors = require("cors");
 const path = require("path");
 
 // Routes
-const AuthRouter = require("./routes/auth/AuthRouter"); // Authentication
-const AdminProductRouter = require("./routes/admin/productRoute"); // for Admin : product
-const SellerProductRouter = require("./routes/seller/ProductRoute"); // for seller : product
-const ShopProductRouter = require("./routes/shop/productRoute"); // for Shop : product
-const CartRouter = require("./routes/shop/cartRoute"); // for Shop : cart
-const UserAddressRouter = require("./routes/shop/addressRoute"); // for Shop : store user's address
-const UserOrderRouter = require("./routes/shop/orderRoute"); // for shop : manage User's orders
-const SellerOrderRouter = require("./routes/seller/OrderRoute"); // for seller : to fetch user's order
-const UserRouter = require("./routes/seller/UserRoute"); // for seller : to get the details of buyer's
-const SearchRouter = require("./routes/shop/searchRoute"); // for user : to search the product via : title,description , category,brand
-const ReviewRouter = require("./routes/shop/reviewRoute"); // for user : to post review on specific product
-const SellerAuthRouter = require("./routes/auth/SellerAuthRouter"); // seller Authentication
-const SellerListingRouter = require("./routes/admin/seller-listingRoute"); // admin : to manage the seller's
-const CommonBannerRouter = require("./routes/common/BannerRoute"); // banner added by admin show to User's
-const WishListRouter = require("./routes/shop/wishlistRoute"); // user store favourite item in there list.
+const AuthRouter = require("./routes/auth/AuthRouter.routes"); // Authentication
+const AdminProductRouter = require("./routes/admin/productRoute.routes"); // for Admin : product
+const SellerProductRouter = require("./routes/seller/ProductRoute.routes"); // for seller : product
+const ShopProductRouter = require("./routes/shop/productRoute.routes"); // for Shop : product
+const CartRouter = require("./routes/shop/cartRoute.routes"); // for Shop : cart
+const UserAddressRouter = require("./routes/shop/addressRoute.routes"); // for Shop : store user's address
+const UserOrderRouter = require("./routes/shop/orderRoute.routes"); // for shop : manage User's orders
+const SellerOrderRouter = require("./routes/seller/OrderRoute.routes"); // for seller : to fetch user's order
+const UserRouter = require("./routes/seller/UserRoute.routes"); // for seller : to get the details of buyer's
+const SearchRouter = require("./routes/shop/searchRoute.routes"); // for user : to search the product via : title,description , category,brand
+const ReviewRouter = require("./routes/shop/reviewRoute.routes"); // for user : to post review on specific product
+const SellerAuthRouter = require("./routes/auth/SellerAuthRouter.routes"); // seller Authentication
+const SellerListingRouter = require("./routes/admin/seller-listingRoute.routes"); // admin : to manage the seller's
+const CommonBannerRouter = require("./routes/common/BannerRoute.routes"); // banner added by admin show to User's
+const WishListRouter = require("./routes/shop/wishlistRoute.routes"); // user store favourite item in there list.
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
+const basicAuth = require("./basicAuth");
+
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -66,6 +70,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
+
 app.use("/api/auth", AuthRouter);
 app.use("/api/auth/seller", SellerAuthRouter);
 app.use("/api/auth/sellerlist", SellerListingRouter);
@@ -82,6 +87,29 @@ app.use("/api/shop/review", ReviewRouter);
 app.use("/api/common/banner", CommonBannerRouter);
 app.use("/api/shop/account/wishlist",WishListRouter);
 
+
+
+
+
+
+if(process.env.NODE_ENV != "production"){
+app.use(
+  "/api-docs",
+
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCssUrl: "/swagger.css",
+    customSiteTitle: "MeraBazar API Docs",
+    // customfavIcon: "/favicon.ico",
+    explorer: true,
+    swaggerOptions: {
+      docExpansion: "list",
+      filter: true,
+      showRequestDuration: true,
+    },
+  })
+);
+}
 
 
 // app.get("*", (req, res) => {

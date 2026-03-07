@@ -17,6 +17,7 @@ export const getSearchResult = createAsyncThunk(
   },
 );
 
+
 export const searchProductsByImage = createAsyncThunk(
   "/products/searchProductsByImage",
   async (formData) => {
