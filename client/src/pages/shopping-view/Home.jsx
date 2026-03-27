@@ -1,12 +1,14 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Footer from "../../common/Footer";
 import ShoppingHeader from "../../components/shopping-view/Header";
 import ShoppingCategory from "../../components/shopping-view/ShoppingCategory";
-import { getBannerImages } from "../../store/common/bannerSlice";
+import Footer from "../../common/Footer";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { fetchAllFilteredProducts } from "../../store/shop/productSlice";
+import { getBannerImages } from "../../store/common/bannerSlice";
+
+
 
 const formatToTwo = (value) => {
   if (value === undefined || value === null || isNaN(value)) return "0.00";
@@ -229,20 +231,14 @@ function ShoppingViewHome() {
                   }}
                 >
                   <img
-  src={
-    product?.images && product.images.length > 0
-      ? product.images[0]       // first image from images array
-      : product?.image           // fallback to single image
-      ? product.image
-      : "https://via.placeholder.com/200" // fallback placeholder
-  }
-  alt={product?.title}
-  className="card-img-top"
-  style={{
-    height: "15rem",
-    objectFit: "contain",
-  }}
-/>
+                    src={product?.image}
+                    alt={product?.title}
+                    className="card-img-top"
+                    style={{
+                      height: "15rem",
+                      objectFit: "contain",
+                    }}
+                  />
                 </Link>
 
                 <div className="card-body p-2">
@@ -318,20 +314,14 @@ const DealsSection = ({ title, items = [], load }) => {
                     className="text-decoration-none text-dark"
                   >
                     <img
-  src={
-    item?.images && item.images.length > 0
-      ? item.images[0] // first image from array
-      : item?.image // fallback to single image
-      ? item.image
-      : "https://via.placeholder.com/150" // fallback placeholder
-  }
-  className="card-img-top p-2"
-  alt={item?.title}
-  style={{
-    height: "12rem",
-    objectFit: "contain",
-  }}
-/>
+                      src={item?.image}
+                      className="card-img-top p-2"
+                      alt={item?.title}
+                      style={{
+                        height: "12rem",
+                        objectFit: "contain",
+                      }}
+                    />
                   </Link>
 
                   <div className="card-body py-2">

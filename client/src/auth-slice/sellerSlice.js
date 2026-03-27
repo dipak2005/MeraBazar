@@ -1,3 +1,4 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -12,29 +13,20 @@ const initialState = {
 // for register : add seller
 export const registeredSeller = createAsyncThunk(
   "/auth/registerSeller",
-  async (payload, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/seller/register-seller`,
-        payload,
-        {
-          withCredentials: true,
+  async (payload) => {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/auth/seller/register-seller`,
+      payload,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-
-      console.log("Success response:", response.data);
-      return response.data;
-    } catch (error) {
-      console.log("FULL ERROR OBJECT:", error);
-
-      if (error.response) {
-        console.log("Backend error response:", error.response.data);
-        return rejectWithValue(error.response.data);
       }
-
-      return rejectWithValue({ message: "Network error" });
-    }
-  },
+    );
+    console.log(response.data);
+    return response.data;
+  }
 );
 
 // for
@@ -54,7 +46,7 @@ export const logOutUser = createAsyncThunk("/auth/logout", async () => {
   const response = await axios.post(
     `${API_BASE_URL}/api/auth/logout`,
     {},
-    { withCredentials: true },
+    { withCredentials: true }
   );
   return response.data;
 });
@@ -63,13 +55,13 @@ const sellerSlice = createSlice({
   name: "sellerSlice",
   initialState,
   reducers: {
-    resetSeller: (state) => {
-      state.seller = null;
-      state.isAuthenticated = false;
-      state.isLoading = false;
-      localStorage.removeItem("seller");
-    },
-  },
+  resetSeller: (state) => {
+    state.seller = null;
+    state.isAuthenticated = false;
+    state.isLoading = false;
+    localStorage.removeItem("seller");
+  }
+},
 
   extraReducers: (builder) => {
     builder
@@ -100,5 +92,5 @@ const sellerSlice = createSlice({
   },
 });
 
-export const { resetSeller } = sellerSlice.actions;
+export const {resetSeller} = sellerSlice.actions;
 export default sellerSlice.reducer;

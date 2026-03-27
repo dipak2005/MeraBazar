@@ -1,88 +1,103 @@
-// server/controllers/seller/ProductController.js
+const { imageUploadUtils } = require("../../helper/cloudinary");
+const ProductModel = require("../../models/ProductModel");
+const axios = require("axios");
+require("dotenv").config();
+  const handleImageUpload = async (req, res) => {
+    try {
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      const dataUrl = `data:${req.file.mimetype};base64,${b64}`;
+      const result = await imageUploadUtils(dataUrl);
 
-import { imageUploadUtils } from "../../helper/cloudinary.js";
-import ProductModel from "../../models/ProductModel.js";
+      res.json({
+        success: true,
+        result,
+      });
+    } catch (e) {
+      console.log(e);
+      res.json({
+        success: false,
+        message: "Error occurred during image upload",
+      });
+    }
+  };
 
-// Upload image to Cloudinary
-export const handleImageUpload = async (req, res) => {
-  try {
-    const fileBuffer = req.file.buffer;
-
-    const result = await imageUploadUtils(
-      `data:${req.file.mimetype};base64,${fileBuffer.toString("base64")}`,
-    );
-
-    res.json({
-      success: true,
-      result,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Error uploading image",
-    });
-  }
-};
-
-// Utility function to normalize a vector
-export const normalizeVector = (vector) => {
-  const magnitude = Math.sqrt(vector.reduce((sum, val) => sum + val * val, 0));
+  const normalizeVector = (vector) => {
+  const magnitude = Math.sqrt(
+    vector.reduce((sum, val) => sum + val * val, 0)
+  );
   return vector.map((val) => val / magnitude);
 };
 
-// Add a new product
-export const addProduct = async (req, res) => {
+
+
+//  add a new product
+const addProduct = async (req, res) => {
   try {
     const {
+      sellerId,
+      image,
       title,
+      description,
+      category,
       brand,
       price,
       salePrice,
       discount,
-      description,
-      images,
       totalStock,
-      sellerId,
     } = req.body;
 
-    if (!sellerId) {
-      return res.status(400).json({
+    
+   const response = await axios.post(
+      `${process.env.ENCODER_API_URL}/encode`,
+      { imageUrl: image }   // ✅ correct format
+    );
+
+    let embedding = response.data.vector;
+
+     if (!embedding) {
+      return res.status(500).json({
         success: false,
-        message: "Seller ID is required",
+        message: "Embedding generation failed",
       });
     }
 
+    // 🔥 3️⃣ Normalize vector (VERY IMPORTANT)
+    embedding = normalizeVector(embedding);
+
+    
     const newProduct = new ProductModel({
+      image,
       title,
+      description,
+      category,
       brand,
       price,
       salePrice,
-      discount,
-      description,
-      images,
+      discount:(((price-salePrice)/price)*100).toFixed(2),
       totalStock,
       sellerId,
+      embedding
     });
+
+   
 
     await newProduct.save();
 
-    res.status(201).json({
+    return res.status(200).json({
       success: true,
-      message: "Product added successfully",
       data: newProduct,
     });
-  } catch (error) {
-    console.error("Add Product Error:", error);
+  } catch (e) {
+    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: "Error occured while add new Product",
     });
   }
 };
 
-// Fetch all products of a seller
-export const fetchProduct = async (req, res) => {
+// fetch all product
+const fetchProduct = async (req, res) => {
   try {
     const { sellerId } = req.params;
 
@@ -108,13 +123,13 @@ export const fetchProduct = async (req, res) => {
   }
 };
 
-// Edit a product
-export const editProduct = async (req, res) => {
+// edits a products
+const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
     const {
-      images,
+      image,
       title,
       description,
       category,
@@ -138,18 +153,11 @@ export const editProduct = async (req, res) => {
     findProduct.description = description || findProduct.description;
     findProduct.category = category || findProduct.category;
     findProduct.brand = brand || findProduct.brand;
-    findProduct.price = price === "" ? 0 : price || findProduct.price;
-    findProduct.salePrice =
-      salePrice === "" ? 0 : salePrice || findProduct.salePrice;
+    findProduct.price = price === '' ? 0 : price || findProduct.price;
+    findProduct.salePrice = salePrice === '' ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
-    findProduct.discount =
-      discount === ""
-        ? 0
-        : parseFloat(discount).toFixed(2) ||
-          parseFloat(findProduct.discount).toFixed(2);
-    if (images && images.length > 0) {
-      findProduct.images = images;
-    }
+    findProduct.discount = discount === '' ? 0 : parseFloat(discount).toFixed(2)   || parseFloat(findProduct.discount).toFixed(2);
+    findProduct.image = image || findProduct.image;
 
     await findProduct.save();
 
@@ -161,13 +169,13 @@ export const editProduct = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occurred while updating Product",
+      message: "Error occured while add new Product",
     });
   }
 };
 
-// Delete a product
-export const deleteProduct = async (req, res) => {
+// delete a products
+const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await ProductModel.findById(id);
@@ -188,7 +196,15 @@ export const deleteProduct = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occurred while deleting Product",
+      message: "Error occured while add new Product",
     });
   }
+};
+
+module.exports = {
+  handleImageUpload,
+  addProduct,
+  fetchProduct,
+  editProduct,
+  deleteProduct,
 };

@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema(
   {
-    images: {
-      type: [String],
-      required: true,
-    },
+    image: String,
     title: String,
     description: String,
     category: String,
@@ -19,12 +16,12 @@ const ProductSchema = new mongoose.Schema(
       ref: "seller",
       required: true,
     },
-    embedding: {
-      type: [Number], // store vector array
-      default: [], // default to empty array
-    },
+     embedding: {
+    type: [Number],   // store vector array
+    default: [],     // default to empty array
   },
-  { timestamps: true },
+  },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("product", ProductSchema);

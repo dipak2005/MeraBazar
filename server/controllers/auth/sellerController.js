@@ -18,24 +18,21 @@ const registerSeller = async (req, res) => {
       address,
     } = req.body;
 
-    const missingFields = [];
-
-    if (!username) missingFields.push("username");
-    if (!email) missingFields.push("email");
-    if (!phone) missingFields.push("phone");
-    if (!password) missingFields.push("password");
-    if (!storename) missingFields.push("storename");
-    if (!businesstype) missingFields.push("businesstype");
-    if (!bankaccount) missingFields.push("bankaccount");
-    if (!ifsccode) missingFields.push("ifsccode");
-    if (!document) missingFields.push("document");
-    if (!address) missingFields.push("address");
-
-    if (missingFields.length > 0) {
+    if (
+      !username ||
+      !email ||
+      !phone ||
+      !password ||
+      !storename ||
+      !businesstype ||
+      !bankaccount ||
+      !ifsccode ||
+      !document ||
+      !address
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Missing fields",
-        missingFields,
+        message: "Please provide all required fields.",
       });
     }
 

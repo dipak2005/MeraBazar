@@ -1,34 +1,22 @@
-import { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addToCart, fetchCartProduct } from "../../../store/shop/cartSlice";
+import { addNewItem, deleteItem, getItem } from "../../../store/shop/wishlistSlice";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-const ImageGallery = ({ product, toast, handleWishlistToggle, user, wishList }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [animate, setAnimate] = useState(false);
-
+const ImageGallery = ({ product, toast  , handleWishlistToggle , user,wishList }) => {
+ 
   const { cartItem } = useSelector((state) => state.shoppingcart);
-  const isInWishList = wishList?.some((item) => item.productId === product?._id);
+   
+   const isInWishList = wishList?.some((item) => item.productId === product._id);
+  const dispatch = useDispatch();
+const [animate, setAnimate] = useState(false);
+  const navigate = useNavigate();
 
-  // IMAGE ARRAY: first image fallback
-  const images =
-    product?.images && product.images.length > 0
-      ? product.images
-      : product?.image
-      ? [product.image]
-      : [];
+  function handleAddToCart(productId, goToStep, discount) {
+    console.log("User object:", user);
 
-  useEffect(() => {
-    if (images.length > 0) {
-      setSelectedImage(images[0]);
-    }
-  }, [product]);
-
-  // ADD TO CART
-  const handleAddToCart = (productId, goToStep, discount) => {
     if (!user || !(user._id || user.id)) {
       toast?.error("Please login to continue.");
       navigate("/auth/login");
@@ -44,101 +32,89 @@ const ImageGallery = ({ product, toast, handleWishlistToggle, user, wishList }) 
       })
     ).then((data) => {
       if (data?.payload?.success) {
+        console.log("Cart add response:", data);
         toast.success("Product added Successfully!");
         dispatch(fetchCartProduct({ userId: user?.id }));
 
-        if (goToStep === 1) navigate("/shop/cart");
-        if (goToStep === 2) navigate("/shop/checkout");
+        if (goToStep === 1) {
+          navigate("/shop/cart");
+        } else if (goToStep === 2) {
+          navigate("/shop/checkout");
+        }
+        console.log("Trying to add to cart with:", {
+          userId: user?.id,
+          productId,
+          quantity: 1,
+          discount,
+        });
       }
     });
-  };
+  }
 
-  // WISHLIST
-  const handleHeartClick = () => {
+   
+
+   function handleHeartClick(params) {
     handleWishlistToggle(product._id);
     setAnimate(true);
+
     setTimeout(() => setAnimate(false), 300);
-  };
+  }
 
   return (
-    <div className="col-lg-12">
-      <div className="d-flex">
-        {/* THUMBNAILS */}
-        <div className="d-flex flex-column me-3">
-          {images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`thumb-${index}`}
-              onClick={() => setSelectedImage(img)}
-              style={{
-                width: "70px",
-                height: "70px",
-                objectFit: "contain",
-                cursor: "pointer",
-                border: selectedImage === img ? "2px solid #2874f0" : "1px solid #ddd",
-                marginBottom: "10px",
-                padding: "5px",
-                background: "#fff",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* MAIN IMAGE */}
-        <div
-          className="border p-3 bg-white text-center position-relative flex-grow-1"
-          style={{ minHeight: "400px" }}
-        >
-          {/* STOCK BADGES */}
-          {product?.totalStock === 0 ? (
-            <span className="badge bg-danger position-absolute top-0 start-0 m-2">
-              Out of Stock
-            </span>
-          ) : product?.totalStock < 10 ? (
-            <span className="badge bg-warning position-absolute top-0 start-0 m-2">
-              Only {product?.totalStock} items left
-            </span>
-          ) : product?.salePrice > 500 ? (
-            <span className="badge bg-success position-absolute top-0 start-0 m-2">
-              Best Seller
-            </span>
-          ) : null}
-
-          {/* WISHLIST ICON */}
-          <div
-            className={`heart-icon-wrapper ${animate ? "pop-animation" : ""}`}
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              cursor: "pointer",
-              zIndex: 10,
-            }}
-            onClick={handleHeartClick}
+    <div
+      className=" col-lg-10"
+      style={{ position: "relative", display: "inline-block", width: "100%" }}
+    >
+      <div className="border p-3 bg-white text-center position-relative">
+        {product?.totalStock === 0 ? (
+          <span
+            className="badge bg-danger text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
           >
-            {isInWishList ? (
-              <AiFillHeart size={24} color="red" />
-            ) : (
-              <AiOutlineHeart size={24} color="gray" />
-            )}
-          </div>
+            Out of Stock
+          </span>
+        ) : product?.totalStock > 0 && product?.totalStock < 10 ? (
+          <span
+            className="badge bg-warning text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
+          >
+            Only {product?.totalStock} items left
+          </span>
+        ) : product?.salePrice > 500 ? (
+          <span
+            className="badge bg-success text-white position-absolute"
+            style={{ top: "10px", left: "10px", zIndex: 10, padding: "0.5rem" }}
+          >
+            Best Seller
+          </span>
+        ) : null}
 
-          {/* MAIN IMAGE */}
-          <img
-            src={selectedImage || "https://via.placeholder.com/400"}
-            alt={product?.title}
-            className="img-fluid"
-            style={{ height: "400px", objectFit: "contain" }}
-          />
-        </div>
+        <div
+               className={`heart-icon-wrapper ${animate ? "pop-animation" : ""}`}
+               style={{ zIndex: 10, cursor: "pointer" }}
+               onClick={handleHeartClick}
+             >
+               {isInWishList ? (
+                 <AiFillHeart size={22} color="red" />
+               ) : (
+                 <AiOutlineHeart size={22} color="gray" />
+               )}
+             </div>
+
+
+          
+
+        <img
+          src={product?.image}
+          alt={product?.title}
+          className="img-fluid"
+          style={{ height: "350px", objectFit: "contain" }}
+        />
       </div>
-
-      {/* BUTTONS */}
-      <div className="d-flex mt-3 gap-2">
+      <div className=" d-flex mt-3 ">
         <button
           onClick={() => handleAddToCart(product?._id, 1, product?.discount)}
-          className="btn w-100"
+          className="btn  w-100 "
           style={{
             color: "white",
             backgroundColor: "#FF9F00",
@@ -150,10 +126,10 @@ const ImageGallery = ({ product, toast, handleWishlistToggle, user, wishList }) 
         >
           ADD TO CART
         </button>
-
+        &nbsp; &nbsp;
         <button
           onClick={() => handleAddToCart(product?._id, 2, product?.discount)}
-          className="btn w-100"
+          className="btn  w-100"
           style={{
             backgroundColor: "#FB641B",
             color: "white",
