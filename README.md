@@ -12,6 +12,9 @@ This is online platform for shopping
 ## Live Website: MeraBazar 
 - https://merabazar.onrender.com/
 
+## Live MeraBazar Backend/api-docs
+- https://matthew-economy-led-mathematics.trycloudflare.com/api-docs/
+
 ## 2. Repo \& Directory Structure
 
 ### Top-level:
