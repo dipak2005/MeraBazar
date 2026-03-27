@@ -105,7 +105,7 @@ const searchByImage = async (req, res) => {
     }
 
     // 🔥 Apply similarity threshold
-    const SIMILARITY_THRESHOLD = 0.65;
+    const SIMILARITY_THRESHOLD = 0.75;
 
     const filtered = results
       .filter((item) => item.similarity >= SIMILARITY_THRESHOLD)
