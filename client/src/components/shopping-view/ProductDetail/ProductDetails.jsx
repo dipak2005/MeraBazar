@@ -1,71 +1,60 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
+import Footer from "../../../common/Footer";
+import SimpleNavbar from "../../../common/Navbar";
+import ProductDetailsSkeleton from "../../../common/ProductDetailsSkeleton";
 import ImageGallery from "../ProductDetail/ImageGallery";
 import ProductInfo from "../ProductDetail/ProductInfo";
-import ProductDetailsSkeleton from "../../../common/ProductDetailsSkeleton";
-// import Specifications from "../ProductDetail/Specifications";
-// import OffersSection from "../ProductDetail/OfferSection";
-// import Highlights from "../ProductDetail/Highlights";
 
-import ProductSkeleton from "../../../common/ProductSkeleton";
-import { fetchProductDetails } from "../../../store/shop/productSlice";
-import ShoppingHeader from "../Header";
-import { useState } from "react";
-import Footer from "../../../common/Footer";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import SimpleNavbar from "../../../common/Navbar";
 import {
   addNewItem,
   deleteItem,
   getItem,
 } from "../../../store/shop/wishlistSlice";
-import { Loader, LoaderCircle, LucideLoaderCircle } from "lucide-react";
+
+import { fetchProductDetails } from "../../../store/shop/productSlice";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
   const { user } = useSelector((state) => state.auth);
   const { wishList } = useSelector((state) => state.userWishList);
-  const { productDetails: product, isLoading } = useSelector(
-    (state) => state.shopProduct
-  );
+  const { productDetails: product } = useSelector((state) => state.shopProduct);
 
-  function handleWishlistToggle(productId) {
-    if (!user?.id) {
-      return toast.error("Please login to manage wishlist");
-    }
+  // Wishlist toggle
+  const handleWishlistToggle = (productId) => {
+    if (!user?.id) return toast.error("Please login to manage wishlist");
 
     const isWishlisted = wishList.some((item) => item.productId === productId);
 
     if (isWishlisted) {
-      dispatch(deleteItem({ userId: user?.id, productId }))
+      dispatch(deleteItem({ userId: user.id, productId }))
         .then(() => {
-          toast.success("Remove d from wishlist");
-          dispatch(getItem(user?.id));
+          toast.success("Removed from wishlist");
+          dispatch(getItem(user.id));
         })
         .catch(() => toast.error("Failed to remove from wishlist"));
     } else {
-      dispatch(addNewItem({ userId: user?.id, productId }))
+      dispatch(addNewItem({ userId: user.id, productId }))
         .then(() => {
           toast.success("Added to wishlist");
-          dispatch(getItem(user?.id));
+          dispatch(getItem(user.id));
         })
         .catch(() => toast.error("Failed to add to wishlist"));
     }
-  }
+  };
 
   useEffect(() => {
-
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (id) {
       setLoading(true);
       dispatch(fetchProductDetails(id)).finally(() => setLoading(false));
     }
-
     if (user?.id) {
       dispatch(getItem(user.id));
     }
@@ -80,6 +69,7 @@ const ProductDetailPage = () => {
         ) : (
           <div className="container bg-white shadow-sm rounded p-3">
             <div className="row">
+              {/* IMAGE GALLERY */}
               <div className="col-lg-5 col-md-6 mb-3">
                 <ImageGallery
                   product={product}
@@ -90,15 +80,11 @@ const ProductDetailPage = () => {
                 />
               </div>
 
+              {/* PRODUCT INFO */}
               <div className="col-lg-7 col-md-6 mb-3">
                 <ProductInfo product={product} />
               </div>
             </div>
-
-            {/* Additional sections if needed later */}
-            {/* <OffersSection product={product} /> */}
-            {/* <Highlights product={product} /> */}
-            {/* <Specifications product={product} /> */}
           </div>
         )}
       </div>

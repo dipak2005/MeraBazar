@@ -1,17 +1,14 @@
+// SellerProducts.jsx
+import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
-import ProductTile from "../../common/ProductTile";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addNewProduct,
-  deleteProduct,
-  editProduct,
-  fetchAllProduct,
-} from "../../store/seller/ProductSlice";
-import Popup from "../../common/ProductPopup";
-import ImageUpload from "../../components/admin-view/ImageUpload";
-import Form from "../../common/Form";
-import { addProductFormElements } from "../../config";
 import { toast } from "react-toastify";
+import Form from "../../common/Form";
+import Popup from "../../common/ProductPopup";
+import ProductTile from "../../common/ProductTile";
+import ImageUpload from "../../components/admin-view/ImageUpload";
+import { addProductFormElements } from "../../config";
+import { deleteProduct, fetchAllProduct } from "../../store/seller/ProductSlice";
 
 const initialFormData = {
   image: null,
@@ -27,88 +24,98 @@ const initialFormData = {
 function SellerProducts() {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
-  const [imageFile, setImageFile] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  const { productList } = useSelector((state) => state.sellerProduct);
   const [currentEditedId, setCurrentEditedId] = useState(null);
-  const {user} = useSelector((state)=>state.auth);
+
   const dispatch = useDispatch();
+  const { productList } = useSelector((state) => state.sellerProduct);
+  const { user } = useSelector((state) => state.auth);
 
-  function onSubmit(event) {
-    event.preventDefault();
+  // Normalize sellerId
+  const sellerId = user?._id || user?.id;
 
-    currentEditedId !== null
-      ? dispatch(
-          editProduct({
-            id: currentEditedId,
-            formData,
-          })
-        ).then((data) => {
-          console.log(data, "edit product");
+  // Fetch products on component mount or seller change
+  useEffect(() => {
+    if (sellerId) {
+      dispatch(fetchAllProduct(sellerId));
+    }
+  }, [dispatch, sellerId]);
 
-          if (data?.payload?.success) {
-            dispatch(fetchAllProduct(user?.id));
-            setFormData(initialFormData);
-            setShowPopup(false), setCurrentEditedId(null);
-          }
-        })
-      : dispatch(
-          addNewProduct({
-            ...formData,
-            image: uploadedImageUrl,
-            sellerId:user?.id
-          })
-        ).then((data) => {
-          if (data?.payload?.success) {
-            dispatch(fetchAllProduct(user?.id));
-            setShowPopup(false);
-            setImageFile(null);
-            setFormData(initialFormData);
-            toast.success(data?.payload?.message);
-          }
-        });
-  }
+  // Submit handler
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  function handleDeleteProduct(getCurrentProductId) {
-    console.log(getCurrentProductId);
+    if (uploadedImageUrls.length === 0) {
+      toast.error("Upload at least one image");
+      return;
+    }
 
-    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+    try {
+      if (!sellerId) {
+        toast.error("Seller ID missing. Please login again.");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:3000/api/seller/products/add",
+        {
+          ...formData,
+          price: Number(formData.price),
+          salePrice: Number(formData.salePrice),
+          totalStock: Number(formData.totalStock),
+          images: uploadedImageUrls,
+          sellerId,
+        }
+      );
+
+      if (response?.data?.success) {
+        toast.success("Product added successfully");
+        setShowPopup(false);
+        setFormData(initialFormData);
+        setUploadedImageUrls([]);
+        dispatch(fetchAllProduct(sellerId));
+      }
+    } catch (error) {
+      console.error("Error adding product:", error.response?.data || error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  // Delete handler
+  const handleDeleteProduct = (productId) => {
+    if (!sellerId) {
+      toast.error("Seller ID missing. Cannot delete product.");
+      return;
+    }
+
+    dispatch(deleteProduct(productId)).then((data) => {
       if (data?.payload?.success) {
-        toast.success(data?.payload?.message);
-        dispatch(fetchAllProduct(user?.id));
+        toast.success(data.payload.message);
+        dispatch(fetchAllProduct(sellerId));
       }
     });
-  }
-  console.log(user?.id);
+  };
 
-  function isFormValid() {
-    return Object.keys(formData)
+  const isFormValid = () =>
+    Object.keys(formData)
       .map((key) => formData[key] != "")
-      .every((item) => item);
-  }
-
-  useEffect(() => {
-    dispatch(fetchAllProduct(user?.id));
-  }, [dispatch]);
-
-  // console.log(formData, "productlist");
+      .every(Boolean);
 
   return (
     <Fragment>
+      {/* Add Product Button */}
       <div
         className="position-fixed"
-        style={{
-          top: "4rem",
-          right: "1rem",
-          zIndex: 1050,
-        }}
+        style={{ top: "4rem", right: "1rem", zIndex: 1050 }}
       >
         <button
           className="btn btn-primary shadow-sm"
           onClick={() => {
             setFormData(initialFormData);
-            setUploadedImageUrl("");
+            setUploadedImageUrls([]);
+            setImageFiles([]);
             setCurrentEditedId(null);
             setShowPopup(true);
           }}
@@ -127,16 +134,16 @@ function SellerProducts() {
       <div className="container-fluid mt-5 px-3">
         <div className="row g-4">
           {productList && productList.length > 0 ? (
-            productList.map((productItem) => (
+            productList.map((product) => (
               <div
-                key={productItem._id}
-                className="col-12 col-sm-6 col-md-4 col-xl-3"
+                key={product._id}
+                className="col-12 col-sm-6 col-md-4 col-xl-3 mb-4"
               >
                 <ProductTile
                   setFormData={setFormData}
                   setShowPopup={setShowPopup}
                   setCurrentEditedId={setCurrentEditedId}
-                  product={productItem}
+                  product={product}
                   handleDeleteProduct={handleDeleteProduct}
                 />
               </div>
@@ -152,19 +159,18 @@ function SellerProducts() {
         <Popup
           currentEditedId={currentEditedId}
           onClose={() => {
-            setShowPopup(false),
-              setCurrentEditedId(null),
-              setFormData(initialFormData);
+            setShowPopup(false);
+            setCurrentEditedId(null);
+            setFormData(initialFormData);
           }}
         >
           <ImageUpload
-            imageFile={imageFile}
-            setImageFile={setImageFile}
-            uploadedImageUrl={uploadedImageUrl}
-            setUploadedImageUrl={setUploadedImageUrl}
-            setImageLoadingState={setImageLoadingState}
+            imageFiles={imageFiles}
+            setImageFiles={setImageFiles}
+            uploadedImageUrls={uploadedImageUrls}
+            setUploadedImageUrls={setUploadedImageUrls}
             imageLoadingState={imageLoadingState}
-            isEditMode={currentEditedId !== null}
+            setImageLoadingState={setImageLoadingState}
           />
 
           <div className="pt-4">

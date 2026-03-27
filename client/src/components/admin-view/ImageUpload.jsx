@@ -1,142 +1,91 @@
-
-import React, { useEffect, useRef } from "react";
-import { CloudUpload, XIcon, FileText } from "lucide-react";
+import Button from "@/components/ui/Button";
 import axios from "axios";
-import SkeletonCard from "../../common/ProductSkeleton";
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
-function ImageUpload({
-  imageFile,
-  setImageFile,
-  uploadedImageUrl,
-  setUploadedImageUrl,
-  setImageLoadingState,
-  imageLoadingState,
-  isEditMode,
-}) {
-  const inputRef = useRef(null);
+import { useState } from "react";
+import { toast } from "sonner";
 
-  function handleImageFileChange(event) {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setImageFile(selectedFile);
+const ImageUpload = ({ uploadedImageUrls, setUploadedImageUrls }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("my_file", file); // must match multer field name
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        "http://localhost:3000/api/seller/products/upload-image",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Upload response:", response.data);
+
+      if (response?.data?.success) {
+        setUploadedImageUrls((prev) => [
+          ...prev,
+          response.data.result.secure_url,
+        ]);
+
+        toast.success("Image uploaded successfully");
+      } else {
+        toast.error("Upload failed");
+      }
+    } catch (error) {
+      console.error("Upload Error:", error);
+      toast.error("Image upload failed");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  function handleDragOver(event) {
-    event.preventDefault();
-  }
-
-  function handleDrop(event) {
-    event.preventDefault();
-    const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile) {
-      setImageFile(droppedFile);
-    }
-  }
-
-  function handleRemoveImage() {
-    setImageFile(null);
-    setUploadedImageUrl("");
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  }
-
-  async function uploadedImageToCloudinary() {
-    setImageLoadingState(true);
-    const data = new FormData();
-    data.append("my_file", imageFile);
-    const response = await axios.post(
-      `${API_BASE_URL}/api/admin/products/upload-image`,
-      data
-    );
-
-    if (response?.data?.success) {
-      setUploadedImageUrl(response.data.result.url);
-    }
-    setImageLoadingState(false);
-  }
-
-  useEffect(() => {
-    if (imageFile != null) {
-      uploadedImageToCloudinary();
-    }
-  }, [imageFile]);
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...uploadedImageUrls];
+    updatedImages.splice(index, 1);
+    setUploadedImageUrls(updatedImages);
+  };
 
   return (
-    <div className="w-full max-width-md mx-auto">
-      <label htmlFor="image-upload" className="text-lg fw-bold mb-2 d-block form-label">
-        Upload Image
-      </label>
-      <div
-        style={{ opacity: isEditMode ? "60" : "" }}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        className="border-2 border-dashed p-3 rounded"
-      >
-        <input
-          type="file"
-          id="image-upload"
-          className="form-control d-none"
-          ref={inputRef}
-          onChange={handleImageFileChange}
-          disabled={isEditMode}
-        />
-        {/* preview of image */}
-        {uploadedImageUrl && !imageLoadingState && (
-          <div className="mb-3 text-center">
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-4">
+        {uploadedImageUrls?.map((img, index) => (
+          <div key={index} className="relative">
             <img
-              src={uploadedImageUrl}
-              alt="Uploaded"
-              style={{
-                maxHeight: "150px",
-                borderRadius: "8px",
-                objectFit: "cover",
-                margin: "3px",
-              }}
+              src={img}
+              alt="uploaded"
+              className="w-32 h-32 object-cover rounded-md"
             />
-          </div>
-        )}
-        {!imageFile ? (
-          <label
-            htmlFor="image-upload"
-            className="text-center d-block"
-            style={{
-              cursor: isEditMode ? "no-drop" : "pointer",
-              background: "#f9f9f9",
-              padding: "2rem",
-            }}
-          >
-            <CloudUpload style={{ height: "30px", width: "30px" }} />
-            <div>Drag & Drop or click to upload Image</div>
-          </label>
-        ) : imageLoadingState ? (
-          <div className="text-center py-4">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Uploading...</span>
-            </div>
-            <p className="mt-2 mb-0">Uploading image...</p>
-          </div>
-        ) : (
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-center">
-              <FileText
-                style={{ width: "20px", height: "20px" }}
-                className="me-2 text-primary"
-              />
-              <p className="mb-0">{imageFile.name}</p>
-            </div>
             <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={handleRemoveImage}
+              type="button"
+              onClick={() => handleRemoveImage(index)}
+              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs"
             >
-              <XIcon style={{ width: "16px", height: "16px" }} /> Remove
+              X
             </button>
           </div>
-        )}
+        ))}
       </div>
+
+      <Button disabled={loading} asChild>
+        <label className="cursor-pointer">
+          {loading ? "Uploading..." : "+ Add Another Image"}
+          <input
+            type="file"
+            accept="image/*"
+            hidden
+            onChange={handleImageChange}
+          />
+        </label>
+      </Button>
     </div>
   );
-}
+};
 
 export default ImageUpload;
